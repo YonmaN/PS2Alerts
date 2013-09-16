@@ -37,15 +37,21 @@
     <p class="form_headers">Facility Statistics</p>  
     
     <p class="form_item_text">Which facility was the most contested?</p>
-    
+	
     <?php
-	
-	if(isset($_POST['myform'])) {
-    $values = $_POST['AlertStats'];
-	}
-	
-	$ResultAlertType = $_POST("ResultAlertType");
-	$ResultAlertCont = $_POST("ResultAlertCont");
+	echo 'DEBUGGING </br>';
+	echo 'Date: ';
+	echo $ResultDate;
+	echo '</br>Server: ';
+	echo $ResultServer;
+	echo '</br> Alert Winner: ';
+	echo $ResultWinner;
+	echo '</br> Alert Draw? ';
+	echo $ResultDraw;
+	echo '</br> Alert Continant: ';	
+	echo $ResultAlertCont;
+	echo '</br> Alert Type: ';
+	echo $ResultAlertType;
 		
 	$SelectQuery = ("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID = '".$ResultAlertCont."'");	
 	
@@ -54,7 +60,7 @@
     <select>
     	<option value="Allatum">Allatum Bio Lab</option>
         <option value="Andvari">Andvari Bio Lab</option>
-        <option value="Dahaka">Dahaka Amp Stationb</option>
+        <option value="Dahaka">Dahaka Amp Station</option>
         <option value="Allatum">Allatum Bio Lab</option>
         <option value="Allatum">Allatum Bio Lab</option>
         <option value="Allatum">Allatum Bio Lab</option>
