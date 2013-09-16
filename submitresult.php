@@ -32,23 +32,29 @@
     <div id="content">
     <form action="submitresult_facilities.php" method="POST" name="AlertStats">
     
-    <p class="form_headers">General Alert Stats (Miller Only!)</p>    
+    <p class="form_headers">General Alert Stats (Miller only for now!)</p>   
+    
+    <p class="form_item_text">Which server was this alert on?</p>
+    <select name="ResultServer">
+    	<option value="1">Miller</option>
+    </select>
+     
     <p class="form_item_text">When did the Alert end? (GMT time):</p>
-    <input class="form_item" type="datetime-local" name="AlertStats[ResultDateTime]" />
+    <input class="form_item" type="datetime-local" name="ResultDateTime" />
     
     <p class="form_item_text">Who won this alert?</p>
     
-    <input type="radio" name="AlertStats[ResultWinner]" value="NC" />New Conglomerate <br />
-    <input type="radio" name="AlertStats[ResultWinner]" value="TR" />Terran Republic <br />
-    <input type="radio" name="AlertStats[ResultWinner]" value="VS" />Vanu Soverignity <br />
-    <input type="radio" name="AlertStats[ResultWinner]" value="Draw" />Draw <br />
+    <input type="radio" name="ResultWinner" value="NC" />New Conglomerate <br />
+    <input type="radio" name="ResultWinner" value="TR" />Terran Republic <br />
+    <input type="radio" name="ResultWinner" value="VS" />Vanu Soverignity <br />
+    <input type="radio" name="ResultWinner" value="Draw" />Draw <br />
     
     <p class="form_item_text">Where was this continant based?</p>
     
-    <input type="radio" name="AlertStats[ResultAlertCont]" value="1" onclick="reenableIfNotCross()"/>Amerish <br />
-    <input type="radio" name="AlertStats[ResultAlertCont]" value="2" onclick="reenableIfNotCross()" />Esamir <br />
-    <input type="radio" name="AlertStats[ResultAlertCont]" value="3" onclick="reenableIfNotCross()" />Indar <br />
-    <input type="radio" name="AlertStats[ResultAlertCont]" value="4" onclick="disableIfCross()"/>Cross Continent (All three) <br />
+    <input type="radio" name="ResultAlertCont" value="1" onclick="reenableIfNotCross()"/>Amerish <br />
+    <input type="radio" name="ResultAlertCont" value="2" onclick="reenableIfNotCross()" />Esamir <br />
+    <input type="radio" name="ResultAlertCont" value="3" onclick="reenableIfNotCross()" />Indar <br />
+    <input type="radio" name="ResultAlertCont" value="4" onclick="disableIfCross()"/>Cross Continent (All three) <br />
     
     <script>
 	function disableIfCross()
@@ -65,10 +71,10 @@
     
     <!-- Based on the continant answer and this answer, PHP will change the submitted variable to be the proper one into the database -->
     
-    <input type="radio" name="AlertStats[ResultAlertType]" value="Amp" />Amp Stations <br />
-    <input type="radio" name="AlertStats[ResultAlertType]" value="Bio" />Bio Labs<br />
-    <input type="radio" name="AlertStats[ResultAlertType]" value="Tech" />Tech Plants <br />
-    <input type="radio" name="AlertStats[ResultAlertType]" value="Territory" id="TypeTerritory" />Territory Capture <br />   
+    <input type="radio" name="ResultAlertType" value="Amp" />Amp Stations <br />
+    <input type="radio" name="ResultAlertType" value="Bio" />Bio Labs<br />
+    <input type="radio" name="ResultAlertType" value="Tech" />Tech Plants <br />
+    <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" />Territory Capture <br />   
     
     <br />
     <input type="submit" name="AlertStats" value="Continue..." />
