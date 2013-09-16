@@ -28,4 +28,5 @@ To-do list
 Collaborators
 =========
 Maelstrome26 - Project Lead and Developer
+
 Wabizke - Developer & JavaScript Overlord
