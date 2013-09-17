@@ -42,12 +42,15 @@ body {margin: 0px; background-color:#333;}
 .form_item_text {
 	font-size: 22px;
 	margin-bottom: 7px;
+	font-family: 'Noto Sans', sans-serif;
 }
 
 .form_headers {
 	font-size:32px;
+	font-family: 'Noto Sans', sans-serif;
 }
 
 .two {
-	width: 23px;}
+	width: 30px;}
+	
 	

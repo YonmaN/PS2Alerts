@@ -84,11 +84,11 @@
 	
 	// IF Cross Continant:
 	if ($ResultAlertMasterType == "AmpCross" or $ResultAlertMasterType == "BioCross") {
-		echo '<input type="radio" name="FacilityWins" value="4"> 4/9';
-		echo '<input type="radio" name="FacilityWins" value="5"> 5/9';
-		echo '<input type="radio" name="FacilityWins" value="6"> 6/9';
-		echo '<input type="radio" name="FacilityWins" value="7"> 7/9';
-		echo '<input type="radio" name="FacilityWins" value="8"> 8/9';
+		echo '<input type="radio" name="FacilityWins" value="4"> 4/9 </br>';
+		echo '<input type="radio" name="FacilityWins" value="5"> 5/9 </br>';
+		echo '<input type="radio" name="FacilityWins" value="6"> 6/9 </br>';
+		echo '<input type="radio" name="FacilityWins" value="7"> 7/9 </br>';
+		echo '<input type="radio" name="FacilityWins" value="8"> 8/9 </br>';
 		echo '<input type="radio" name="FacilityWins" value="9"> 9/9 (Dominating Victory)';
 		
 	} elseif ($ResultAlertMasterType == "TechCross") {
@@ -105,6 +105,8 @@
 	}
 		
 	?>
+    <br />
+    <input type="Submit" name="AlertStats" value="Continue..." />
 	</form>
 	</div>
 
