@@ -51,10 +51,10 @@
     
     <p class="form_item_text">Where was this continant based?</p>
     
-    <input type="radio" name="ResultAlertCont" value="1" onclick="reenableIfNotCross()"/>Amerish <br />
-    <input type="radio" name="ResultAlertCont" value="2" onclick="reenableIfNotCross()" />Esamir <br />
-    <input type="radio" name="ResultAlertCont" value="3" onclick="reenableIfNotCross()" />Indar <br />
-    <input type="radio" name="ResultAlertCont" value="4" onclick="disableIfCross()"/>Cross Continent (All three) <br />
+    <input type="radio" name="ResultAlertCont" value="Amerish" onclick="reenableIfNotCross()"/>Amerish <br />
+    <input type="radio" name="ResultAlertCont" value="Esamir" onclick="reenableIfNotCross()" />Esamir <br />
+    <input type="radio" name="ResultAlertCont" value="Indar" onclick="reenableIfNotCross()" />Indar <br />
+    <input type="radio" name="ResultAlertCont" value="Cross" onclick="disableIfCross()"/>Cross Continent (All three) <br />
     
     <script>
 	function disableIfCross()

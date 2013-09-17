@@ -28,16 +28,16 @@
 	$ResultPopNC = $_POST["ResultPopNC"];
 	$ResultPopTR = $_POST["ResultPopTR"];
 	$ResultPopVS = $_POST["ResultPopVS"];
+	$ResultAlertMasterType;
 	
+	// Convert Territory Types and Contiant Alert into the Alert Type variable to be used
+	
+	$ResultAlertMasterType = $ResultAlertType.$ResultAlertCont;
 	
 	?>
     
     <form action="" method="post" name="AlertStats">
     
-    <p class="form_headers">Facility Statistics</p>  
-    
-    <p class="form_item_text">Which facility was the most contested?</p>
-	
     <?php
 	echo 'DEBUGGING </br>';
 	echo 'Date: ';
@@ -52,40 +52,60 @@
 	echo $ResultAlertCont;
 	echo '</br> Alert Type: ';
 	echo $ResultAlertType;
+	echo '</br> Master Alert Type: ';
+	echo $ResultAlertMasterType;
 		
-	$SelectQuery = ("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID = '".$ResultAlertCont."'");	
-	
-	?>
+	?>	
+	<p class="form_headers">Facility Statistics</p>  
     
-    <select>
-    	<option value="Allatum">Allatum Bio Lab</option>
-        <option value="Andvari">Andvari Bio Lab</option>
-        <option value="Dahaka">Dahaka Amp Station</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        <option value="Allatum">Allatum Bio Lab</option>
-        
-    </select>
+    <p class="form_item_text">Which facility was the most contested?</p>
+	<?php
+	
+	//Change Query based on Alert Type
+	if($ResultAlertCont == "Amerish" or $ResultAlertCont == "Esamir" or $ResultAlertCont == "Indar") {			
+	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID ='".$ResultAlertCont."' ");
+	
+	} else if ($ResultAlertCont == "Cross") {
+	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."'");
+	}
+	
+    echo '<select>';
+		while($facility_result = mysql_fetch_array($SelectQuery)) {
+			echo '<option value="'.$facility_result['FacilityID'].'">'.$facility_result['FacilityName'].'</option>';
+		}
+    echo '</select>';
+	?>
 
-</form>
+	<p class="form_item_text">How many facilties did the victor have? (Non Draw)</p>
+    
+    
+    <?php 
+	// Set up the form based on the previous information (cross continant or not etc)
+	
+	// IF Cross Continant:
+	if ($ResultAlertMasterType == "AmpCross" or $ResultAlertMasterType == "BioCross") {
+		echo '<input type="radio" name="FacilityWins" value="4"> 4/9';
+		echo '<input type="radio" name="FacilityWins" value="5"> 5/9';
+		echo '<input type="radio" name="FacilityWins" value="6"> 6/9';
+		echo '<input type="radio" name="FacilityWins" value="7"> 7/9';
+		echo '<input type="radio" name="FacilityWins" value="8"> 8/9';
+		echo '<input type="radio" name="FacilityWins" value="9"> 9/9 (Dominating Victory)';
+		
+	} elseif ($ResultAlertMasterType == "TechCross") {
+		echo '<input type="radio" name="FacilityWins" value="3"> 3/7';
+		echo '<input type="radio" name="FacilityWins" value="4"> 4/7';
+		echo '<input type="radio" name="FacilityWins" value="5"> 5/7';
+		echo '<input type="radio" name="FacilityWins" value="6"> 6/7';
+		echo '<input type="radio" name="FacilityWins" value="7"> 7/7 (Dominating Victory)';
+	
+	//Else if single continant alert
+	} else {
+		echo '<input type="radio" name="FacilityWins" value="2"> 2/3';
+		echo '<input type="radio" name="FacilityWins" value="3"> 3/3 (Dominating Victory)';
+	}
+		
+	?>
+	</form>
 	</div>
 
 
