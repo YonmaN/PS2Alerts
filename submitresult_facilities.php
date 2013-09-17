@@ -63,15 +63,15 @@
 	
 	//Change Query based on Alert Type
 	if($ResultAlertCont == "Amerish" or $ResultAlertCont == "Esamir" or $ResultAlertCont == "Indar") {			
-	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID ='".$ResultAlertCont."' ");
+	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityContID ");
 	
 	} else if ($ResultAlertCont == "Cross") {
-	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."'");
+	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' ORDER BY FacilityContID");
 	}
 	
     echo '<select>';
 		while($facility_result = mysql_fetch_array($SelectQuery)) {
-			echo '<option value="'.$facility_result['FacilityID'].'">'.$facility_result['FacilityName'].'</option>';
+			echo '<option value="'.$facility_result['FacilityID'].'">'.$facility_result['FacilityContID'].' - '.$facility_result['FacilityName'].'</option>';
 		}
     echo '</select>';
 	?>
