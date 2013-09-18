@@ -101,10 +101,12 @@ animatedcollapse.init()
         {
             document.getElementById("TypeTerritory").disabled=true
 			document.getElementById("TypeTerritory").checked=false
+			document.getElementById("territory_text").className = "strike";
         }
         function reenableIfNotCross()
         {
             document.getElementById("TypeTerritory").disabled=false
+			document.getElementById("territory_text").className = "form_item_text";
         }
         </script>
         
@@ -115,7 +117,7 @@ animatedcollapse.init()
         <input type="radio" name="ResultAlertType" value="Amp" onclick="javascript:animatedcollapse.hide('territory')"/><span class="form_item_text">Amp Stations </span><br />
         <input type="radio" name="ResultAlertType" value="Bio" onclick="javascript:animatedcollapse.hide('territory')"/><span class="form_item_text">Bio Labs</span><br />
         <input type="radio" name="ResultAlertType" value="Tech" onclick="javascript:animatedcollapse.hide('territory')"/><span class="form_item_text">Tech Plants </span><br />
-        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory')" /><span class="form_item_text">Territory Capture </span><br />   
+        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory')" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />   
         
         <div id="territory" class="subquestion">
         

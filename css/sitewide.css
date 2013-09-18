@@ -82,6 +82,13 @@ body {
 
 }
 .two {
-	width: 30px;}
-	
+	width: 30px;
+}
+
+.strike {
+	font-size: 14px;
+	color:#FFF;
+	font-family: 'Noto Sans', sans-serif;
+	text-decoration:line-through;
+}
 	
