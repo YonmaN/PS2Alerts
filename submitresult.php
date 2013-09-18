@@ -60,15 +60,27 @@ animatedcollapse.init()
         
         <p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
           <br/>
-        Please note, you can't submit another alert until two hours later, to preventing spamming and contaminating the results.</p>  
+        Please note, you can't submit another alert until two hours later, to prevent spamming and contaminating the results.</p>  
         
         <p class="form_item_title">Which server was this alert on?</p>
         <select name="ResultServer" disabled="disabled">
           <option value="1">Miller</option>
         </select>
          
+   <div id="time_container" style="display: block; height: 120px;"> 
+        <div id="time1" style="float: left; margin-top: 10px;">
         <p class="form_item_title">When did the Alert end? (GMT time):</p>
-        <input class="form_item" type="datetime-local" name="ResultDateTime" />
+        <input class="form_item" style="margin-top: 15px;" type="datetime-local" name="ResultDateTime" />
+        </div>
+        <div id="time2" style="float: right; width: 345px;">
+        
+        	<div style="text-align:center;width:350px;padding:0.5em 0;">
+        		<iframe src="http://www.zeitverschiebung.net/clock-widget-iframe?language=en&timezone=Atlantic%2FReykjavik" width="100%" height="110" frameborder="0" seamless>
+        		</iframe>
+      		 </div>
+             <p class="form_item_text" style="text-align: center; margin: 2px;">Current GMT Time</p>
+        </div>
+   </div>
         
         <p class="form_item_title">Who won this alert?</p>
         
@@ -109,11 +121,11 @@ animatedcollapse.init()
         
         <p class="form_item_title">How much territory % did each empire control?</p>
         
-        <table width="250" border="0" style="text-align: center;">
+        <table width="150" border="0" style="text-align: center;">
           <tr>
-            <td width="83">NC</td>
-            <td width="83">TR</td>
-            <td width="83">VS</td>
+            <td class="form_item_text" width="50">NC</td>
+            <td class="form_item_text" width="50">TR</td>
+            <td class="form_item_text" width="50">VS</td>
           </tr>
           <tr>
             <td><input class="two" type="text" name="ResultTerritoryNC" /></td>

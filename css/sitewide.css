@@ -42,7 +42,12 @@ body {
 
 .subquestion {
 	display: none;
-	background-color:#777;
+	background-color:rgba(240, 88, 92, 0.25);
+	border-radius: 20px;
+	padding-left: 10px;
+	padding-top: 1px;
+	margin-top: 20px;
+	padding-bottom: 30px;
 }
 .form_item {
 	margin-bottom: 10px;
