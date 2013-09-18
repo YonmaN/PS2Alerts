@@ -9,17 +9,19 @@
 <body>
 <div id="wrapper">
 
-	<div id="header">
-    <a href="submitresult.php">Submit Result</a>
-    <a href="stats.php">Statistics</a>
-    </div>
+	<?php include('includes/header.php') ?>
     
     <div id="content">
     
+	<h1>Site is currently under construction!</h1>
+    
+    <p class="form_item_text">The aim of this project is collect statistical and analyitical data for Alerts within Planetside 2.</p>
+    <p class="form_item_text">Please check back later after more development has commenced.</p>
+    <p class="form_item_text">More information can be found at our <a href="http://redd.it/1mex3g">Reddit post</a> on the <a href="http://www.reddit.com/r/MillerPlanetside/">Miller Subreddit</a>.</p>
+    <p>Updated: 18/09/13</p>
 
 
-
-	</div>
+  </div>
 
 
 </div>
