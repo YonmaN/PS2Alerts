@@ -53,7 +53,7 @@ animatedcollapse.init()
 	$ResultPopTR = '';
 	$ResultPopVS = '';	
 	?>
-    <div id="submit_content">
+    <div id="content">
       <form action="submitresult_facilities.php" method="POST" name="AlertStats">
         
         <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
