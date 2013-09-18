@@ -7,7 +7,7 @@ body {margin: 0px; background-color:#333;}
 
 /* Centering */
 
-#header, #content {
+#header, #content, #submit_content {
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -32,23 +32,48 @@ body {margin: 0px; background-color:#333;}
 	background-color:#999;
 	border-radius: 10px;
 	padding: 10px;
-	padding-top: 0px;
 }
 
+#submit_content {
+	width: 680px;
+	height: auto;
+	background-color:#999;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+
+.subquestion {
+	display: none;
+	background-color:#777;
+}
 .form_item {
 	margin-bottom: 10px;
 }
 
-.form_item_text {
-	font-size: 22px;
+.form_item_title {
+	font-size: 20px;
 	margin-bottom: 7px;
+	font-family: 'Noto Sans', sans-serif;
+}
+
+.form_item_text {
+	font-size: 14px;
+	font-family: 'Noto Sans', sans-serif;
+}
+
+.form_subtitle_text {
+	font-size: 16px;
 	font-family: 'Noto Sans', sans-serif;
 }
 
 .form_headers {
 	font-size:32px;
+	text-align: center;
 	font-family: 'Noto Sans', sans-serif;
-}
+	margin-bottom: 10px;
+	margin-top: 5px;
+	}
 
 .two {
 	width: 30px;}

@@ -18,14 +18,10 @@
 
 </script>
 
-
 <script type="text/javascript">
 
 animatedcollapse.addDiv('territory', 'fade=1,height=100px')
-
-animatedcollapse.addDiv('cat', 'fade=0,speed=400,group=pets')
-animatedcollapse.addDiv('dog', 'fade=0,speed=400,group=pets,persist=1,hide=1')
-animatedcollapse.addDiv('rabbit', 'fade=0,speed=400,group=pets,hide=1')
+animatedcollapse.addDiv('pops', 'fade=1,height=100px')
 
 animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
 	//$: Access to jQuery
@@ -41,10 +37,7 @@ animatedcollapse.init()
 <body>
 <div id="wrapper">
 
-	<div id="header">
-    <a href="submitresult.php">Submit Result</a>
-    <a href="stats.php">Statistics</a>
-    </div>
+	<?php include('includes/header.php') ?>
     
     <?php
 	// Clean all variables at beginning of form
@@ -60,32 +53,36 @@ animatedcollapse.init()
 	$ResultPopTR = '';
 	$ResultPopVS = '';	
 	?>
-    <div id="content">
-        <form action="submitresult_facilities.php" method="POST" name="AlertStats">
+    <div id="submit_content">
+      <form action="submitresult_facilities.php" method="POST" name="AlertStats">
         
-        <p class="form_headers">General Alert Stats (Miller only for now!)</p>   
+        <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
         
-        <p class="form_item_text">Which server was this alert on?</p>
-        <select name="ResultServer">
-            <option value="1">Miller</option>
+        <p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
+          <br/>
+        Please note, you can't submit another alert until two hours later, to preventing spamming and contaminating the results.</p>  
+        
+        <p class="form_item_title">Which server was this alert on?</p>
+        <select name="ResultServer" disabled="disabled">
+          <option value="1">Miller</option>
         </select>
          
-        <p class="form_item_text">When did the Alert end? (GMT time):</p>
+        <p class="form_item_title">When did the Alert end? (GMT time):</p>
         <input class="form_item" type="datetime-local" name="ResultDateTime" />
         
-        <p class="form_item_text">Who won this alert?</p>
+        <p class="form_item_title">Who won this alert?</p>
         
-        <input type="radio" name="ResultWinner" value="NC" />New Conglomerate <br />
-        <input type="radio" name="ResultWinner" value="TR" />Terran Republic <br />
-        <input type="radio" name="ResultWinner" value="VS" />Vanu Soverignity <br />
-        <input type="radio" name="ResultWinner" value="Draw" />Draw <br />
+        <input type="radio" name="ResultWinner" value="NC" /><span class="form_item_text">New Conglomerate</span> <br />
+        <input type="radio" name="ResultWinner" value="TR" /><span class="form_item_text">Terran Republic</span> <br />
+        <input type="radio" name="ResultWinner" value="VS" /><span class="form_item_text">Vanu Soverignity</span> <br />
+        <input type="radio" name="ResultWinner" value="Draw" /><span class="form_item_text">Draw</span> <br />
+                  
+        <p class="form_item_title">Where was this continant based?</p>
         
-        <p class="form_item_text">Where was this continant based?</p>
-        
-        <input type="radio" name="ResultAlertCont" value="Amerish" onclick="reenableIfNotCross()"/>Amerish <br />
-        <input type="radio" name="ResultAlertCont" value="Esamir" onclick="reenableIfNotCross()" />Esamir <br />
-        <input type="radio" name="ResultAlertCont" value="Indar" onclick="reenableIfNotCross()" />Indar <br />
-        <input type="radio" name="ResultAlertCont" value="Cross" onclick="disableIfCross(), animatedcollapse.hide('territory')" />Cross Continent (All three) <br />
+        <input type="radio" name="ResultAlertCont" value="Amerish" onclick="reenableIfNotCross()"/><span class="form_item_text">Amerish</span> <br />
+        <input type="radio" name="ResultAlertCont" value="Esamir" onclick="reenableIfNotCross()" /><span class="form_item_text">Esamir</span> <br />
+        <input type="radio" name="ResultAlertCont" value="Indar" onclick="reenableIfNotCross()" /><span class="form_item_text">Indar</span> <br />
+        <input type="radio" name="ResultAlertCont" value="Cross" onclick="disableIfCross(), animatedcollapse.hide('territory')" /><span class="form_item_text">Cross Continent (All three)</span> <br />
         
         <script>
         function disableIfCross()
@@ -99,18 +96,18 @@ animatedcollapse.init()
         }
         </script>
         
-        <p class="form_item_text">What kind of alert was this?</p>
+        <p class="form_item_title">What kind of alert was this?</p>
         
         <!-- Based on the continant answer and this answer, PHP will change the submitted variable to be the proper one into the database -->
         
-        <input type="radio" name="ResultAlertType" value="Amp" onclick="javascript:animatedcollapse.hide('territory')"/>Amp Stations <br />
-        <input type="radio" name="ResultAlertType" value="Bio" onclick="javascript:animatedcollapse.hide('territory')"/>Bio Labs<br />
-        <input type="radio" name="ResultAlertType" value="Tech" onclick="javascript:animatedcollapse.hide('territory')"/>Tech Plants <br />
-        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory')" />Territory Capture <br />   
+        <input type="radio" name="ResultAlertType" value="Amp" onclick="javascript:animatedcollapse.hide('territory')"/><span class="form_item_text">Amp Stations </span><br />
+        <input type="radio" name="ResultAlertType" value="Bio" onclick="javascript:animatedcollapse.hide('territory')"/><span class="form_item_text">Bio Labs</span><br />
+        <input type="radio" name="ResultAlertType" value="Tech" onclick="javascript:animatedcollapse.hide('territory')"/><span class="form_item_text">Tech Plants </span><br />
+        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory')" /><span class="form_item_text">Territory Capture </span><br />   
         
-        <div id="territory" style="display:none; background-color:#777;">
+        <div id="territory" class="subquestion">
         
-        <p class="form_item_text">How much territory % did each empire control?</p>
+        <p class="form_item_title">How much territory % did each empire control?</p>
         
         <table width="250" border="0" style="text-align: center;">
           <tr>
@@ -128,27 +125,27 @@ animatedcollapse.init()
         </div>
         
         <br />
-        <input type="submit" name="AlertStats" value="Continue..." />
         
-        </form>
+        
+      
         <p class="form_headers">Population Statistics</p>   
         
         
-        <p class="form_item_text">Which faction had the majority of population at the <b>end</b> of the alert?</p>
+        <p class="form_item_title">Which faction had the majority of population at the <b>end</b> of the alert?</p>
         
-        <input type="radio" name="ResultMajorityPop" value="NC" />New Conglomerate <br />
-        <input type="radio" name="ResultMajorityPop" value="TR" />Terran Republic <br />
-        <input type="radio" name="ResultMajorityPop" value="VS" />Vanu Soverignity <br />
-        <input type="radio" name="ResultMajorityPop" value="Even" />Populations were exactly even (33% each) <br />
+        <input type="radio" name="ResultMajorityPop" value="NC" onclick="animatedcollapse.show('pops')" /><span class="form_item_text">New Conglomerate</span> <br />
+        <input type="radio" name="ResultMajorityPop" value="TR" onclick="animatedcollapse.show('pops')" /><span class="form_item_text">Terran Republic</span> <br />
+        <input type="radio" name="ResultMajorityPop" value="VS" onclick="animatedcollapse.show('pops')" /><span class="form_item_text">Vanu Soverignity</span> <br />
+        <input type="radio" name="ResultMajorityPop" value="Even" onclick="animatedcollapse.hide('pops')" /><span class="form_item_text">Populations were exactly even (33% each)</span> <br />
         
-        <div id="pops">
-    
-        <p class="form_item_text">How much population percentage (%) did each of the factions have?</p>
-        <table width="250" border="0" style="text-align: center;">
+        <div id="pops" class="subquestion">
+        
+         <p class="form_item_title">How much population percentage (%) did each of the factions have?</p>
+        <table width="150" border="0" style="text-align: center;">
           <tr>
-            <td width="83">NC</td>
-            <td width="83">TR</td>
-            <td width="83">VS</td>
+            <td class="form_item_text" width="50">NC</td>
+            <td class="form_item_text" width="50">TR</td>
+            <td class="form_item_text" width="50">VS</td>
           </tr>
           <tr>
             <td><input class="two" type="text" name="ResultPopsNC" /></td>
@@ -158,6 +155,9 @@ animatedcollapse.init()
         </table>
         
         </div>
+        
+    <input type="submit" name="AlertStats" value="Continue..." /> 
+    </form>   
 	</div>
 </div>
 </body>
