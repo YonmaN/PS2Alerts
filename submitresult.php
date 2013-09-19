@@ -21,7 +21,8 @@
 <script type="text/javascript">
 
 animatedcollapse.addDiv('territory', 'fade=1,height=100px')
-animatedcollapse.addDiv('pops', 'fade=1,height=100px')
+animatedcollapse.addDiv('pops_world', 'fade=1,height=100px')
+animatedcollapse.addDiv('pops_cont', 'fade=1,height=100px')
 
 animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
 	//$: Access to jQuery
@@ -64,8 +65,8 @@ animatedcollapse.init()
         
         <p class="form_item_title">Which server was this alert on?</p>
         <select name="ResultServer" disabled="disabled">
-          <option value="1">Miller</option>
-        </select>
+          <option value="1">Miller</option> 
+        </select> <span class="form_item_text" style="margin-left: 5px;">(Disabled)</span>
          
    <div id="time_container" style="display: block; height: 120px;"> 
         <div id="time1" style="float: left; margin-top: 10px;">
@@ -84,17 +85,87 @@ animatedcollapse.init()
         
         <p class="form_item_title">Who won this alert?</p>
         
-        <input type="radio" name="ResultWinner" value="NC" /><span class="form_item_text">New Conglomerate</span> <br />
-        <input type="radio" name="ResultWinner" value="TR" /><span class="form_item_text">Terran Republic</span> <br />
-        <input type="radio" name="ResultWinner" value="VS" /><span class="form_item_text">Vanu Soverignity</span> <br />
-        <input type="radio" name="ResultWinner" value="Draw" /><span class="form_item_text">Draw</span> <br />
-                  
-        <p class="form_item_title">Where was this continant based?</p>
+        <input type="radio" name="ResultWinner" value="NC" onclick="drawterritories_enable()"  /><span class="form_item_text">New Conglomerate</span> <br />
+        <input type="radio" name="ResultWinner" value="TR" onclick="drawterritories_enable()"  /><span class="form_item_text">Terran Republic</span> <br />
+        <input type="radio" name="ResultWinner" value="VS" onclick="drawterritories_enable()"  /><span class="form_item_text">Vanu Soverignity</span> <br />
+        <input type="radio" name="ResultWinner" value="Draw" id="draw" onclick="drawterritories_disable()" /><span class="form_item_text">Draw</span> <br />
+                          
+        <p class="form_item_title">Where was this continent based?</p>
         
-        <input type="radio" name="ResultAlertCont" value="Amerish" onclick="reenableIfNotCross()"/><span class="form_item_text">Amerish</span> <br />
-        <input type="radio" name="ResultAlertCont" value="Esamir" onclick="reenableIfNotCross()" /><span class="form_item_text">Esamir</span> <br />
-        <input type="radio" name="ResultAlertCont" value="Indar" onclick="reenableIfNotCross()" /><span class="form_item_text">Indar</span> <br />
-        <input type="radio" name="ResultAlertCont" value="Cross" onclick="disableIfCross(), animatedcollapse.hide('territory')" /><span class="form_item_text">Cross Continent (All three)</span> <br />
+        <input type="radio" name="ResultAlertCont" value="Amerish" onclick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()"/>
+        <span class="form_item_text">Amerish</span> <br />
+        <input type="radio" name="ResultAlertCont" value="Esamir" onclick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()"  />
+        <span class="form_item_text">Esamir</span> <br />
+        <input type="radio" name="ResultAlertCont" value="Indar" onclick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" />
+        <span class="form_item_text">Indar</span> <br />
+        <input type="radio" name="ResultAlertCont" value="Cross" onclick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont()" />
+        <span class="form_item_text">Cross Continent (All three)</span> <br />
+        
+       	<script>
+		
+		function wipepopscont()
+		{
+			document.getElementById("pops_c_nc").value=""
+			document.getElementById("pops_c_nc").disabled=true
+			document.getElementById("pops_w_nc").disabled=false
+			document.getElementById("pops_c_tr").value=""
+			document.getElementById("pops_c_tr").disabled=true
+			document.getElementById("pops_w_tr").disabled=false
+			document.getElementById("pops_c_vs").value=""	
+			document.getElementById("pops_c_vs").disabled=true
+			document.getElementById("pops_w_vs").disabled=false
+		}
+		
+		function wipepopsworld()
+		{
+			document.getElementById("pops_w_nc").value=""
+			document.getElementById("pops_w_nc").disabled=true
+			document.getElementById("pops_c_nc").disabled=false
+			document.getElementById("pops_w_tr").value=""
+			document.getElementById("pops_w_tr").disabled=true
+			document.getElementById("pops_c_tr").disabled=false
+			document.getElementById("pops_w_vs").value=""
+			document.getElementById("pops_w_vs").disabled=true	
+			document.getElementById("pops_c_vs").disabled=false
+		}
+		
+		</script>        
+        
+        <div class="subquestion" id="pops_world">
+        <p class="form_item_title">How much <b>world</b> population did each empire have?</p>
+        
+        <table width="150" border="0" style="text-align: center;">
+          <tr>
+            <td class="form_item_text" width="50">NC</td>
+            <td class="form_item_text" width="50">TR</td>
+            <td class="form_item_text" width="50">VS</td>
+          </tr>
+          <tr>
+            <td><input class="two" type="text" id="pops_w_nc" name="ResultPopsNC" /></td>
+            <td><input class="two" type="text" id="pops_w_tr" name="ResultPopsTR" /></td>
+            <td><input class="two" type="text" id="pops_w_vs" name="ResultPopsVS" /></td>
+         </tr>
+        </table>
+        
+        </div>
+        
+        <div class="subquestion" id="pops_cont">
+         <p class="form_item_title">How much <b>continent</b> population did each empire have?</p>
+        <table width="150" border="0" style="text-align: center;">
+          <tr>
+            <td class="form_item_text" width="50">NC</td>
+            <td class="form_item_text" width="50">TR</td>
+            <td class="form_item_text" width="50">VS</td>
+          </tr>
+          <tr>
+            <td><input class="two" type="text" id="pops_c_nc" name="ResultPopsNC" /></td>
+            <td><input class="two" type="text" id="pops_c_tr" name="ResultPopsTR" /></td>
+            <td><input class="two" type="text" id="pops_c_vs" name="ResultPopsVS" /></td>
+          </tr>
+        </table>
+        </div>
+        
+        
         
         <script>
         function disableIfCross()
@@ -114,10 +185,68 @@ animatedcollapse.init()
         
         <!-- Based on the continant answer and this answer, PHP will change the submitted variable to be the proper one into the database -->
         
-        <input type="radio" name="ResultAlertType" value="Amp" onclick="javascript:animatedcollapse.hide('territory')"/><span class="form_item_text">Amp Stations </span><br />
-        <input type="radio" name="ResultAlertType" value="Bio" onclick="javascript:animatedcollapse.hide('territory')"/><span class="form_item_text">Bio Labs</span><br />
-        <input type="radio" name="ResultAlertType" value="Tech" onclick="javascript:animatedcollapse.hide('territory')"/><span class="form_item_text">Tech Plants </span><br />
-        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory')" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />   
+        <input type="radio" name="ResultAlertType" value="Amp" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Amp Stations </span><br />
+        <input type="radio" name="ResultAlertType" value="Bio" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Bio Labs</span><br />
+        <input type="radio" name="ResultAlertType" value="Tech" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Tech Plants </span><br />
+        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory'), enableterritoryvalues()" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />   
+        
+        <script>
+		
+		function wipevaluesterritory()
+		{
+			document.getElementById("TerritoryNC").value=""
+			document.getElementById("TerritoryNC").disabled=true
+			document.getElementById("TerritoryTR").value=""
+			document.getElementById("TerritoryTR").disabled=true
+			document.getElementById("TerritoryVS").value=""
+			document.getElementById("TerritoryVS").disabled=true
+		}
+		
+		function enableterritoryvalues()
+		{
+			document.getElementById("TerritoryNC").disabled=false
+			document.getElementById("TerritoryTR").disabled=false
+			document.getElementById("TerritoryVS").disabled=false
+		}
+		
+		function checkterritories()
+		{
+			var TerritoryOption = document.getElementById("TypeTerritory")
+			var TerritoryNC = document.getElementById("TerritoryNC")
+			var TerritoryTR = document.getElementById("TerritoryTR")
+			var TerritoryVS = document.getElementById("TerritoryVS")
+						
+			if ((TerritoryNC.value + TerritoryTR.value + TerritoryVS.value < 99) && (TerritoryOption.checked=true))
+			{
+				window.alert("Territories do not match up to 100% - Too low! Please check the territory percentages and try again.");
+				
+			} else if (TerritoryNC.value + TerritoryTR.value + TerritoryVS.value > 100)	{
+				window.alert("Territories do not match up to 100% - Too high! Please check the territory percentages and try again.");
+				
+			}		
+		}
+		
+		function drawterritories_disable()
+		{
+			TerritoryNC.value ="33"
+			TerritoryNC.disabled=true
+			TerritoryTR.value ="33"
+			TerritoryTR.disabled=true
+			TerritoryVS.value ="33"
+			TerritoryVS.disabled=true
+		}
+		
+		function drawterritories_enable()
+		{
+			TerritoryNC.value =""
+			TerritoryNC.disabled=false
+			TerritoryTR.value =""
+			TerritoryTR.disabled=false
+			TerritoryVS.value =""
+			TerritoryVS.disabled=false
+			
+		}
+		</script>		
         
         <div id="territory" class="subquestion">
         
@@ -130,47 +259,17 @@ animatedcollapse.init()
             <td class="form_item_text" width="50">VS</td>
           </tr>
           <tr>
-            <td><input class="two" type="text" name="ResultTerritoryNC" /></td>
-            <td><input class="two" type="text" name="ResultTerritoryTR" /></td>
-            <td><input class="two" type="text" name="ResultTerritoryVS" /></td>
+            <td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" /></td>
+            <td><input class="two" type="text" name="ResultTerritoryTR" id="TerritoryTR" /></td>
+            <td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" /></td>
           </tr>
         </table>
         
         </div>
         
         <br />
-        
-        
-      
-        <p class="form_headers">Population Statistics</p>   
-        
-        
-        <p class="form_item_title">Which faction had the majority of population at the <b>end</b> of the alert?</p>
-        
-        <input type="radio" name="ResultMajorityPop" value="NC" onclick="animatedcollapse.show('pops')" /><span class="form_item_text">New Conglomerate</span> <br />
-        <input type="radio" name="ResultMajorityPop" value="TR" onclick="animatedcollapse.show('pops')" /><span class="form_item_text">Terran Republic</span> <br />
-        <input type="radio" name="ResultMajorityPop" value="VS" onclick="animatedcollapse.show('pops')" /><span class="form_item_text">Vanu Soverignity</span> <br />
-        <input type="radio" name="ResultMajorityPop" value="Even" onclick="animatedcollapse.hide('pops')" /><span class="form_item_text">Populations were exactly even (33% each)</span> <br />
-        
-        <div id="pops" class="subquestion">
-        
-         <p class="form_item_title">How much population percentage (%) did each of the factions have?</p>
-        <table width="150" border="0" style="text-align: center;">
-          <tr>
-            <td class="form_item_text" width="50">NC</td>
-            <td class="form_item_text" width="50">TR</td>
-            <td class="form_item_text" width="50">VS</td>
-          </tr>
-          <tr>
-            <td><input class="two" type="text" name="ResultPopsNC" /></td>
-            <td><input class="two" type="text" name="ResultPopsTR" /></td>
-            <td><input class="two" type="text" name="ResultPopsVS" /></td>
-          </tr>
-        </table>
-        
-        </div>
-        
-    <input type="submit" name="AlertStats" value="Continue..." /> 
+              
+    <input type="submit" name="AlertStats" onclick="checkterritories()" value="Continue..." /> 
     </form>   
 	</div>
 </div>

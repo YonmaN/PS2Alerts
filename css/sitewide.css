@@ -7,8 +7,7 @@ body {
 	margin: 0px; 
 	background-color:#000;
 	background-image:url(../images/background.png);
-	background-repeat:no-repeat;
-	background-position: 0px 100px
+	background-repeat: repeat-x;
 	}
 
 /* Centering */
