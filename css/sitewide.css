@@ -30,6 +30,14 @@ body {
 	margin-bottom: 10px;
 }
 
+.header_links {
+	font-family: 'Noto Sans', sans-serif;
+	font-size: 22px;
+	color: #FFF;
+	margin-right: 20px;
+	margin-left: 20px;
+}
+
 #content {
 	width: 680px;
 	height: auto;
@@ -90,4 +98,7 @@ body {
 	font-family: 'Noto Sans', sans-serif;
 	text-decoration:line-through;
 }
-	
+
+.jump_fix {
+	display: none;
+}
