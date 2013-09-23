@@ -25,12 +25,13 @@
 </script>
 
 <script type="text/javascript">
-
 animatedcollapse.addDiv('territory', 'fade=1,height=80px')
 animatedcollapse.addDiv('pops_world', 'fade=1,height=80px')
 animatedcollapse.addDiv('pops_cont', 'fade=1,height=80px')
 animatedcollapse.addDiv('domination', 'fade=1,height=70px')
 animatedcollapse.addDiv('duration', 'fade=1,height=60px')
+animatedcollapse.addDiv('part_one', 'fade=1')
+animatedcollapse.addDiv('part_two', 'fade=1,height=60px')
 
 animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
 	//$: Access to jQuery
@@ -42,6 +43,20 @@ animatedcollapse.init()
 
 </script>
 
+<script type="text/javascript">
+
+// Checks if the form is a SelfPost, and hides the appropiate DIVs //
+
+var SelfPost = '<?php echo $SelfPost; ?>';
+
+if SelfPost == 'true' {
+	animatedcollapse.hide('part_one');
+	animatedcollapse.show('part_two');
+}
+	
+
+</script>
+
 </head>
 
 <body>
@@ -49,23 +64,43 @@ animatedcollapse.init()
 
 	<?php include('includes/header.php') ?>
     
+    
     <?php
-	// Clean all variables at beginning of form and set defaults
 	
-	$ResultServer = '1'; //Currently always set to Miller
-	$ResultDateTime = '';
-	$ResultWinner = '';
-	$ResultDraw = '0';
-	$ResultDomination = '0';
-	$ResultDominationDuration = '';
-	$ResultAlertCont = '';
-	$ResultAlertType = '';
-	$ResultPopsNC = '';
-	$ResultPopsTR = '';
-	$ResultPopsVS = '';
-	$ResultTerritoryNC = '';
-	$ResultTerritoryTR = '';
-	$ResultTerritoryVS = '';
+	$SelfPost = $_POST["SelfPost"];
+	// Clean all variables at beginning of form and set defaults IF form is fresh
+	if ($SelfPost == '') {
+		$ResultServer = '1'; //Currently always set to Miller
+		$ResultDateTime = '';
+		$ResultWinner = '';
+		$ResultDomination = '0';
+		$ResultDominationDuration = '';
+		$ResultAlertCont = '';
+		$ResultAlertType = '';
+		$ResultPopsNC = '';
+		$ResultPopsTR = '';
+		$ResultPopsVS = '';
+		$ResultTerritoryNC = '';
+		$ResultTerritoryTR = '';
+		$ResultTerritoryVS = '';
+	
+	} elseif ($SelfPost == 'true') 
+	{
+		$ResultServer_POST = $_POST["ResultServer"]; //Currently always set to Miller
+		$ResultDateTime_POST = $_POST["ResultDateTime"];
+		$ResultWinner_POST = $_POST["ResultWinner"];
+		$ResultDomination_POST =  $_POST["ResultDomination"];
+		$ResultDominationDuration_POST = $_POST["ResultDominationDuration"];
+		$ResultAlertCont_POST = $_POST["ResultAlertCont"];
+		$ResultAlertType_POST = $_POST["ResultAlertType"];
+		$ResultFacilitiesWon_POST = $_POST["ResultFacilitiesWon"];
+		$ResultPopsNC_POST = $_POST["ResultPopsNC"];
+		$ResultPopsTR_POST = $_POST["ResultPopsTR"];
+		$ResultPospVS_POST = $_POST["ResultPopsVS"];
+		$ResultTerritoryNC_POST = $_POST["ResultTerritoryNC"];
+		$ResultTerritoryTR_POST = $_POST["ResultTerritoryTR"];
+		$ResultTerritoryVS_POST = $_POST["ResultTerritoryVS"];
+	}
 	
 	?>
     <div id="content">
@@ -114,7 +149,17 @@ animatedcollapse.init()
 	
 </script>
     
-      <form action="submitresult_facilities.php" id="form" method="post" name="AlertStats">
+    <?php if ($SelfPost == "true") {
+		echo '<div class="form_item_text">';
+			echo 'DEBUGGING </br>';
+			echo "<pre>";
+			var_dump($_POST);
+			echo "</pre>";
+		echo '</div>';
+	}
+	?>
+    <div id="part_one">
+      <form action="submitresult.php" id="form" method="post" name="AlertStats">
         <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
         
         <p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
@@ -122,9 +167,10 @@ animatedcollapse.init()
         Please note, you can't submit another alert until two hours later, to prevent spamming and contaminating the results.</p>  
         
         <p class="form_item_title">Which server was this alert on?</p>
-        <select name="ResultServer" id="ResultServer" disabled="disabled">
+        <select name="ResultServerDis" id="ResultServer" disabled="disabled" >
           <option value="1">Miller</option> 
         </select>
+        <input type="hidden" name="ResultServer" value="1" />
         <label for="ResultServer" class="form_item_text">(Disabled)</label>
          
    <div id="time_container" style="display: block; height: 120px;"> 
@@ -319,11 +365,11 @@ animatedcollapse.init()
 		if (Draw.checked=true)
 			{
 				TerritoryNC.value ="33"
-				TerritoryNC.disabled=true
+				TerritoryNC.readOnly=true
 				TerritoryTR.value ="33"
-				TerritoryTR.disabled=true
+				TerritoryTR.readOnly=true
 				TerritoryVS.value ="33"
-				TerritoryVS.disabled=true
+				TerritoryVS.readOnly=true
 			}
 		}
 		
@@ -331,10 +377,13 @@ animatedcollapse.init()
 		{
 			TerritoryNC.value =""
 			TerritoryNC.disabled=false
+			TerritoryNC.readOnly=false
 			TerritoryTR.value =""
 			TerritoryTR.disabled=false
+			TerritoryTR.readOnly=false
 			TerritoryVS.value =""
 			TerritoryVS.disabled=false
+			TerritoryVS.readOnly=false
 			
 		}
 		</script>		
@@ -359,10 +408,12 @@ animatedcollapse.init()
         </div>
         
         <br />
+    <input type="hidden" name="SelfPost" value="true" />
     <input type="submit" name="AlertStats" onsubmit="return checkterritories()" value="Continue..." /> 
     </form>     
      
-	</div>
+	</div> <!-- Part 1 Div -->
+  </div>
 </div>
 </body>
 </html>
