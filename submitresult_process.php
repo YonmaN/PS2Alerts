@@ -3,8 +3,9 @@
 <head>
 <?php include("includes/mysqlconnect.php"); ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Processing...</title>
 </head>
+
 
 <body>
 <?php 

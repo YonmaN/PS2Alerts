@@ -44,10 +44,14 @@ animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is
 animatedcollapse.init()
 
 </script>
-
+<script>
+function message() {
+	window.alert("This system is NOT YET LIVE. Please use the Google document at www.bit.ly/MillerAlertStats until announcement!");
+}
+</script>
 
 </head>
-<body>
+<body onload="message()">
 
 <div id="wrapper">
 
