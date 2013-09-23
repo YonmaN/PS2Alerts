@@ -23,11 +23,12 @@ body {
 }
 
 #header {
-	width: 800px;
-	height: 200px;
+	width: 1024px;
+	height: 300px;
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 	margin-bottom: 10px;
+
 }
 
 .header_links {
