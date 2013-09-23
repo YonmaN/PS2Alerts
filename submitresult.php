@@ -74,20 +74,22 @@ animatedcollapse.init()
 	
 	} elseif ($SelfPost == 'true') 
 	{
-		$ResultServer_POST = $_POST["ResultServer"]; //Currently always set to Miller
-		$ResultDateTime_POST = $_POST["ResultDateTime"];
-		$ResultWinner_POST = $_POST["ResultWinner"];
-		$ResultDomination_POST =  $_POST["ResultDomination"];
-		$ResultDominationDuration_POST = $_POST["ResultDominationDuration"];
-		$ResultAlertCont_POST = $_POST["ResultAlertCont"];
-		$ResultAlertType_POST = $_POST["ResultAlertType"];
-		$ResultFacilitiesWon_POST = $_POST["ResultFacilitiesWon"];
-		$ResultPopsNC_POST = $_POST["ResultPopsNC"];
-		$ResultPopsTR_POST = $_POST["ResultPopsTR"];
-		$ResultPospVS_POST = $_POST["ResultPopsVS"];
-		$ResultTerritoryNC_POST = $_POST["ResultTerritoryNC"];
-		$ResultTerritoryTR_POST = $_POST["ResultTerritoryTR"];
-		$ResultTerritoryVS_POST = $_POST["ResultTerritoryVS"];
+		$ResultServer = $_POST["ResultServer"]; //Currently always set to Miller
+		$ResultDateTime = $_POST["ResultDateTime"];
+		$ResultWinner = $_POST["ResultWinner"];
+		$ResultDomination =  $_POST["ResultDomination"];
+		$ResultDominationDuration = $_POST["ResultDominationDuration"];
+		$ResultAlertCont = $_POST["ResultAlertCont"];
+		$ResultAlertType = $_POST["ResultAlertType"];
+		$ResultFacilitiesWon = $_POST["ResultFacilitiesWon"];
+		$ResultPopsNC = $_POST["ResultPopsNC"];
+		$ResultPopsTR = $_POST["ResultPopsTR"];
+		$ResultPospVS = $_POST["ResultPopsVS"];
+		$ResultTerritoryNC = $_POST["ResultTerritoryNC"];
+		$ResultTerritoryTR = $_POST["ResultTerritoryTR"];
+		$ResultTerritoryVS = $_POST["ResultTerritoryVS"];
+		
+		$ResultAlertMasterType = $ResultAlertType.$ResultAlertCont;
 	}
 	
 	?>
@@ -138,15 +140,7 @@ animatedcollapse.init()
 	
 </script>
     
-    <?php if ($SelfPost == "true") {
-		echo '<div class="form_item_text">';
-			echo 'DEBUGGING </br>';
-			echo "<pre>";
-			var_dump($_POST);
-			echo "</pre>";
-		echo '</div>';
-	}
-	?>
+    
         
         <?php if ($SelfPost == "true") {
             echo '<div id="partone" style="display:none">';
@@ -415,8 +409,94 @@ animatedcollapse.init()
             echo '<div id="parttwo" style="display:none">';
         } 
         ?>
+        if ($ResultWinner == "Draw") {
+		$ResultDraw = "1";
+	} else {
+		$ResultDraw = "0";
+	}
+	?>
+    
+    <form action="submit_processing.php" method="post" name="AlertStats2">
+    
+    <div class="form_item_text" id="debug">
+  	<?php if ($SelfPost == "true") {
+		echo '<div class="form_item_text">';
+			echo 'DEBUGGING </br>';
+			echo "<pre>";
+			var_dump($_POST);
+			echo "</pre>";
+		echo '</div>';
+	}	
+	echo '</br> Master Alert Type: ';
+	echo $ResultAlertMasterType;
+	?>	
+    </div>
+	<p class="form_headers">Facility Statistics</p>  
+    
+    <p class="form_item_title">Which facility was the most contested?</p>
+	<?php
+	
+	//Change Query based on Alert Type
+	
+	if ($ResultAlertType == "Territory") {
+		$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityType");
+	
+	}else if($ResultAlertCont == "Amerish" or $ResultAlertCont == "Esamir" or $ResultAlertCont == "Indar") {			
+	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityContID ");
+	
+	} else if ($ResultAlertCont == "Cross") {
+	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' ORDER BY FacilityContID");
+	
+	} 
+    echo '<select name="ResultContestedFacility">';
+		while($facility_result = mysql_fetch_array($SelectQuery)) {
+			echo '<option value="'.$facility_result['FacilityID'].'">'.$facility_result['FacilityContID'].' - '.$facility_result['FacilityName'].'</option>';
+		}
+    echo '</select>';
+	?>
+    
+	
+    
+    
+    <?php 
+	// Set up the form based on the previous information (cross continant or not etc)
+	
+	// IF Cross Continant and NOT territory and NOT a draw::
+	
+	if ($ResultDomination == "1") 
+	{
+		echo '<p class="form_item_text">DOMINATION</p>';
+	} else 
+	{
+		if ($ResultAlertType != "Territory") 
+		{				
+			if ($ResultAlertMasterType == "AmpCross" or $ResultAlertMasterType == "BioCross") 
+				{
+					echo '<p class="form_item_title">How many facilties did the victor have?</p>';
+					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="4"> <span class="form_item_text">4/9</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="5"> <span class="form_item_text">5/9</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="6"> <span class="form_item_text">6/9</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="7"> <span class="form_item_text">7/9</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="8"> <span class="form_item_text">8/9</span> </br>';
+					
+				} elseif ($ResultAlertMasterType == "TechCross") 
+				{
+					echo '<p class="form_item_title">How many facilties did the victor have?</p>';
+					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="3"> <span class="form_item_text">3/7</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="4"> <span class="form_item_text">4/7</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="5"> <span class="form_item_text">5/7</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="6"> <span class="form_item_text">6/7</span> </br>';
+				}
 			
-            <p class="form_item_text">Wabizke is sexy</p>
+			//Else if single continant alert
+			}
+		}
+		
+	?>
+    <br />
+    <input type="Submit" name="AlertStats2" value="Submit The Data!" />
+	</form>
+	</div>
         </div>
   </div>
 </div>
