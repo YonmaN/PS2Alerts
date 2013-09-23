@@ -432,7 +432,7 @@ function message() {
     <form action="submitresult_process.php" method="post" name="AlertStats2">
     
     <div class="form_item_text" id="debug">
-  	<?php if ($SelfPost == "true") {
+  	<?php /*?>if ($SelfPost == "true") {
 		echo '<div class="form_item_text">';
 			echo 'DEBUGGING </br>';
 			echo "<pre>";
@@ -441,8 +441,7 @@ function message() {
 		echo '</div>';
 	}	
 	echo '</br> Master Alert Type: ';
-	echo $ResultAlertMasterType;
-	?>	
+	echo $ResultAlertMasterType;<?php */?>
     </div>
 	<p class="form_headers">Facility Statistics</p>  
     
