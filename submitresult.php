@@ -75,10 +75,10 @@ animatedcollapse.init()
 	} elseif ($SelfPost == 'true') 
 	{
 		$ResultServer = $_POST["ResultServer"]; //Currently always set to Miller
-		$ResultDateTime = $_POST["ResultDateTime"];
+		$ResultDateTimePre = $_POST["ResultDateTime"];
 		$ResultWinner = $_POST["ResultWinner"];
 		$ResultDomination =  $_POST["ResultDomination"];
-		$ResultDominationDuration = $_POST["ResultDominationDuration"];
+		$ResultDominationDurationPre = $_POST["ResultDominationDuration"];
 		$ResultAlertCont = $_POST["ResultAlertCont"];
 		$ResultAlertType = $_POST["ResultAlertType"];
 		$ResultFacilitiesWon = $_POST["ResultFacilitiesWon"];
@@ -100,6 +100,7 @@ animatedcollapse.init()
   $(function() {
     $('#ResultDateTime').datetimepicker({
 	timeFormat: 'HH:mm',
+	dateFormat: 'yy-mm-dd',
 	showButtonPanel: false,
 	maxDate: 0,
 	minDate: -1,
@@ -164,7 +165,7 @@ animatedcollapse.init()
    <div id="time_container" style="display: block; height: 120px;"> 
         <div id="time1" style="float: left; margin-top: 10px;">
         <p class="form_item_title">When did the Alert end? (GMT time):</p>
-        <input class="form_item" id="ResultDateTime" style="margin-top: 20px; width: 105px; text-align: center;" name="ResultDateTime" />
+        <input class="form_item" id="ResultDateTime" style="margin-top: 20px; width: 120px; text-align: center;" name="ResultDateTime" />
         <label for="ResultDateTime" class="form_item_text"></label>
         </div>
         <div id="time2" style="float: right; width: 345px;">
@@ -173,7 +174,7 @@ animatedcollapse.init()
         		<iframe src="http://www.zeitverschiebung.net/clock-widget-iframe?language=en&timezone=Atlantic%2FReykjavik" width="100%" height="110" frameborder="0" seamless>
         		</iframe>
       		 </div>
-             <p class="form_item_text" style="text-align: center; margin: 2px;">Current GMT Time</p>
+             <p class="form_item_text" style="text-align: center; margin: 2px; font-size: 24px;">Current GMT Time</p>
         </div>
    </div>
         
@@ -400,22 +401,31 @@ animatedcollapse.init()
     <input type="submit" name="AlertStats" onsubmit="return checkterritories()" value="Continue..." /> 
     </form>     
      
-	</div> <!-- Part 1 Div -->
+	</div> <!-- Part 1 Div End -->
         
         <?php if ($SelfPost == "true") {
             echo '<div id="parttwo" style="display:block">';
         } else {
             echo '<div id="parttwo" style="display:none">';
-        } 
-        ?>
-        if ($ResultWinner == "Draw") {
+        }
+   	
+	
+	// PART 2 POST PROCESSING
+	
+	if ($ResultWinner == "Draw") 
+   	{
 		$ResultDraw = "1";
 	} else {
 		$ResultDraw = "0";
 	}
+	
+	// Append seconds to Domination timer and Alert Timer
+	
+	$ResultDominationDuration = $ResultDominationDurationPre.':00';
+	$ResultDateTime = $ResultDateTimePre.':00';
 	?>
     
-    <form action="submit_processing.php" method="post" name="AlertStats2">
+    <form action="submitresult_process.php" method="post" name="AlertStats2">
     
     <div class="form_item_text" id="debug">
   	<?php if ($SelfPost == "true") {
@@ -468,11 +478,11 @@ animatedcollapse.init()
 		
 		if ($ResultAlertMasterType == "AmpCross" or $ResultAlertMasterType == "BioCross") 
 		{
-			$ResultFacilitiesWon = '9';
+			$ResultFacilitiesWon = 9;
 		} elseif ($ResultAlertMasterType == "TechCross") {
-			$ResultFacilitiesWon = '7';
+			$ResultFacilitiesWon = 7;
 		} else { // If Continential
-			$ResultFacilitiesWon = '3';
+			$ResultFacilitiesWon = 3;
 		}
 	} else 
 	{
@@ -481,25 +491,44 @@ animatedcollapse.init()
 			if ($ResultAlertMasterType == "AmpCross" or $ResultAlertMasterType == "BioCross") 
 				{
 					echo '<p class="form_item_title">How many facilties did the victor have?</p>';
-					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="4"> <span class="form_item_text">4/9</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="5"> <span class="form_item_text">5/9</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="6"> <span class="form_item_text">6/9</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="7"> <span class="form_item_text">7/9</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="8"> <span class="form_item_text">8/9</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=4> <span class="form_item_text">4/9</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=5> <span class="form_item_text">5/9</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=6> <span class="form_item_text">6/9</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=7> <span class="form_item_text">7/9</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=8> <span class="form_item_text">8/9</span> </br>';
 					
 				} elseif ($ResultAlertMasterType == "TechCross") 
 				{
 					echo '<p class="form_item_title">How many facilties did the victor have?</p>';
-					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="3"> <span class="form_item_text">3/7</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="4"> <span class="form_item_text">4/7</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="5"> <span class="form_item_text">5/7</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="6"> <span class="form_item_text">6/7</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=3> <span class="form_item_text">3/7</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=4> <span class="form_item_text">4/7</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=5> <span class="form_item_text">5/7</span> </br>';
+					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=6> <span class="form_item_text">6/7</span> </br>';
 				}
 		}
 	}
 		
 	?>
     <br />
+    
+    <?php
+	
+	//Refresh Data to submit//
+	echo '<input type="hidden" name="ResultServer" value="'.$ResultServer.'">';
+	echo '<input type="hidden" name="ResultDateTime" value="'.$ResultDateTime.'">';
+	echo '<input type="hidden" name="ResultWinner" value="'.$ResultWinner.'">';
+	echo '<input type="hidden" name="ResultDraw" value="'.$ResultDraw.'">';
+	echo '<input type="hidden" name="ResultDomination" value="'.$ResultDomination.'">';
+	echo '<input type="hidden" name="ResultDominationDuration" value="'.$ResultDominationDuration.'">';
+	echo '<input type="hidden" name="ResultAlertCont" value="'.$ResultAlertCont.'">';
+	echo '<input type="hidden" name="ResultAlertType" value="'.$ResultAlertType.'">';
+	echo '<input type="hidden" name="ResultPopsNC" value="'.$ResultPopsNC.'">';
+	echo '<input type="hidden" name="ResultPopsTR" value="'.$ResultPopsTR.'">';
+	echo '<input type="hidden" name="ResultPopsVS" value="'.$ResultPopsVS.'">';
+	echo '<input type="hidden" name="ResultTerritoryNC" value="'.$ResultTerritoryNC.'">';
+	echo '<input type="hidden" name="ResultTerritoryTR" value="'.$ResultTerritoryTR.'">';
+	echo '<input type="hidden" name="ResultTerritoryVS" value="'.$ResultTerritoryVS.'">';
+	?>
     <input type="Submit" name="AlertStats2" value="Submit The Data!" />
 	</form>
 	</div>
