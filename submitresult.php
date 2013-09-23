@@ -170,7 +170,7 @@ animatedcollapse.init()
         
         <div class="subquestion" id="duration">
         <p class="form_item_title">How long did this alert last?</p>
-        <input type="text" id="ResultDominationDuration" name="ResultDominationDuration" />
+        <input type="text" id="ResultDominationDuration" style="width: 50px; text-align: center;" name="ResultDominationDuration" /><span class="form_item_text" style="margin-left: 5px;">Hours</span>
         
         </div>
                           
