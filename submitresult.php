@@ -5,11 +5,15 @@
 <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
 <?php include("includes/mysqlconnect.php") ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <title>Planetside 2 Statistics Index</title>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="js/animatedcollapse.js">
-
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="js/animatedcollapse.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/additional-methods.js"></script>
 /***********************************************
 * Animated Collapsible DIV v2.4- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
 * This notice MUST stay intact for legal use
@@ -20,9 +24,11 @@
 
 <script type="text/javascript">
 
-animatedcollapse.addDiv('territory', 'fade=1,height=100px')
-animatedcollapse.addDiv('pops_world', 'fade=1,height=100px')
-animatedcollapse.addDiv('pops_cont', 'fade=1,height=100px')
+animatedcollapse.addDiv('territory', 'fade=1,height=80px')
+animatedcollapse.addDiv('pops_world', 'fade=1,height=80px')
+animatedcollapse.addDiv('pops_cont', 'fade=1,height=80px')
+animatedcollapse.addDiv('domination', 'fade=1,height=70px')
+animatedcollapse.addDiv('duration', 'fade=1,height=60px')
 
 animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
 	//$: Access to jQuery
@@ -33,6 +39,7 @@ animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is
 animatedcollapse.init()
 
 </script>
+
 </head>
 
 <body>
@@ -55,8 +62,53 @@ animatedcollapse.init()
 	$ResultPopVS = '';	
 	?>
     <div id="content">
-      <form action="submitresult_facilities.php" method="POST" name="AlertStats">
-        
+    
+<script>
+  $(function() {
+    $('#ResultDateTime').datetimepicker({
+	timeFormat: 'HH:mm',
+	showButtonPanel: false,
+	maxDate: 0,
+	minDate: -1,
+	timezone: "0000",
+	pickerTimeSuffix: ' GMT'
+	
+});
+	$( "#ResultDominationDuration" ).timepicker({
+	hourMax: 1,
+	showButtonPanel: false
+	});
+  });
+  </script>
+  
+  <script>
+
+	$("#form").validate(
+	{
+		rules: 
+		{
+			ResultDateTime: 
+			{
+				required: true
+			}
+			ResultWinner: 
+			{
+				required: true
+			}
+			ResultAlertCont: 
+			{
+				required: true
+			}
+			ResultAlertType: 
+			{
+				required: true
+			}
+		);
+	}
+	
+	</script>
+    
+      <form action="submitresult_facilities.php" id="form" method="POST" name="AlertStats">
         <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
         
         <p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
@@ -64,14 +116,16 @@ animatedcollapse.init()
         Please note, you can't submit another alert until two hours later, to prevent spamming and contaminating the results.</p>  
         
         <p class="form_item_title">Which server was this alert on?</p>
-        <select name="ResultServer" disabled="disabled">
+        <select name="ResultServer" id="ResultServer" disabled="disabled">
           <option value="1">Miller</option> 
-        </select> <span class="form_item_text" style="margin-left: 5px;">(Disabled)</span>
+        </select>
+        <label for="server" class="form_item_text">(Disabled)</label>
          
    <div id="time_container" style="display: block; height: 120px;"> 
         <div id="time1" style="float: left; margin-top: 10px;">
         <p class="form_item_title">When did the Alert end? (GMT time):</p>
-        <input class="form_item" style="margin-top: 15px;" type="datetime-local" name="ResultDateTime" />
+        <input class="form_item" id="ResultDateTime" style="margin-top: 20px; width: 120px; text-align: center;" name="ResultDateTime" />
+        <label for="ResultDateTime" class="form_item_text"></label>
         </div>
         <div id="time2" style="float: right; width: 345px;">
         
@@ -84,11 +138,35 @@ animatedcollapse.init()
    </div>
         
         <p class="form_item_title">Who won this alert?</p>
+        <input type="radio" name="ResultWinner" value="NC" onclick="drawterritories_enable(), animatedcollapse.show('domination')"  /><span class="form_item_text">New Conglomerate</span> <br />
+        <input type="radio" name="ResultWinner" value="TR" onclick="drawterritories_enable(), animatedcollapse.show('domination')"  /><span class="form_item_text">Terran Republic</span> <br />
+        <input type="radio" name="ResultWinner" value="VS" onclick="drawterritories_enable(), animatedcollapse.show('domination')"  /><span class="form_item_text">Vanu Soverignity</span> <br />
+        <input type="radio" name="ResultWinner" value="Draw" id="draw" onclick="drawterritories_disable(), animatedcollapse.hide('domination')" /><span class="form_item_text">Draw</span> <br />
         
-        <input type="radio" name="ResultWinner" value="NC" onclick="drawterritories_enable()"  /><span class="form_item_text">New Conglomerate</span> <br />
-        <input type="radio" name="ResultWinner" value="TR" onclick="drawterritories_enable()"  /><span class="form_item_text">Terran Republic</span> <br />
-        <input type="radio" name="ResultWinner" value="VS" onclick="drawterritories_enable()"  /><span class="form_item_text">Vanu Soverignity</span> <br />
-        <input type="radio" name="ResultWinner" value="Draw" id="draw" onclick="drawterritories_disable()" /><span class="form_item_text">Draw</span> <br />
+        <div class="subquestion" id="domination">
+        <p class="form_item_title">Did the faction win the alert by Domination?</p>
+        <input type="radio" name="ResultDomination" value="Yes" onclick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
+        <input type="radio" name="ResultDomination" value="No" onclick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
+        </div>
+        
+        <script>
+		function disabledomination()
+		{
+			document.getElementById("ResultDominationDuration").value=""
+			document.getElementById("ResultDominationDuration").disabled=true
+		}		
+		function enabledomination()
+		{
+			document.getElementById("ResultDominationDuration").disabled=false
+		}
+		
+		</script>
+        
+        <div class="subquestion" id="duration">
+        <p class="form_item_title">How long did this alert last?</p>
+        <input type="text" id="ResultDominationDuration" name="ResultDominationDuration" />
+        
+        </div>
                           
         <p class="form_item_title">Where was this continent based?</p>
         
@@ -222,8 +300,7 @@ animatedcollapse.init()
 				
 			} else if (TerritoryNC.value + TerritoryTR.value + TerritoryVS.value > 100)	{
 				window.alert("Territories do not match up to 100% - Too high! Please check the territory percentages and try again.");
-				
-			}		
+			}
 		}
 		
 		function drawterritories_disable()
@@ -276,9 +353,9 @@ animatedcollapse.init()
         </div>
         
         <br />
-              
-    <input type="submit" name="AlertStats" onclick="checkterritories()" value="Continue..." /> 
-    </form>   
+    <input type="submit" name="AlertStats" onsubmit="return checkterritories()" value="Continue..." /> 
+    </form>     
+     
 	</div>
 </div>
 </body>
