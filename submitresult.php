@@ -188,7 +188,7 @@ animatedcollapse.init()
         <input type="radio" name="ResultAlertType" value="Amp" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Amp Stations </span><br />
         <input type="radio" name="ResultAlertType" value="Bio" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Bio Labs</span><br />
         <input type="radio" name="ResultAlertType" value="Tech" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Tech Plants </span><br />
-        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory'), enableterritoryvalues()" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />  
+        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />  
         
         <script>
 		
@@ -228,12 +228,20 @@ animatedcollapse.init()
 		
 		function drawterritories_disable()
 		{
-			TerritoryNC.value ="33"
-			TerritoryNC.disabled=true
-			TerritoryTR.value ="33"
-			TerritoryTR.disabled=true
-			TerritoryVS.value ="33"
-			TerritoryVS.disabled=true
+			var Draw = document.getElementById("draw")
+			var TerritoryNC = document.getElementById("TerritoryNC")
+			var TerritoryTR = document.getElementById("TerritoryTR")
+			var TerritoryVS = document.getElementById("TerritoryVS")
+			
+		if (Draw.checked=true)
+			{
+				TerritoryNC.value ="33"
+				TerritoryNC.disabled=true
+				TerritoryTR.value ="33"
+				TerritoryTR.disabled=true
+				TerritoryVS.value ="33"
+				TerritoryVS.disabled=true
+			}
 		}
 		
 		function drawterritories_enable()

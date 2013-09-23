@@ -1,3 +1,4 @@
 *.xml
 includes/mysqlconnect.php
 images/
+usercake/models/db-settings.php
