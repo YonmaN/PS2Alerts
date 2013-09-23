@@ -257,7 +257,7 @@ animatedcollapse.init()
 		</script>        
         
         <div class="subquestion" id="pops_world">
-        <p class="form_item_title">How much <b>world</b> population did each empire have?</p>
+        <p class="form_item_title">How much <b>world</b> population % did each empire have?</p>
         
         <table width="150" border="0" style="text-align: center;">
           <tr>
@@ -275,7 +275,7 @@ animatedcollapse.init()
         </div>
         
         <div class="subquestion" id="pops_cont">
-         <p class="form_item_title">How much <b>continent</b> population did each empire have?</p>
+         <p class="form_item_title">How much <b>continent</b> population % did each empire have?</p>
         <table width="150" border="0" style="text-align: center;">
           <tr>
             <td class="form_item_text" width="50">NC</td>
@@ -415,7 +415,7 @@ animatedcollapse.init()
             echo '<div id="parttwo" style="display:none">';
         } 
         ?>
-        
+			
             <p class="form_item_text">Wabizke is sexy</p>
         </div>
   </div>
