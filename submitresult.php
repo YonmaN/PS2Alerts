@@ -2,18 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link href="css/sitewide.css" rel="stylesheet" />
-<link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
 <?php include("includes/mysqlconnect.php") ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <title>Planetside 2 Statistics Index</title>
 
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script src="js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="js/animatedcollapse.js"></script>
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="js/additional-methods.js"></script>
+
+<script type="text/javascript">
 /***********************************************
 * Animated Collapsible DIV v2.4- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
 * This notice MUST stay intact for legal use
@@ -48,22 +50,26 @@ animatedcollapse.init()
 	<?php include('includes/header.php') ?>
     
     <?php
-	// Clean all variables at beginning of form
+	// Clean all variables at beginning of form and set defaults
 	
 	$ResultServer = '1'; //Currently always set to Miller
+	$ResultDateTime = '';
 	$ResultWinner = '';
-	$ResultDraw = '';
+	$ResultDraw = '0';
+	$ResultDomination = '0';
 	$ResultAlertCont = '';
 	$ResultAlertType = '';
-	$ResultFacilitiesWon = '';
-	$ResultPopMajority = '';
 	$ResultPopNC = '';
 	$ResultPopTR = '';
-	$ResultPopVS = '';	
+	$ResultPopVS = '';
+	$ResultTerritoryNC = '';
+	$ResultTerritoryTR = '';
+	$ResultTerritoryVS = '';
+	
 	?>
     <div id="content">
     
-<script>
+<script type="text/javascript">
   $(function() {
     $('#ResultDateTime').datetimepicker({
 	timeFormat: 'HH:mm',
@@ -79,19 +85,18 @@ animatedcollapse.init()
 	showButtonPanel: false
 	});
   });
-  </script>
+</script>
   
-  <script>
 <script type="text/javascript">
 
 	$("#form").validate({
-		rules: 
+		rules:
 		{
 			ResultDateTime: 
 			{
 				required: true
 			},
-			ResultWinner: 
+			ResultWinner:
 			{
 				required: true
 			},
@@ -103,12 +108,12 @@ animatedcollapse.init()
 			{
 				required: true
 			}
-	}
+		}
 	});
 	
-	</script>
+</script>
     
-      <form action="submitresult_facilities.php" id="form" method="POST" name="AlertStats">
+      <form action="submitresult_facilities.php" id="form" method="post" name="AlertStats">
         <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
         
         <p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
@@ -119,12 +124,12 @@ animatedcollapse.init()
         <select name="ResultServer" id="ResultServer" disabled="disabled">
           <option value="1">Miller</option> 
         </select>
-        <label for="server" class="form_item_text">(Disabled)</label>
+        <label for="ResultServer" class="form_item_text">(Disabled)</label>
          
    <div id="time_container" style="display: block; height: 120px;"> 
         <div id="time1" style="float: left; margin-top: 10px;">
         <p class="form_item_title">When did the Alert end? (GMT time):</p>
-        <input class="form_item" id="ResultDateTime" style="margin-top: 20px; width: 120px; text-align: center;" name="ResultDateTime" />
+        <input class="form_item" id="ResultDateTime" style="margin-top: 20px; width: 105px; text-align: center;" name="ResultDateTime" />
         <label for="ResultDateTime" class="form_item_text"></label>
         </div>
         <div id="time2" style="float: right; width: 345px;">
@@ -145,8 +150,8 @@ animatedcollapse.init()
         
         <div class="subquestion" id="domination">
         <p class="form_item_title">Did the faction win the alert by Domination?</p>
-        <input type="radio" name="ResultDomination" value="Yes" onclick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
-        <input type="radio" name="ResultDomination" value="No" onclick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
+        <input type="radio" name="ResultDomination" value="1" onclick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
+        <input type="radio" name="ResultDomination" value="0" onclick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
         </div>
         
         <script>
@@ -245,7 +250,7 @@ animatedcollapse.init()
         
         
         
-        <script>
+        <script type="text/javascript">
         function disableIfCross()
         {
             document.getElementById("TypeTerritory").disabled=true
@@ -268,7 +273,7 @@ animatedcollapse.init()
         <input type="radio" name="ResultAlertType" value="Tech" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Tech Plants </span><br />
         <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />  
         
-        <script>
+        <script type="text/javascript">
 		
 		function wipevaluesterritory()
 		{
