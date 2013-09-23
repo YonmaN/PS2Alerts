@@ -82,29 +82,29 @@ animatedcollapse.init()
   </script>
   
   <script>
+<script type="text/javascript">
 
-	$("#form").validate(
-	{
+	$("#form").validate({
 		rules: 
 		{
 			ResultDateTime: 
 			{
 				required: true
-			}
+			},
 			ResultWinner: 
 			{
 				required: true
-			}
+			},
 			ResultAlertCont: 
 			{
 				required: true
-			}
+			},
 			ResultAlertType: 
 			{
 				required: true
 			}
-		);
 	}
+	});
 	
 	</script>
     
