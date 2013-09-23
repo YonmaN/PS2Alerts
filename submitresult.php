@@ -57,11 +57,12 @@ animatedcollapse.init()
 	$ResultWinner = '';
 	$ResultDraw = '0';
 	$ResultDomination = '0';
+	$ResultDominationDuration = '';
 	$ResultAlertCont = '';
 	$ResultAlertType = '';
-	$ResultPopNC = '';
-	$ResultPopTR = '';
-	$ResultPopVS = '';
+	$ResultPopsNC = '';
+	$ResultPopsTR = '';
+	$ResultPopsVS = '';
 	$ResultTerritoryNC = '';
 	$ResultTerritoryTR = '';
 	$ResultTerritoryVS = '';

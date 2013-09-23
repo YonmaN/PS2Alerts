@@ -14,18 +14,21 @@
     
     <div id="content">
     <?php
-	$ResultDate = $_POST["ResultDateTime"];
-    $ResultServer = $_POST["ResultServer"]; //Currently always set to Miller
+	$ResultServer = $_POST["ResultServer"]; //Currently always set to Miller
+	$ResultDateTime = $_POST["ResultDateTime"];
 	$ResultWinner = $_POST["ResultWinner"];
 	$ResultDraw = $_POST["ResultDraw"];
+	$ResultDomination =  $_POST["ResultDomination"];
+	$ResultDominationDuration = $_POST["ResultDominationDuration"];
 	$ResultAlertCont = $_POST["ResultAlertCont"];
 	$ResultAlertType = $_POST["ResultAlertType"];
 	$ResultFacilitiesWon = $_POST["ResultFacilitiesWon"];
-	$ResultPopMajority = $_POST["ResultPopMajority"];
-	$ResultPopNC = $_POST["ResultPopNC"];
-	$ResultPopTR = $_POST["ResultPopTR"];
-	$ResultPopVS = $_POST["ResultPopVS"];
-	$ResultAlertMasterType;
+	$ResultPopsNC = $_POST["ResultPopsNC"];
+	$ResultPopsTR = $_POST["ResultPopsTR"];
+	$ResultPospVS = $_POST["ResultPopsVS"];
+	$ResultTerritoryNC = $_POST["ResultTerritoryNC"];
+	$ResultTerritoryTR = $_POST["ResultTerritoryTR"];
+	$ResultTerritoryVS = $_POST["ResultTerritoryVS"];
 	
 	// Convert Territory Types and Contiant Alert into the Alert Type variable to be used
 	
