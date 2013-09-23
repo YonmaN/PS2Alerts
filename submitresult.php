@@ -47,7 +47,7 @@ animatedcollapse.init()
 
 
 </head>
-    <body>
+<body>
 
 <div id="wrapper">
 
@@ -84,7 +84,7 @@ animatedcollapse.init()
 		$ResultFacilitiesWon = $_POST["ResultFacilitiesWon"];
 		$ResultPopsNC = $_POST["ResultPopsNC"];
 		$ResultPopsTR = $_POST["ResultPopsTR"];
-		$ResultPospVS = $_POST["ResultPopsVS"];
+		$ResultPopsVS = $_POST["ResultPopsVS"];
 		$ResultTerritoryNC = $_POST["ResultTerritoryNC"];
 		$ResultTerritoryTR = $_POST["ResultTerritoryTR"];
 		$ResultTerritoryVS = $_POST["ResultTerritoryVS"];
@@ -139,7 +139,6 @@ animatedcollapse.init()
 	});
 	
 </script>
-    
     
         
         <?php if ($SelfPost == "true") {
@@ -466,6 +465,15 @@ animatedcollapse.init()
 	if ($ResultDomination == "1") 
 	{
 		echo '<p class="form_item_text">DOMINATION</p>';
+		
+		if ($ResultAlertMasterType == "AmpCross" or $ResultAlertMasterType == "BioCross") 
+		{
+			$ResultFacilitiesWon = '9';
+		} elseif ($ResultAlertMasterType == "TechCross") {
+			$ResultFacilitiesWon = '7';
+		} else { // If Continential
+			$ResultFacilitiesWon = '3';
+		}
 	} else 
 	{
 		if ($ResultAlertType != "Territory") 
@@ -487,10 +495,8 @@ animatedcollapse.init()
 					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="5"> <span class="form_item_text">5/7</span> </br>';
 					echo '<input type="radio" class="form_item_text" name="FacilityWins" value="6"> <span class="form_item_text">6/7</span> </br>';
 				}
-			
-			//Else if single continant alert
-			}
 		}
+	}
 		
 	?>
     <br />
