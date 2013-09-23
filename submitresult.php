@@ -15,6 +15,8 @@
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="js/additional-methods.js"></script>
 
+
+<?php $SelfPost = $_POST["SelfPost"]; ?>
 <script type="text/javascript">
 /***********************************************
 * Animated Collapsible DIV v2.4- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
@@ -30,8 +32,8 @@ animatedcollapse.addDiv('pops_world', 'fade=1,height=80px')
 animatedcollapse.addDiv('pops_cont', 'fade=1,height=80px')
 animatedcollapse.addDiv('domination', 'fade=1,height=70px')
 animatedcollapse.addDiv('duration', 'fade=1,height=60px')
-animatedcollapse.addDiv('part_one', 'fade=1')
-animatedcollapse.addDiv('part_two', 'fade=1')
+animatedcollapse.addDiv('partone', 'fade=1')
+animatedcollapse.addDiv('parttwo', 'fade=1')
 
 animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
 	//$: Access to jQuery
@@ -45,7 +47,7 @@ animatedcollapse.init()
 
 
 </head>
-<body>
+    <body>
 
 <div id="wrapper">
 
@@ -53,8 +55,7 @@ animatedcollapse.init()
     
     
     <?php
-	
-	$SelfPost = $_POST["SelfPost"];
+
 	// Clean all variables at beginning of form and set defaults IF form is fresh
 	if ($SelfPost == '') {
 		$ResultServer = '1'; //Currently always set to Miller
@@ -90,20 +91,7 @@ animatedcollapse.init()
 	}
 	
 	?>
-    
-<script type="text/javascript">
 
-// Checks if the form is a SelfPost, and hides the appropiate DIVs //
-
-var SelfPost = '<?php echo $SelfPost; ?>';
-
-if SelfPost == "true" {
-	document.write(SelfPost);
-	animatedcollapse.hide('part_one');
-	animatedcollapse.show('part_two');
-}
-
-</script>
     <div id="content">
     
 <script type="text/javascript">
@@ -159,7 +147,13 @@ if SelfPost == "true" {
 		echo '</div>';
 	}
 	?>
-    <div id="part_one">
+        
+        <?php if ($SelfPost == "true") {
+            echo '<div id="partone" style="display:none">';
+        } else {
+            echo '<div id="partone">';
+        } 
+        ?>
       <form action="submitresult.php" id="form" method="post" name="AlertStats">
         <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
         
@@ -414,6 +408,16 @@ if SelfPost == "true" {
     </form>     
      
 	</div> <!-- Part 1 Div -->
+        
+        <?php if ($SelfPost == "true") {
+            echo '<div id="parttwo" style="display:block">';
+        } else {
+            echo '<div id="parttwo" style="display:none">';
+        } 
+        ?>
+        
+            <p class="form_item_text">Wabizke is sexy</p>
+        </div>
   </div>
 </div>
 </body>

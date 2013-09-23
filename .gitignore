@@ -2,3 +2,5 @@
 includes/mysqlconnect.php
 images/
 usercake/models/db-settings.php
+/nbproject/private/
+*.properties
