@@ -31,7 +31,7 @@ animatedcollapse.addDiv('pops_cont', 'fade=1,height=80px')
 animatedcollapse.addDiv('domination', 'fade=1,height=70px')
 animatedcollapse.addDiv('duration', 'fade=1,height=60px')
 animatedcollapse.addDiv('part_one', 'fade=1')
-animatedcollapse.addDiv('part_two', 'fade=1,height=60px')
+animatedcollapse.addDiv('part_two', 'fade=1')
 
 animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
 	//$: Access to jQuery
@@ -43,23 +43,10 @@ animatedcollapse.init()
 
 </script>
 
-<script type="text/javascript">
-
-// Checks if the form is a SelfPost, and hides the appropiate DIVs //
-
-var SelfPost = '<?php echo $SelfPost; ?>';
-
-if SelfPost == 'true' {
-	animatedcollapse.hide('part_one');
-	animatedcollapse.show('part_two');
-}
-	
-
-</script>
 
 </head>
-
 <body>
+
 <div id="wrapper">
 
 	<?php include('includes/header.php') ?>
@@ -103,6 +90,20 @@ if SelfPost == 'true' {
 	}
 	
 	?>
+    
+<script type="text/javascript">
+
+// Checks if the form is a SelfPost, and hides the appropiate DIVs //
+
+var SelfPost = '<?php echo $SelfPost; ?>';
+
+if SelfPost == "true" {
+	document.write(SelfPost);
+	animatedcollapse.hide('part_one');
+	animatedcollapse.show('part_two');
+}
+
+</script>
     <div id="content">
     
 <script type="text/javascript">
