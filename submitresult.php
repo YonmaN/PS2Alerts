@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<div><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link href="css/sitewide.css" rel="stylesheet" />
@@ -181,11 +181,58 @@ function message() {
    </div>
         
         <p class="form_item_title">Who won this alert?</p>
-        <input type="radio" name="ResultWinner" value="NC" onclick="drawterritories_enable(), animatedcollapse.show('domination')"  /><span class="form_item_text">New Conglomerate</span> <br />
-        <input type="radio" name="ResultWinner" value="TR" onclick="drawterritories_enable(), animatedcollapse.show('domination')"  /><span class="form_item_text">Terran Republic</span> <br />
-        <input type="radio" name="ResultWinner" value="VS" onclick="drawterritories_enable(), animatedcollapse.show('domination')"  /><span class="form_item_text">Vanu Soverignity</span> <br />
-        <input type="radio" name="ResultWinner" value="Draw" id="draw" onclick="drawterritories_disable(), animatedcollapse.hide('domination')" /><span class="form_item_text">Draw</span> <br />
+        <input type="checkbox" name="rNC" value="0"   /><span class="form_item_text">New Conglomerate</span> <br />
+        <input type="checkbox" name="rTR" value="0"   /><span class="form_item_text">Terran Republic</span> <br />
+        <input type="checkbox" name="rVS" value="0"   /><span class="form_item_text">Vanu Soverignity</span> <br />
+            
+    
         
+            <?php
+//                include('mysqlconnect.php');
+               
+                if(isset($_REQUEST['AlertStats']))
+                {              
+                    if(isset($_POST['rNC'])) {
+                       $nc="2";
+                    } else {
+                        $nc="0";
+                    }
+                    if (isset($_POST['rTR'])) {
+                       $tr="2";
+                    } else {
+                        $tr="0";
+                    }
+                    if (isset($_POST['rVS'])) {
+                       $vs="2";
+                    } else {
+                        $vs="0";
+                    }
+                    
+                     if (($nc==$vs) && ($vs == $tr) && ($nc == $tr)){
+                        echo 'VS/TR/NC';
+                        $nc="1";
+                        $tr="1"; 
+                        $vs="1";
+                    }
+                    
+                    if (($nc == $tr)&& ($nc=="2")){
+                        echo 'NC/TR';
+                        $nc="1";
+                        $tr="1";
+                        $vs="0";
+                    }
+                    if (($vs==$tr)&& ($vs=="2")){
+                        echo 'VS/TR';
+                        $vs="1";
+                        $tr="1";                                                
+                    }
+                    if (($nc==$vs)&& ($nc=="2")){
+                        echo 'VS/NC';
+                        $nc="1";
+                        $vs="1";                                                
+                    }
+                }
+              ?>
         <div class="subquestion" id="domination">
         <p class="form_item_title">Did the faction win the alert by Domination?</p>
         <input type="radio" name="ResultDomination" value="1" onclick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
@@ -537,4 +584,4 @@ function message() {
   </div>
 </div>
 </body>
-</html>
+</html></div>
