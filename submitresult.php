@@ -468,8 +468,7 @@ function message() {
 		}
 		
 		function drawterritories_disable()
-		{
-			var Draw = document.getElementById("draw")
+		{6
 			var TerritoryNC = document.getElementById("TerritoryNC")
 			var TerritoryTR = document.getElementById("TerritoryTR")
 			var TerritoryVS = document.getElementById("TerritoryVS")
@@ -584,12 +583,7 @@ function message() {
 			echo '<option value="'.$facility_result['FacilityID'].'">'.$facility_result['FacilityContID'].' - '.$facility_result['FacilityName'].'</option>';
 		}
     echo '</select>';
-	?>
-    
-	
-    
-    
-    <?php 
+
 	// Set up the form based on the previous information (cross continant or not etc)
 	
 	// IF Cross Continant and NOT territory and NOT a draw::
