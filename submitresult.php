@@ -31,7 +31,9 @@ animatedcollapse.addDiv('territory', 'fade=1,height=80px')
 animatedcollapse.addDiv('pops_world', 'fade=1,height=80px')
 animatedcollapse.addDiv('pops_cont', 'fade=1,height=80px')
 animatedcollapse.addDiv('domination', 'fade=1,height=70px')
-animatedcollapse.addDiv('duration', 'fade=1,height=60px')
+animatedcollapse.addDiv('duration', 'fade=1,height=50px')
+animatedcollapse.addDiv('drawquestion1', 'fade=1,height=70px')
+animatedcollapse.addDiv('draw2', 'fade=1,height=50px')
 animatedcollapse.addDiv('partone', 'fade=1')
 animatedcollapse.addDiv('parttwo', 'fade=1')
 
@@ -56,7 +58,6 @@ function message() {
 <div id="wrapper">
 
 	<?php include('includes/header.php') ?>
-    
     
     <?php
 
@@ -181,15 +182,135 @@ function message() {
    </div>
         
         <p class="form_item_title">Who won this alert?</p>
-        <input type="radio" name="ResultWinner" value="NC" onclick="drawterritories_enable(), animatedcollapse.show('domination')"  /><span class="form_item_text">New Conglomerate</span> <br />
-        <input type="radio" name="ResultWinner" value="TR" onclick="drawterritories_enable(), animatedcollapse.show('domination')"  /><span class="form_item_text">Terran Republic</span> <br />
-        <input type="radio" name="ResultWinner" value="VS" onclick="drawterritories_enable(), animatedcollapse.show('domination')"  /><span class="form_item_text">Vanu Soverignity</span> <br />
-        <input type="radio" name="ResultWinner" value="Draw" id="draw" onclick="drawterritories_disable(), animatedcollapse.hide('domination')" /><span class="form_item_text">Draw</span> <br />
+        <input type="radio" name="ResultWinner" value="NC" onclick="drawterritories_enable(), animatedcollapse.show('domination'), enabledomstats(), animatedcollapse.hide('drawquestion1')"  /><span class="form_item_text">New Conglomerate</span> <br />
+        <input type="radio" name="ResultWinner" value="TR" onclick="drawterritories_enable(), animatedcollapse.show('domination'), enabledomstats(), animatedcollapse.hide('drawquestion1')"  /><span class="form_item_text">Terran Republic</span> <br />
+        <input type="radio" name="ResultWinner" value="VS" onclick="drawterritories_enable(), animatedcollapse.show('domination'), enabledomstats(), animatedcollapse.hide('drawquestion1')"  /><span class="form_item_text">Vanu Soverignity</span> <br />
+        <input type="radio" name="ResultWinner" value="Draw" id="draw" onclick="drawterritories_disable(), animatedcollapse.hide('domination'), cleardomstats(), animatedcollapse.show('drawquestion1')" /><span class="form_item_text">Draw</span> <br />
+        <script>
+		function cleardomstats() {
+			document.getElementById("Dom1").disabled=true;
+			document.getElementById("Dom1").checked=false;
+			document.getElementById("Dom2").disabled=true;
+			document.getElementById("Dom1").checked=false;
+			document.getElementById("ResultDominationDuration").disabled=true;		
+			document.getElementById("ResultDominationDuration").value="";
+			animatedcollapse.hide('duration');
+		}
+		
+		function enabledomstats() {
+			document.getElementById("Dom1").disabled=false;
+			document.getElementById("Dom2").disabled=false;
+			document.getElementById("ResultDominationDuration").disabled=false;
+		}
+		
+		</script>
         
         <div class="subquestion" id="domination">
         <p class="form_item_title">Did the faction win the alert by Domination?</p>
-        <input type="radio" name="ResultDomination" value="1" onclick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
-        <input type="radio" name="ResultDomination" value="0" onclick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
+        <input type="radio" name="ResultDomination" id="Dom1" value="1" onclick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
+        <input type="radio" name="ResultDomination" id="Dom2" value="0" onclick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
+        </div>
+        
+        <div class="subquestion" id="drawquestion1">
+            <p class="form_item_title">Was the draw a two or three way draw?</p>
+            <input type="radio" name="draw-ways" value="twoway" onclick="animatedcollapse.show('draw2'), draws_enable()" /> <span class="form_item_text">Two-way </span> <br />
+            <input type="radio" name="draw-ways" value="threeway" onclick="animatedcollapse.hide('draw2'), draws_wipe()" /> <span class="form_item_text">Three-way</span>
+        </div>
+        
+        <script>
+		
+		function draws_wipe() 
+		{
+			var drop_left = document.getElementById("drop_left");
+			var drop_right = document.getElementById("drop_right");
+			
+			drop_left.disabled=true;
+			drop_right.disabled=true;
+			drop_left.value="";
+			drop_right.value="";
+		}
+		function draws_enable() 
+		{
+			var drop_left = document.getElementById("drop_left");
+			var drop_right = document.getElementById("drop_right");
+			
+			drop_left.disabled=false;
+			drop_right.disabled=false;
+		}
+		
+		function check_left() 
+		{
+			var drop_left = document.getElementById("drop_left");
+			var drop_right = document.getElementById("drop_right");
+			
+			drop_left.remove(3)
+			drop_right.options[0].disabled = false;
+			drop_right.options[1].disabled = false;
+			drop_right.options[2].disabled = false;
+			
+			if (drop_left.value == 'NC') 
+			{
+				drop_right.options[0].disabled = true;
+				
+			} else if (drop_left.value == 'TR') 
+			{
+				drop_right.options[1].disabled = true;
+				
+			} else if (drop_left.value == 'VS')
+			{
+				drop_right.options[2].disabled = true;	
+			}
+		}
+		
+		function check_right() 
+		{
+			var drop_left = document.getElementById("drop_left");
+			var drop_right = document.getElementById("drop_right");
+			
+			drop_right.remove(3)
+			drop_left.options[0].disabled = false;
+			drop_left.options[1].disabled = false;
+			drop_left.options[2].disabled = false;
+		
+			if (drop_right.value == 'NC') 
+			{
+				drop_left.options[0].disabled = true;
+				
+			} else if (drop_right.value == 'TR') 
+			{
+				drop_left.options[1].disabled = true;
+			
+			} else if (drop_right.value == 'VS')
+			{
+				drop_left.options[2].disabled = true;
+			}
+		}
+		</script>
+        
+         <div class="subquestion" id="draw2">
+         <p class="form_item_title">Who drew with whom?</p>
+         	<div id="draw_container">
+                <div id="draw_left" style="float: left;">
+                    <select id="drop_left" name="drop_left" onchange="check_left()" style="width: 80px; text-align: center;">
+                    	<option name="drop_left" value="NC">NC</option>
+                        <option name="drop_left" value="TR">TR</option>
+                        <option name="drop_left" value="VS">VS</option> 
+                        <option name="drop_left" value="" selected="selected">SELECT</option> 
+                    </select>          
+                </div>
+                <div id="draw_center" style="float: left; width: 40px; margin-left: 10px; margin-right: 10px;">
+                    <p class="form_item_title" style="margin: 0px;">with</p>   
+               </div>
+               
+               <div id="draw_right" style="float: left; width: 100px;">
+                    <select id="drop_right" name="drop_right" onchange="check_right()" style="width: 80px; text-align: center;">
+                    	<option value="NC">NC</option>
+                        <option value="TR">TR</option>
+                        <option value="VS">VS</option> 
+                        <option value="" selected="selected">SELECT</option> 
+                    </select>             
+                </div>
+            </div>
         </div>
         
         <script>
@@ -204,7 +325,7 @@ function message() {
 		}
 		
 		</script>
-        
+                
         <div class="subquestion" id="duration">
         <p class="form_item_title">How long did this alert last?</p>
         <input type="text" id="ResultDominationDuration" style="width: 50px; text-align: center;" name="ResultDominationDuration" /><span class="form_item_text" style="margin-left: 5px;">Hours</span>
