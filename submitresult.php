@@ -50,7 +50,7 @@ function message() {
 </script>
 
 </head>
-<body onload="message()">
+<body onLoad="message()">
 
 <div id="wrapper">
 
@@ -63,7 +63,6 @@ function message() {
 	if ($SelfPost == '') {
 		$ResultServer = '1'; //Currently always set to Miller
 		$ResultDateTime = '';
-		$ResultWinner = '';
 		$ResultDomination = '0';
 		$ResultDominationDuration = '';
 		$ResultAlertCont = '';
@@ -184,58 +183,56 @@ function message() {
         <input type="checkbox" name="rTR" value="0"   /><span class="form_item_text">Terran Republic</span> <br />
         <input type="checkbox" name="rVS" value="0"   /><span class="form_item_text">Vanu Soverignity</span> <br />
             
-    
-        
             <?php
 //                include('mysqlconnect.php');
                
                 if(isset($_REQUEST['AlertStats']))
                 {              
                     if(isset($_POST['rNC'])) {
-                       $nc="2";
+                       $winNC="2";
                     } else {
-                        $nc="0";
+                        $winNC="0";
                     }
                     if (isset($_POST['rTR'])) {
-                       $tr="2";
+                       $winTR="2";
                     } else {
-                        $tr="0";
+                        $winTR="0";
                     }
                     if (isset($_POST['rVS'])) {
-                       $vs="2";
+                       $winVS="2";
                     } else {
-                        $vs="0";
+                        $winVS="0";
                     }
                     
-                     if (($nc==$vs) && ($vs == $tr) && ($nc == $tr)){
+                     if (($winNC==$winVS) && ($winVS == $winTR) && ($winNC == $winTR)){
                         echo 'VS/TR/NC';
-                        $nc="1";
-                        $tr="1"; 
-                        $vs="1";
+                        $winNC="1";
+                        $winTR="1"; 
+                        $winVS="1";
                     }
                     
-                    if (($nc == $tr)&& ($nc=="2")){
+                    if (($winNC == $winTR)&& ($winNC=="2")){
                         echo 'NC/TR';
-                        $nc="1";
-                        $tr="1";
-                        $vs="0";
+                        $winNC="1";
+                        $winTR="1";
+                        $winVS="0";
                     }
-                    if (($vs==$tr)&& ($vs=="2")){
+                    if (($winVS==$winTR)&& ($winVS=="2")){
                         echo 'VS/TR';
-                        $vs="1";
-                        $tr="1";                                                
+                        $winVS="1";
+                        $winTR="1";                                                
                     }
-                    if (($nc==$vs)&& ($nc=="2")){
+                    if (($winNC==$winVS)&& ($winNC=="2")){
                         echo 'VS/NC';
-                        $nc="1";
-                        $vs="1";                                                
+                        $winNC="1";
+                        $winVS="1";                                                
                     }
                 }
               ?>
         <div class="subquestion" id="domination">
         <p class="form_item_title">Did the faction win the alert by Domination?</p>
-        <input type="radio" name="ResultDomination" value="1" onclick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
-        <input type="radio" name="ResultDomination" value="0" onclick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
+        <input type="radio" name="ResultDomination" value="1" onClick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
+        <input type="radio" name="ResultDomination" value="0" onClick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
         </div>
         
         <script>
@@ -259,13 +256,13 @@ function message() {
                           
         <p class="form_item_title">Where was this continent based?</p>
         
-        <input type="radio" name="ResultAlertCont" value="Amerish" onclick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()"/>
+        <input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()"/>
         <span class="form_item_text">Amerish</span> <br />
-        <input type="radio" name="ResultAlertCont" value="Esamir" onclick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()"  />
+        <input type="radio" name="ResultAlertCont" value="Esamir" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()"  />
         <span class="form_item_text">Esamir</span> <br />
-        <input type="radio" name="ResultAlertCont" value="Indar" onclick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" />
+        <input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" />
         <span class="form_item_text">Indar</span> <br />
-        <input type="radio" name="ResultAlertCont" value="Cross" onclick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory()" />
+        <input type="radio" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory()" />
         <span class="form_item_text">Cross Continent (All three)</span> <br />
         
        	<script>
@@ -352,10 +349,10 @@ function message() {
         
         <!-- Based on the continant answer and this answer, PHP will change the submitted variable to be the proper one into the database -->
         
-        <input type="radio" name="ResultAlertType" value="Amp" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Amp Stations </span><br />
-        <input type="radio" name="ResultAlertType" value="Bio" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Bio Labs</span><br />
-        <input type="radio" name="ResultAlertType" value="Tech" onclick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Tech Plants </span><br />
-        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onclick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />  
+        <input type="radio" name="ResultAlertType" value="Amp" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Amp Stations </span><br />
+        <input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Bio Labs</span><br />
+        <input type="radio" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Tech Plants </span><br />
+        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onClick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />  
         
         <script type="text/javascript">
 		
@@ -583,4 +580,4 @@ function message() {
   </div>
 </div>
 </body>
-</html></div>
+</html>
