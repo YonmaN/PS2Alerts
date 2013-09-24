@@ -57,6 +57,17 @@ body {
 	margin-top: 20px;
 	padding-bottom: 30px;
 }
+
+#time2 {
+	margin-right: 25px;
+	margin-top: 30px;
+	float: right;
+	width: 270px;
+	border-radius: 10px;
+	background-color:#4A090B;
+	padding:10px;
+}
+
 .form_item {
 	margin-bottom: 10px;
 }

@@ -166,19 +166,17 @@ function message() {
         <input type="hidden" name="ResultServer" value="1" />
         <label for="ResultServer" class="form_item_text">(Disabled)</label>
          
-   <div id="time_container" style="display: block; height: 120px;"> 
+   <div id="time_container" style="display: block; height: 100px;"> 
         <div id="time1" style="float: left; margin-top: 10px;">
-        <p class="form_item_title">When did the Alert end? (GMT time):</p>
-        <input class="form_item" id="ResultDateTime" style="margin-top: 20px; width: 120px; text-align: center;" name="ResultDateTime" />
+        <p class="form_item_title">When did the Alert end? (UTC time)</p>
+        <input class="form_item" id="ResultDateTime" style="margin-top: 10px; width: 120px; text-align: center;" name="ResultDateTime" value="Click to set time"/>
         <label for="ResultDateTime" class="form_item_text"></label>
         </div>
-        <div id="time2" style="float: right; width: 345px;">
+        <div id="time2">
         
-        	<div style="text-align:center;width:350px;padding:0.5em 0;">
-        		<iframe src="http://www.zeitverschiebung.net/clock-widget-iframe?language=en&timezone=Atlantic%2FReykjavik" width="100%" height="110" frameborder="0" seamless>
-        		</iframe>
-      		 </div>
-             <p class="form_item_text" style="text-align: center; margin: 2px; font-size: 24px;">Current GMT Time</p>
+        	<iframe src="http://free.timeanddate.com/clock/i3tjjso2/tluk/fn17/fs22/fcfff/tct/pct/tt0/tw0/tm3/ts1/ta1" frameborder="0" width="269" height="28" allowTransparency="true"></iframe>
+
+             <p class="form_item_text" style="text-align: center; margin: 2px; font-size: 16px;">Current UTC Time</p>
         </div>
    </div>
         
