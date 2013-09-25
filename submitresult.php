@@ -56,17 +56,20 @@ function message() {
 
 	<?php include('includes/header.php') ?>
     
-    
     <?php
 
-	// Clean all variables at beginning of form and set defaults IF form is fresh
+	// Clean all variables at beginning of form and set defaults to blank, if the form is fresh
 	if ($SelfPost == '') {
-		$ResultServer = '1'; //Currently always set to Miller
-		$ResultDateTime = '';
+		$ResultServer = '10'; //Currently always set to Miller. 10 is the PS2 API world ID for Miller Server.
+		$ResultDateTime = ''; 
+		$ResultNCWin = '';
+		$ResultTRWin = '';
+		$ResultVSWin = '';
 		$ResultDomination = '0';
-		$ResultDominationDuration = '';
+		$ResultDominationDuration = '00:00:00';
 		$ResultAlertCont = '';
 		$ResultAlertType = '';
+		$ResultFacilitiesWon = '';
 		$ResultPopsNC = '';
 		$ResultPopsTR = '';
 		$ResultPopsVS = '';
@@ -78,7 +81,9 @@ function message() {
 	{
 		$ResultServer = $_POST["ResultServer"]; //Currently always set to Miller
 		$ResultDateTimePre = $_POST["ResultDateTime"];
-		$ResultWinner = $_POST["ResultWinner"];
+		$ResultNCWin = $winNC;
+		$ResultTRWin = $winTR;
+		$ResultVSWin = $winVS;
 		$ResultDomination =  $_POST["ResultDomination"];
 		$ResultDominationDurationPre = $_POST["ResultDominationDuration"];
 		$ResultAlertCont = $_POST["ResultAlertCont"];
@@ -159,7 +164,7 @@ function message() {
         
         <p class="form_item_title">Which server was this alert on?</p>
         <select name="ResultServerDis" id="ResultServer" disabled="disabled" >
-          <option value="1">Miller</option> 
+          <option>Miller</option> 
         </select>
         <input type="hidden" name="ResultServer" value="1" />
         <label for="ResultServer" class="form_item_text">(Disabled)</label>
@@ -179,15 +184,17 @@ function message() {
    </div>
         
         <p class="form_item_title">Who won this alert?</p>
-        <input type="checkbox" name="rNC" value="0"   /><span class="form_item_text">New Conglomerate</span> <br />
-        <input type="checkbox" name="rTR" value="0"   /><span class="form_item_text">Terran Republic</span> <br />
-        <input type="checkbox" name="rVS" value="0"   /><span class="form_item_text">Vanu Soverignity</span> <br />
+        <p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
+        <input type="checkbox" name="rNC" onClick="drawterritories_enable(), animatedcollapse.show('domination'), enabledomstats(), animatedcollapse.hide('drawquestion1')"  /><span class="form_item_text">New Conglomerate</span> <br />
+        <input type="checkbox" name="rTR" onClick="drawterritories_enable(), animatedcollapse.show('domination'), enabledomstats(), animatedcollapse.hide('drawquestion1')"  /><span class="form_item_text">Terran Republic</span> <br />
+        <input type="checkbox" name="rVS" onClick="drawterritories_enable(), animatedcollapse.show('domination'), enabledomstats(), animatedcollapse.hide('drawquestion1')" /><span class="form_item_text">Vanu Soverignity</span> <br />
             
             <?php
 //                include('mysqlconnect.php');
                
-                if(isset($_REQUEST['AlertStats']))
-                {              
+                if(isset($_POST['AlertStats']))
+                { 
+				echo 'FIRST IF SUCCESSFUL';       
                     if(isset($_POST['rNC'])) {
                        $winNC="2";
                     } else {
@@ -227,6 +234,12 @@ function message() {
                         $winNC="1";
                         $winVS="1";                                                
                     }
+				echo $winNC;
+				echo '<br />';
+				echo $winTR;
+				echo '<br />';
+				echo $winVS;
+				echo '<br />';
                 }
               ?>
         <div class="subquestion" id="domination">
@@ -466,14 +479,18 @@ function message() {
 	
 	// Append seconds to Domination timer and Alert Timer
 	
-	$ResultDominationDuration = $ResultDominationDurationPre.':00';
+	if ($ResultDominationDurationPre = "") { // If no domination timer was chosen, leave NULL
+		$ResultDominationDuration = "00:00:00";
+	} else {
+		$ResultDominationDuration = $ResultDominationDurationPre.':00';
+	}
 	$ResultDateTime = $ResultDateTimePre.':00';
 	?>
     
     <form action="submitresult_process.php" method="post" name="AlertStats2">
     
     <div class="form_item_text" id="debug">
-  	<?php /*?>if ($SelfPost == "true") {
+  	<?php if ($SelfPost == "true") {
 		echo '<div class="form_item_text">';
 			echo 'DEBUGGING </br>';
 			echo "<pre>";
@@ -482,7 +499,17 @@ function message() {
 		echo '</div>';
 	}	
 	echo '</br> Master Alert Type: ';
-	echo $ResultAlertMasterType;<?php */?>
+	echo $ResultAlertMasterType;
+	
+	echo '<br /> NC Win:';
+	echo $winNC;
+	echo '<br /> TR Win:';
+	echo $winTR;
+	echo '<br /> VS Win:';
+	echo $winVS;
+	echo '<br />';
+	?>
+    
     </div>
 	<p class="form_headers">Facility Statistics</p>  
     
@@ -557,11 +584,12 @@ function message() {
     
     <?php
 	
-	//Refresh Data to submit//
+	//Refresh Data to submit to processing script//
 	echo '<input type="hidden" name="ResultServer" value="'.$ResultServer.'">';
 	echo '<input type="hidden" name="ResultDateTime" value="'.$ResultDateTime.'">';
-	echo '<input type="hidden" name="ResultWinner" value="'.$ResultWinner.'">';
-	echo '<input type="hidden" name="ResultDraw" value="'.$ResultDraw.'">';
+	echo '<input type="hidden" name="ResultNCWin" value="'.$winNC.'">';
+	echo '<input type="hidden" name="ResultTRWin" value="'.$winTR.'">';
+	echo '<input type="hidden" name="ResultVSWin" value="'.$winVS.'">';
 	echo '<input type="hidden" name="ResultDomination" value="'.$ResultDomination.'">';
 	echo '<input type="hidden" name="ResultDominationDuration" value="'.$ResultDominationDuration.'">';
 	echo '<input type="hidden" name="ResultAlertCont" value="'.$ResultAlertCont.'">';

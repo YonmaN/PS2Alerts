@@ -10,10 +10,11 @@
 <body>
 <?php 
 
-$ResultServer = $_POST["ResultServer"]; //Currently always set to Miller
+$ResultServer = 10; //Currently always set to Miller
 $ResultDateTime = $_POST["ResultDateTime"];
-$ResultWinner = $_POST["ResultWinner"];
-$ResultDraw =  $_POST["ResultDraw"];
+$ResultNCWin = $_POST["ResultNCWin"];
+$ResultTRWin = $_POST["ResultTRWin"];
+$ResultVSWin = $_POST["ResultVSWin"];
 $ResultDomination =  $_POST["ResultDomination"];
 $ResultDominationDuration = $_POST["ResultDominationDuration"];
 $ResultAlertCont = $_POST["ResultAlertCont"];
@@ -25,7 +26,7 @@ $ResultPopsVS = $_POST["ResultPopsVS"];
 $ResultTerritoryNC = $_POST["ResultTerritoryNC"];
 $ResultTerritoryTR = $_POST["ResultTerritoryTR"];
 $ResultTerritoryVS = $_POST["ResultTerritoryVS"];
-$ResultContestedFacilities = $_POST["ResultContestedFacilities"];
+$ResultContestedFacility = $_POST["ResultContestedFacility"];
 
 	echo 'DEBUGGING </br>';
 	echo "<pre>";
@@ -34,12 +35,13 @@ $ResultContestedFacilities = $_POST["ResultContestedFacilities"];
 
 //SUBMIT DA DATA!
 
-$submit = mysql_query ("INSERT INTO results (ResultDateTime, ResultServer, ResultWinner, ResultDraw, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility) VALUES ('".$ResultDateTime."', '".$ResultServer."', '".$ResultWinner."', '".$ResultDraw."', '".$ResultAlertCont."', '".$ResultAlertType."', '".$ResultDomination."', '".$ResultDominationDuration."', '".$ResultPopsNC."', '".$ResultPopsTR."', '".$ResultPopsVS."', '".$ResultTerritoryNC."', '".$ResultTerritoryTR."', '".$ResultTerritoryVS."', '".$ResultFacilitiesWon."', '".$ResultContestedFacilities."')");
+$submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, ResultNC, ResultTR, ResultVS, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility) VALUES ('".$ResultDateTime."', '".$ResultServer."', '".$ResultNCWin."', '".$ResultTRWin."', '".$ResultVSWin."', '".$ResultAlertCont."', '".$ResultAlertType."', '".$ResultDomination."', '".$ResultDominationDuration."', '".$ResultPopsNC."', '".$ResultPopsTR."', '".$ResultPopsVS."', '".$ResultTerritoryNC."', '".$ResultTerritoryTR."', '".$ResultTerritoryVS."', '".$ResultFacilitiesWon."', '".$ResultContestedFacility."')");
 
 if (!$submit) {
 	die('ERROR!: ' . mysql_error());
 } else {
-	header("Location: thanks.php"); /* Redirect browser */
+	//header("Location: thanks.php"); /* Redirect browser */
+	echo 'SUBMISSION SUCCESSFUL';
 	exit();
 }
 
