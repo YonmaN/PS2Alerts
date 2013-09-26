@@ -185,13 +185,45 @@ function message() {
         
         <p class="form_item_title">Who won this alert?</p>
         <p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
-        <input type="checkbox" name="rNC" onClick="drawterritories_enable(), animatedcollapse.show('domination'), enabledomstats(), animatedcollapse.hide('drawquestion1')"  /><span class="form_item_text">New Conglomerate</span> <br />
-        <input type="checkbox" name="rTR" onClick="drawterritories_enable(), animatedcollapse.show('domination'), enabledomstats(), animatedcollapse.hide('drawquestion1')"  /><span class="form_item_text">Terran Republic</span> <br />
-        <input type="checkbox" name="rVS" onClick="drawterritories_enable(), animatedcollapse.show('domination'), enabledomstats(), animatedcollapse.hide('drawquestion1')" /><span class="form_item_text">Vanu Soverignity</span> <br />
+        <input type="checkbox" id="win1" name="rNC" onClick="drawterritories_enable(), dominationcheck()"  /><span class="form_item_text">New Conglomerate</span> <br />
+        <input type="checkbox" id="win2" name="rTR" onClick="drawterritories_enable(), dominationcheck()"  /><span class="form_item_text">Terran Republic</span> <br />
+        <input type="checkbox" id="win3" name="rVS" onClick="drawterritories_enable(), dominationcheck()" /><span class="form_item_text">Vanu Soverignity</span> <br />
             
-            <?php
-//                include('mysqlconnect.php');
+        <script>
+		function dominationcheck() 
+		{
+			win1 = document.getElementById("win1");
+			win2 = document.getElementById("win2");
+			win3 = document.getElementById("win3");
+			
+			if ((win1.checked == false) && (win2.checked == false) && (win3.checked == false))
+			{
+				disabledomination();
+				animatedcollapse.hide('domination');
                
+			}
+							
+			if ((win1.checked == true) && (win2.checked == false) && (win3.checked == false))
+			{
+				animatedcollapse.show('domination');
+				enabledomination();
+			}
+			
+			if ((win1.checked == false) && (win2.checked == true) && (win3.checked == false))
+			{
+				animatedcollapse.show('domination');
+				enabledomination();
+			}
+			
+			if ((win1.checked == false) && (win2.checked == false) && (win3.checked == true))
+			{
+				animatedcollapse.show('domination');
+				enabledomination();
+			}
+		}
+		</script>
+            
+            <?php               
                 if(isset($_POST['AlertStats']))
                 { 
 				echo 'FIRST IF SUCCESSFUL';       
