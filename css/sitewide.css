@@ -130,3 +130,21 @@ body {
 .ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
 .ui-timepicker-rtl dl dt{ float: right; clear: right; }
 .ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
+
+/* CSS for validation */
+
+.error {
+	font-size: 14px;
+	color:#F00;
+	font-family: 'Noto Sans', sans-serif;
+	font-weight:bold;
+}
+
+.error label {
+	margin-top: 10px;
+}
+
+.error-side {
+	margin-left: 150px; 
+	margin-top: -25px;
+}

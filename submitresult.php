@@ -46,6 +46,7 @@ animatedcollapse.init()
 <script>
 function message() {
 	window.alert("This system is NOT YET LIVE. Please use the Google document at www.bit.ly/MillerAlertStats until announcement!");
+	document.getElementById("submit_part1").disabled=true // Disable Submit button until user has chosen empire
 }
 </script>
 
@@ -124,34 +125,7 @@ function message() {
 	showButtonPanel: false
 	});
   });
-</script>
-  
-<script type="text/javascript">
-
-	$("#form").validate({
-		rules:
-		{
-			ResultDateTime: 
-			{
-				required: true
-			},
-			ResultWinner:
-			{
-				required: true
-			},
-			ResultAlertCont: 
-			{
-				required: true
-			},
-			ResultAlertType: 
-			{
-				required: true
-			}
-		}
-	});
-	
-</script>
-    
+</script> 
         
         <?php if ($SelfPost == "true") {
             echo '<div id="partone" style="display:none">';
@@ -176,7 +150,7 @@ function message() {
    <div id="time_container" style="display: block; height: 100px;"> 
         <div id="time1" style="float: left; margin-top: 10px;">
         <p class="form_item_title">When did the Alert end? (UTC time)</p>
-        <input class="form_item" id="ResultDateTime" style="margin-top: 10px; width: 120px; text-align: center;" name="ResultDateTime" value="Click to set time"/>
+        <input class="form_item" id="ResultDateTime" style="margin-top: 10px; width: 120px; text-align: center;" name="ResultDateTime" required/>
         <label for="ResultDateTime" class="form_item_text"></label>
         </div>
         <div id="time2">
@@ -189,13 +163,14 @@ function message() {
         
         <p class="form_item_title">Who won this alert?</p>
         <p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
-        <input type="checkbox" id="win1" name="rNC" onClick="dominationcheck()" /><span class="form_item_text">New Conglomerate</span> <br />
-        <input type="checkbox" id="win2" name="rTR" onClick="dominationcheck()" /><span class="form_item_text">Terran Republic</span> <br />
-        <input type="checkbox" id="win3" name="rVS" onClick="dominationcheck()" /><span class="form_item_text">Vanu Soverignity</span> <br />
-        
+            <input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck()"  /><span class="form_item_text">New Conglomerate</span><br />
+            <input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck()"  /><span class="form_item_text">Terran Republic</span><br />
+            <input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck()"  /><span class="form_item_text">Vanu Soverignity</span><br />
+            <label for="checkboxes" class="error"></label>
         <script>
 		function dominationcheck() 
 		{
+			var valid = 0
 			win1 = document.getElementById("win1");
 			win2 = document.getElementById("win2");
 			win3 = document.getElementById("win3");
@@ -203,30 +178,50 @@ function message() {
 			if ((win1.checked == false) && (win2.checked == false) && (win3.checked == false))
 			{
 				disabledomination();
+				valid = 0
 			}
 							
 			if ((win1.checked == true) && (win2.checked == false) && (win3.checked == false))
 			{
 				enabledomination();
+				valid = 1
+				document.getElementById("submit_part1").disabled=false
+
 			} else if ((win1.checked == true) && (win2.checked == true || win3.checked == true))
 			{
 				disabledomination();
+				document.getElementById("submit_part1").disabled=false
+				valid = 1
 			}
 			
 			if ((win1.checked == false) && (win2.checked == true) && (win3.checked == false))
 			{
 				enabledomination();
+				document.getElementById("submit_part1").disabled=false
+				valid = 1
 			} else if ((win2.checked == true) && (win1.checked == true || win3.checked == true))
 			{
 				disabledomination();
+				document.getElementById("submit_part1").disabled=false
+				valid = 1
 			}
 			
 			if ((win1.checked == false) && (win2.checked == false) && (win3.checked == true))
 			{
 				enabledomination();
+				document.getElementById("submit_part1").disabled=false
+				valid = 1
 			} else if ((win3.checked == true) && (win1.checked == true || win2.checked == true))
 			{
 				disabledomination();
+				document.getElementById("submit_part1").disabled=false
+				valid = 1
+			}
+			
+			if (valid == 0) {
+				window.alert("You need to select at least one empire!");
+				document.getElementById("submit_part1").disabled=true // Disable Submit button until user has chosen empire
+				return false
 			}
 			
 		}
@@ -285,8 +280,10 @@ function message() {
               ?>
         <div class="subquestion" id="domination">
         <p class="form_item_title">Did the faction win the alert by Domination?</p>
-        <input type="radio" id="resultdomination1" name="ResultDomination" value="1" onClick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
-        <input type="radio" id="resultdomination2" name="ResultDomination" value="0" onClick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
+        <input type="radio" id="ResultDomination1" name="ResultDomination" value="1" onClick="enabledominationsub(), enabledomination()" /><span class="form_item_text">Yes</span> <br />
+        <input type="radio" id="ResultDomination2" name="ResultDomination" value="0" onClick="disabledominationsub(), disabledominationsub()" /><span class="form_item_text">No</span> <br />
+        
+        <div id="DomDur" class="error-side" style="margin-top: -33px;"><label for="ResultDomination" class="error"></label></div>
         </div>
         
         <script>
@@ -296,36 +293,71 @@ function message() {
 			document.getElementById("ResultDominationDuration").disabled=true
 			document.getElementById("resultdomination1").disabled=true
 			document.getElementById("resultdomination2").disabled=true
+			document.getElementById("resultdomination1").checked=false
+			document.getElementById("resultdomination2").checked=false
 			animatedcollapse.hide('duration')
 			animatedcollapse.hide('domination')
-		}		
+			$( "#ResultDomination1" ).rules( "remove" );
+			$( "#ResultDomination2" ).rules( "remove" );
+		}
+		
+		function disabledominationsub()
+		{
+			document.getElementById("ResultDominationDuration").value=""
+			document.getElementById("ResultDominationDuration").disabled=true
+			animatedcollapse.hide('duration')
+			$( "#ResultDominationDuration" ).rules( "remove" );
+		}	
+		
+		function enabledominationsub()
+		{
+			$( "#ResultDominationDuration" ).rules( "add", {
+  				required: true
+			});
+			document.getElementById("ResultDominationDuration").disabled=false;
+			animatedcollapse.show('duration');
+		}
 		function enabledomination()
 		{
-			document.getElementById("ResultDominationDuration").disabled=false;
-			document.getElementById("resultdomination1").disabled=false
-			document.getElementById("resultdomination2").disabled=false
-			animatedcollapse.show('domination')
+			document.getElementById("ResultDomination1").disabled=false
+			document.getElementById("ResultDomination2").disabled=false
+			animatedcollapse.show('domination');
 			
+			$( "#ResultDomination1" ).rules( "add", {
+  				required: true
+			});
+			$( "#ResultDomination1" ).rules( "add", {
+  				required: true
+			});
 		}
 		
 		</script>
         
         <div class="subquestion" id="duration">
         <p class="form_item_title">How long did this alert last?</p>
-        <input type="text" id="ResultDominationDuration" style="width: 50px; text-align: center;" name="ResultDominationDuration" /><span class="form_item_text" style="margin-left: 5px;">Hours</span>
+        <input type="text" id="ResultDominationDuration" style="width: 50px; text-align: center;" name="ResultDominationDuration" />
+        <span class="form_item_text" style="margin-left: 5px;">Hours</span>
+               
+        <div id="DomDur" class="error-side"><label for="ResultDominationDuration" class="error"></label></div>
         
         </div>
                           
         <p class="form_item_title">Where was this continent based?</p>
         
-        <input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()"/>
+        <input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required/>
         <span class="form_item_text">Amerish</span> <br />
-        <input type="radio" name="ResultAlertCont" value="Esamir" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()"  />
-        <span class="form_item_text">Esamir</span> <br />
-        <input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" />
-        <span class="form_item_text">Indar</span> <br />
-        <input type="radio" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory()" />
-        <span class="form_item_text">Cross Continent (All three)</span> <br />
+        
+        <input type="radio" name="ResultAlertCont" value="Esamir" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required />
+        <span class="form_item_text">Esamir</span><br />
+        
+        <input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required />
+        <span class="form_item_text">Indar</span><br />
+        
+        <input type="radio" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory()" required />
+        <span class="form_item_text">Cross Continent (All three)</span>
+        
+        <br />
+        <label for="ResultAlertCont" class="error"></label>
         
        	<script>
 		
@@ -367,11 +399,13 @@ function message() {
             <td class="form_item_text" width="50">VS</td>
           </tr>
           <tr>
-            <td><input class="two" type="text" id="pops_w_nc" name="ResultPopsNC" /></td>
-            <td><input class="two" type="text" id="pops_w_tr" name="ResultPopsTR" /></td>
-            <td><input class="two" type="text" id="pops_w_vs" name="ResultPopsVS" /></td>
+            <td><input class="two" type="text" id="pops_w_nc" name="ResultPopsNC" required /></td>
+            <td><input class="two" type="text" id="pops_w_tr" name="ResultPopsTR" required /></td>
+            <td><input class="two" type="text" id="pops_w_vs" name="ResultPopsVS" required /></td>
          </tr>
         </table>
+        
+        <div id="popswarningw" class="error-side"><label for="ResultPops" class="error"></label></div>
         
         </div>
         
@@ -384,11 +418,14 @@ function message() {
             <td class="form_item_text" width="50">VS</td>
           </tr>
           <tr>
-            <td><input class="two" type="text" id="pops_c_nc" name="ResultPopsNC" /></td>
-            <td><input class="two" type="text" id="pops_c_tr" name="ResultPopsTR" /></td>
-            <td><input class="two" type="text" id="pops_c_vs" name="ResultPopsVS" /></td>
+            <td><input class="two" type="text" id="pops_c_nc" name="ResultPopsNC" required /></td>
+            <td><input class="two" type="text" id="pops_c_tr" name="ResultPopsTR" required /></td>
+            <td><input class="two" type="text" id="pops_c_vs" name="ResultPopsVS" required /></td>
           </tr>
         </table>
+        
+        <div id="popswarningc" style="margin-left: 150px; margin-top: -25px;"><label for="ResultPops" class="error"></label></div>
+        
         </div>
         
         <script type="text/javascript">
@@ -409,10 +446,16 @@ function message() {
         
         <!-- Based on the continant answer and this answer, PHP will change the submitted variable to be the proper one into the database -->
         
-        <input type="radio" name="ResultAlertType" value="Amp" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Amp Stations </span><br />
-        <input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Bio Labs</span><br />
-        <input type="radio" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()"/><span class="form_item_text">Tech Plants </span><br />
-        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onClick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />  
+        <input type="radio" name="ResultAlertType" value="Amp" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required/>
+        <span class="form_item_text">Amp Stations </span> <br />
+        <input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required />
+        <span class="form_item_text">Bio Labs</span> <br />
+        <input type="radio" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()" required />
+        <span class="form_item_text">Tech Plants </span> <br />
+        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onClick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" required />
+        <span id="territory_text" class="form_item_text">Territory Capture </span> <br /> 
+        
+        <label for="ResultAlertType" class="error"></label> 
         
         <script type="text/javascript">
 		
@@ -491,18 +534,32 @@ function message() {
             <td class="form_item_text" width="50">VS</td>
           </tr>
           <tr>
-            <td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" /></td>
-            <td><input class="two" type="text" name="ResultTerritoryTR" id="TerritoryTR" /></td>
-            <td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" /></td>
+            <td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" required /></td>
+            <td><input class="two" type="text" name="ResultTerritoryTR" id="TerritoryTR" required /></td>
+            <td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" required/> </td>
           </tr>
         </table>
+        
+        <div id="DomDur" class="error-side" style="margin-top: -28px;"><label for="ResultTerritory" class="error"></label></div>
         
         </div>
         
         <br />
     <input type="hidden" name="SelfPost" value="true" />
-    <input type="submit" name="AlertStats" onsubmit="return checkterritories()" value="Continue..." /> 
+    <input type="submit" id="submit_part1" name="AlertStats" onsubmit="return dominationcheck()" value="Continue..." /> 
     </form>     
+    
+    <script type="text/javascript">
+
+	$("#form").validate({
+		groups: {
+			ResultPops: "ResultPopsNC ResultPopsTR ResultPopsVS",
+			ResultTerritory: "ResultTerritoryNC ResultTerritoryTR ResultTerritoryVS"
+		}
+		
+	});
+	
+	</script>
      
 	</div> <!-- Part 1 Div End -->
         
