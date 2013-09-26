@@ -50,7 +50,11 @@ function message() {
 </script>
 
 </head>
-<body onLoad="message()">
+<?php if ($SelfPost == "true") {
+	echo '<body>';
+} else {
+	echo '<body onLoad="message()">';
+} ?>
 
 <div id="wrapper">
 
