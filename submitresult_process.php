@@ -40,7 +40,7 @@ $submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, Resu
 if (!$submit) {
 	die('ERROR!: ' . mysql_error());
 } else {
-	//header("Location: thanks.php"); /* Redirect browser */
+	header("Location: thanks.php"); /* Redirect browser */
 	echo 'SUBMISSION SUCCESSFUL';
 	exit();
 }

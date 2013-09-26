@@ -192,7 +192,7 @@ function message() {
         <input type="checkbox" id="win1" name="rNC" onClick="drawterritories_enable(), dominationcheck()"  /><span class="form_item_text">New Conglomerate</span> <br />
         <input type="checkbox" id="win2" name="rTR" onClick="drawterritories_enable(), dominationcheck()"  /><span class="form_item_text">Terran Republic</span> <br />
         <input type="checkbox" id="win3" name="rVS" onClick="drawterritories_enable(), dominationcheck()" /><span class="form_item_text">Vanu Soverignity</span> <br />
-            
+        
         <script>
 		function dominationcheck() 
 		{
@@ -203,25 +203,21 @@ function message() {
 			if ((win1.checked == false) && (win2.checked == false) && (win3.checked == false))
 			{
 				disabledomination();
-				animatedcollapse.hide('domination');
-               
+				
 			}
 							
 			if ((win1.checked == true) && (win2.checked == false) && (win3.checked == false))
 			{
-				animatedcollapse.show('domination');
 				enabledomination();
 			}
 			
 			if ((win1.checked == false) && (win2.checked == true) && (win3.checked == false))
 			{
-				animatedcollapse.show('domination');
 				enabledomination();
 			}
 			
 			if ((win1.checked == false) && (win2.checked == false) && (win3.checked == true))
 			{
-				animatedcollapse.show('domination');
 				enabledomination();
 			}
 		}
@@ -280,8 +276,8 @@ function message() {
               ?>
         <div class="subquestion" id="domination">
         <p class="form_item_title">Did the faction win the alert by Domination?</p>
-        <input type="radio" name="ResultDomination" value="1" onClick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
-        <input type="radio" name="ResultDomination" value="0" onClick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
+        <input type="radio" id="resultdomination1" name="ResultDomination" value="1" onClick="animatedcollapse.show('duration'), enabledomination()" /><span class="form_item_text">Yes</span> <br />
+        <input type="radio" id="resultdomination2" name="ResultDomination" value="0" onClick="animatedcollapse.hide('duration'), disabledomination()" /><span class="form_item_text">No</span> <br />
         </div>
         
         <script>
@@ -289,10 +285,18 @@ function message() {
 		{
 			document.getElementById("ResultDominationDuration").value=""
 			document.getElementById("ResultDominationDuration").disabled=true
+			document.getElementById("resultdomination1").disabled=true
+			document.getElementById("resultdomination2").disabled=true
+			animatedcollapse.hide('duration')
+			animatedcollapse.hide('domination')
 		}		
 		function enabledomination()
 		{
-			document.getElementById("ResultDominationDuration").disabled=false
+			document.getElementById("ResultDominationDuration").disabled=false;
+			document.getElementById("resultdomination1").disabled=false
+			document.getElementById("resultdomination2").disabled=false
+			animatedcollapse.show('domination')
+			
 		}
 		
 		</script>
@@ -377,8 +381,6 @@ function message() {
           </tr>
         </table>
         </div>
-        
-        
         
         <script type="text/javascript">
         function disableIfCross()
@@ -503,7 +505,6 @@ function message() {
             echo '<div id="parttwo" style="display:none">';
         }
    	
-	
 	// PART 2 POST PROCESSING
 	
 	if ($ResultWinner == "Draw") 
