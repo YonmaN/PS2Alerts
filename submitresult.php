@@ -203,23 +203,32 @@ function message() {
 			if ((win1.checked == false) && (win2.checked == false) && (win3.checked == false))
 			{
 				disabledomination();
-				
 			}
 							
 			if ((win1.checked == true) && (win2.checked == false) && (win3.checked == false))
 			{
 				enabledomination();
+			} else if ((win1.checked == true) && (win2.checked == true || win3.checked == true))
+			{
+				disabledomination();
 			}
 			
 			if ((win1.checked == false) && (win2.checked == true) && (win3.checked == false))
 			{
 				enabledomination();
+			} else if ((win2.checked == true) && (win1.checked == true || win3.checked == true))
+			{
+				disabledomination();
 			}
 			
 			if ((win1.checked == false) && (win2.checked == false) && (win3.checked == true))
 			{
 				enabledomination();
+			} else if ((win3.checked == true) && (win1.checked == true || win2.checked == true))
+			{
+				disabledomination();
 			}
+			
 		}
 		</script>
             
