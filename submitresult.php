@@ -115,8 +115,8 @@ function message() {
 	showButtonPanel: false,
 	maxDate: 0,
 	minDate: -1,
-	timezone: "0000",
-	pickerTimeSuffix: ' GMT'
+	timezone: '-0100',
+	pickerTimeSuffix: ' UTC'
 	
 });
 	$( "#ResultDominationDuration" ).timepicker({
