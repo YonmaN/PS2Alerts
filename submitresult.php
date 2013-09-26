@@ -189,9 +189,9 @@ function message() {
         
         <p class="form_item_title">Who won this alert?</p>
         <p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
-        <input type="checkbox" id="win1" name="rNC" onClick="drawterritories_enable(), dominationcheck()"  /><span class="form_item_text">New Conglomerate</span> <br />
-        <input type="checkbox" id="win2" name="rTR" onClick="drawterritories_enable(), dominationcheck()"  /><span class="form_item_text">Terran Republic</span> <br />
-        <input type="checkbox" id="win3" name="rVS" onClick="drawterritories_enable(), dominationcheck()" /><span class="form_item_text">Vanu Soverignity</span> <br />
+        <input type="checkbox" id="win1" name="rNC" onClick="dominationcheck()" /><span class="form_item_text">New Conglomerate</span> <br />
+        <input type="checkbox" id="win2" name="rTR" onClick="dominationcheck()" /><span class="form_item_text">Terran Republic</span> <br />
+        <input type="checkbox" id="win3" name="rVS" onClick="dominationcheck()" /><span class="form_item_text">Vanu Soverignity</span> <br />
         
         <script>
 		function dominationcheck() 
@@ -402,7 +402,7 @@ function message() {
         
         <input type="radio" name="ResultAlertType" value="Amp" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Amp Stations </span><br />
         <input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Bio Labs</span><br />
-        <input type="radio" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()"/><span class="form_item_text">Tech Plants </span><br />
+        <input type="radio" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()"/><span class="form_item_text">Tech Plants </span><br />
         <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onClick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" /><span id="territory_text" class="form_item_text">Territory Capture </span><br />  
         
         <script type="text/javascript">
@@ -440,24 +440,6 @@ function message() {
 			}
 		}
 		
-		function drawterritories_disable()
-		{
-			var Draw = document.getElementById("draw")
-			var TerritoryNC = document.getElementById("TerritoryNC")
-			var TerritoryTR = document.getElementById("TerritoryTR")
-			var TerritoryVS = document.getElementById("TerritoryVS")
-			
-		if (Draw.checked=true)
-			{
-				TerritoryNC.value ="33"
-				TerritoryNC.readOnly=true
-				TerritoryTR.value ="33"
-				TerritoryTR.readOnly=true
-				TerritoryVS.value ="33"
-				TerritoryVS.readOnly=true
-			}
-		}
-		
 		function drawterritories_enable()
 		{
 			TerritoryNC.value =""
@@ -470,6 +452,22 @@ function message() {
 			TerritoryVS.disabled=false
 			TerritoryVS.readOnly=false
 			
+		}
+		
+		function checktechplantdraw() // Since a 3 way tech plant alert is not possible (7 is not divisiable by 3), prevent it from being selected.
+		{
+			win1 = document.getElementById("win1");
+			win2 = document.getElementById("win2");
+			win3 = document.getElementById("win3");
+			
+			if ((win1.checked == true) && (win2.checked == true) && (win3.checked == true))
+			{
+				window.alert("A three way draw is not possible with Tech Plant alerts. Please re-choose the winners.");
+				win1.checked = false;
+				win2.checked = false;
+				win3.checked = false;
+				disabledomination()
+			}
 		}
 		</script>		
         
