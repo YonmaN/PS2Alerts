@@ -48,14 +48,16 @@ body {
 	padding: 20px;
 }
 
+.question {
+	margin-bottom: 15px;	
+}
+
 .subquestion {
 	display: none;
 	background-color:rgba(240, 88, 92, 0.25);
 	border-radius: 20px;
 	padding-left: 10px;
 	padding-top: 1px;
-	margin-top: 20px;
-	padding-bottom: 30px;
 }
 
 #time2 {
@@ -113,10 +115,6 @@ body {
 	text-decoration:line-through;
 }
 
-.jump_fix {
-	display: none;
-}
-
 
 /* css for timepicker */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
@@ -145,6 +143,12 @@ body {
 }
 
 .error-side {
+	margin-left: 150px; 
+	margin-top: -25px;
+}
+
+.error-side-hidden {
+	display: none;
 	margin-left: 150px; 
 	margin-top: -25px;
 }

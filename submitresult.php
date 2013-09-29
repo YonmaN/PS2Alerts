@@ -26,11 +26,11 @@
 </script>
 
 <script type="text/javascript">
-animatedcollapse.addDiv('territory', 'fade=1,height=80px')
-animatedcollapse.addDiv('pops_world', 'fade=1,height=80px')
-animatedcollapse.addDiv('pops_cont', 'fade=1,height=80px')
-animatedcollapse.addDiv('domination', 'fade=1,height=70px')
-animatedcollapse.addDiv('duration', 'fade=1,height=60px')
+animatedcollapse.addDiv('territory', 'fade=1,height=110px')
+animatedcollapse.addDiv('pops_world', 'fade=1,height=110px')
+animatedcollapse.addDiv('pops_cont', 'fade=1,height=110px')
+animatedcollapse.addDiv('domination', 'fade=1,height=95px')
+animatedcollapse.addDiv('duration', 'fade=1,height=90px')
 animatedcollapse.addDiv('partone', 'fade=1')
 animatedcollapse.addDiv('parttwo', 'fade=1')
 
@@ -133,7 +133,7 @@ function message() {
             echo '<div id="partone">';
         } 
         ?>
-      <form action="submitresult.php" id="form" method="post" name="AlertStats">
+      <form action="submitresult.php" id="form" method="post" onSubmit="return checkterritories()" name="AlertStats">
         <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
         
         <p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
@@ -160,13 +160,14 @@ function message() {
              <p class="form_item_text" style="text-align: center; margin: 2px; font-size: 16px;">Current UTC Time</p>
         </div>
    </div>
-        
+   <div class="question" id="alert_won">
         <p class="form_item_title">Who won this alert?</p>
         <p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
-            <input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck()"  /><span class="form_item_text">New Conglomerate</span><br />
-            <input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck()"  /><span class="form_item_text">Terran Republic</span><br />
-            <input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck()"  /><span class="form_item_text">Vanu Soverignity</span><br />
-            <label for="checkboxes" class="error"></label>
+        <input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck()"  /><span class="form_item_text">New Conglomerate</span><br />
+        <input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck()"  /><span class="form_item_text">Terran Republic</span><br />
+        <input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck()"  /><span class="form_item_text">Vanu Soverignity</span><br />
+        <label for="checkboxes" class="error"></label>
+   </div>
         <script>
 		function dominationcheck() 
 		{
@@ -291,10 +292,10 @@ function message() {
 		{
 			document.getElementById("ResultDominationDuration").value=""
 			document.getElementById("ResultDominationDuration").disabled=true
-			document.getElementById("resultdomination1").disabled=true
-			document.getElementById("resultdomination2").disabled=true
-			document.getElementById("resultdomination1").checked=false
-			document.getElementById("resultdomination2").checked=false
+			document.getElementById("ResultDomination1").disabled=true
+			document.getElementById("ResultDomination2").disabled=true
+			document.getElementById("ResultDomination1").checked=false
+			document.getElementById("ResultDomination2").checked=false
 			animatedcollapse.hide('duration')
 			animatedcollapse.hide('domination')
 			$( "#ResultDomination1" ).rules( "remove" );
@@ -341,8 +342,9 @@ function message() {
         <div id="DomDur" class="error-side"><label for="ResultDominationDuration" class="error"></label></div>
         
         </div>
-                          
-        <p class="form_item_title">Where was this continent based?</p>
+                   
+        <div class="question" id="alert_loc">       
+        <p class="form_item_title">On which contient did the alert take place? </p>
         
         <input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required/>
         <span class="form_item_text">Amerish</span> <br />
@@ -359,6 +361,7 @@ function message() {
         <br />
         <label for="ResultAlertCont" class="error"></label>
         
+        </div>
        	<script>
 		
 		function wipepopscont()
@@ -442,20 +445,24 @@ function message() {
         }
         </script>
         
+        <div class="question" id="alert_type">
+        
         <p class="form_item_title">What kind of alert was this?</p>
         
         <!-- Based on the continant answer and this answer, PHP will change the submitted variable to be the proper one into the database -->
         
-        <input type="radio" name="ResultAlertType" value="Amp" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required/>
-        <span class="form_item_text">Amp Stations </span> <br />
-        <input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required />
-        <span class="form_item_text">Bio Labs</span> <br />
-        <input type="radio" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()" required />
-        <span class="form_item_text">Tech Plants </span> <br />
-        <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onClick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" required />
-        <span id="territory_text" class="form_item_text">Territory Capture </span> <br /> 
+            <input type="radio" name="ResultAlertType" value="Amp" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required/>
+            <span class="form_item_text">Amp Stations </span> <br />
+            <input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required />
+            <span class="form_item_text">Bio Labs</span> <br />
+            <input type="radio" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()" required />
+            <span class="form_item_text">Tech Plants </span> <br />
+            <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onClick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" required />
+            <span id="territory_text" class="form_item_text">Territory Capture </span> <br /> 
+                    
+            <label for="ResultAlertType" class="error"></label> 
         
-        <label for="ResultAlertType" class="error"></label> 
+        </div>
         
         <script type="text/javascript">
 		
@@ -479,16 +486,29 @@ function message() {
 		function checkterritories()
 		{
 			var TerritoryOption = document.getElementById("TypeTerritory")
-			var TerritoryNC = document.getElementById("TerritoryNC")
-			var TerritoryTR = document.getElementById("TerritoryTR")
-			var TerritoryVS = document.getElementById("TerritoryVS")
+			var TerritoryNCString = document.getElementById("TerritoryNC").value
+			var TerritoryTRString = document.getElementById("TerritoryTR").value
+			var TerritoryVSString = document.getElementById("TerritoryVS").value
+			TerritoryNC = parseInt (TerritoryNCString)
+			TerritoryTR = parseInt (TerritoryTRString)
+			TerritoryVS = parseInt (TerritoryVSString)
 						
-			if ((TerritoryNC.value + TerritoryTR.value + TerritoryVS.value < 99) && (TerritoryOption.checked=true))
+			if ((TerritoryNC + TerritoryTR + TerritoryVS < 99) && (TerritoryOption.checked=true))
 			{
 				window.alert("Territories do not match up to 100% - Too low! Please check the territory percentages and try again.");
+				document.getElementById("TerritoryError").className = "error-side";
+				return false
 				
-			} else if (TerritoryNC.value + TerritoryTR.value + TerritoryVS.value > 100)	{
+			} else if ((TerritoryNC + TerritoryTR + TerritoryVS > 100) && (TerritoryOption.checked=true))
+			{
 				window.alert("Territories do not match up to 100% - Too high! Please check the territory percentages and try again.");
+				document.getElementById("TerritoryError").className = "error-side";
+				return false
+			} 
+			else if ((TerritoryNC + TerritoryTR + TerritoryVS == 100) || (TerritoryNC + TerritoryTR + TerritoryVS == 99) && (TerritoryOption.checked=true))
+			{
+				document.getElementById("TerritoryError").className = "error-side-hidden";
+				return true
 			}
 		}
 		
@@ -536,17 +556,16 @@ function message() {
           <tr>
             <td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" required /></td>
             <td><input class="two" type="text" name="ResultTerritoryTR" id="TerritoryTR" required /></td>
-            <td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" required/> </td>
+            <td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" required /> </td>
           </tr>
-        </table>
-        
-        <div id="DomDur" class="error-side" style="margin-top: -28px;"><label for="ResultTerritory" class="error"></label></div>
+        </table>        
+        <div id="TerritoryError" class="error-side-hidden" style="margin-top: -28px;"><label for="ResultTerritory" class="error"></label></div>
         
         </div>
         
         <br />
     <input type="hidden" name="SelfPost" value="true" />
-    <input type="submit" id="submit_part1" name="AlertStats" onsubmit="return dominationcheck()" value="Continue..." /> 
+    <input type="submit" id="submit_part1" name="AlertStats" value="Continue..." /> 
     </form>     
     
     <script type="text/javascript">
