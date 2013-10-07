@@ -30,7 +30,7 @@ animatedcollapse.addDiv('territory', 'fade=1,height=110px')
 animatedcollapse.addDiv('pops_world', 'fade=1,height=110px')
 animatedcollapse.addDiv('pops_cont', 'fade=1,height=110px')
 animatedcollapse.addDiv('domination', 'fade=1,height=95px')
-animatedcollapse.addDiv('duration', 'fade=1,height=90px')
+animatedcollapse.addDiv('duration', 'fade=1,height=80px')
 animatedcollapse.addDiv('partone', 'fade=1')
 animatedcollapse.addDiv('parttwo', 'fade=1')
 
@@ -163,9 +163,9 @@ function message() {
    <div class="question" id="alert_won">
         <p class="form_item_title">Who won this alert?</p>
         <p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
-        <input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck()"  /><span class="form_item_text">New Conglomerate</span><br />
-        <input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck()"  /><span class="form_item_text">Terran Republic</span><br />
-        <input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck()"  /><span class="form_item_text">Vanu Soverignity</span><br />
+        <input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck(), lockterritory()"  /><span class="form_item_text">New Conglomerate</span><br />
+        <input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck(), lockterritory()"  /><span class="form_item_text">Terran Republic</span><br />
+        <input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck(), lockterritory()"  /><span class="form_item_text">Vanu Soverignity</span><br />
         <label for="checkboxes" class="error"></label>
    </div>
         <script>
@@ -226,6 +226,82 @@ function message() {
 			}
 			
 		}
+		
+		function lockterritory() 
+		{
+			win1 = document.getElementById("win1");
+			win2 = document.getElementById("win2");
+			win3 = document.getElementById("win3");
+			TerritoryVS = document.getElementById("TerritoryVS");
+			TerritoryTR = document.getElementById("TerritoryTR");
+			TerritoryNC = document.getElementById("TerritoryNC");
+			ResultDomination1 = document.getElementById("ResultDomination1");
+			ResultDomination2 = document.getElementById("ResultDomination2");
+
+		// Do a check to see if the Domination option has been unchecked. If so, wipe the rules.
+		
+		if (ResultDomination2.checked == true) // Domination = NO
+		{
+			TerritoryVS.disabled = false;
+			TerritoryTR.disabled = false;
+			TerritoryNC.disabled = false;
+			TerritoryVS.value = "";
+			TerritoryTR.value = "";
+			TerritoryNC.value = "";
+		}
+		
+		if (ResultDomination1.checked == true) // Domination = YES
+			{
+				if ((win1.checked == false) && (win2.checked == false) && (win3.checked == false)) 
+				{
+					TerritoryVS.disabled = false;
+					TerritoryTR.disabled = false;
+					TerritoryNC.disabled = false;
+				}
+				
+				if ((win1.checked == true) && (win2.checked == false) && (win3.checked == false)) // NC Win
+				{
+					TerritoryVS.disabled = false;
+					TerritoryTR.disabled = false;
+					TerritoryNC.disabled = true;
+					TerritoryNC.value = 75;
+					TerritoryTR.value = "";
+					TerritoryVS.value = "";
+				} 
+				if ((win1.checked == false) && (win2.checked == true) && (win3.checked == false)) // TR Win
+				{
+					TerritoryVS.disabled = false;
+					TerritoryTR.disabled = true;
+					TerritoryNC.disabled = false;
+					TerritoryNC.value = "";
+					TerritoryTR.value = 75;
+					TerritoryVS.value = "";
+				} 
+				if ((win1.checked == false) && (win2.checked == false) && (win3.checked == true)) // VS Win
+				{
+					TerritoryVS.disabled = true;
+					TerritoryTR.disabled = false;
+					TerritoryNC.disabled = false;
+					TerritoryNC.value = "";
+					TerritoryTR.value = "";
+					TerritoryVS.value = 75;
+				} 
+				
+				
+				if ((win1.checked == true) && (win2.checked == true) && (win3.checked == true)) 
+				{
+					TerritoryVS.disabled = true;
+					TerritoryTR.disabled = true;
+					TerritoryNC.disabled = true;
+					TerritoryVS.value = 33;
+					TerritoryTR.value = 33;
+					TerritoryNC.value = 33;
+				}
+			}
+				 
+			
+		}
+		
 		</script>
             
             <?php               
@@ -281,13 +357,28 @@ function message() {
               ?>
         <div class="subquestion" id="domination">
         <p class="form_item_title">Did the faction win the alert by Domination?</p>
-        <input type="radio" id="ResultDomination1" name="ResultDomination" value="1" onClick="enabledominationsub(), enabledomination()" /><span class="form_item_text">Yes</span> <br />
-        <input type="radio" id="ResultDomination2" name="ResultDomination" value="0" onClick="disabledominationsub(), disabledominationsub()" /><span class="form_item_text">No</span> <br />
+        <input type="radio" id="ResultDomination1" name="ResultDomination" value="1" onClick="enabledominationsub(), enabledomination(), lockterritory()" /><span class="form_item_text">Yes</span> <br />
+        <input type="radio" id="ResultDomination2" name="ResultDomination" value="0" onClick="disabledominationsub(), disabledominationsub(), lockterritory()" /><span class="form_item_text">No</span> <br />
         
         <div id="DomDur" class="error-side" style="margin-top: -33px;"><label for="ResultDomination" class="error"></label></div>
         </div>
         
         <script>
+		
+		function wipeterritorylocks()
+		{
+			TerritoryVS = document.getElementById("TerritoryVS");
+			TerritoryTR = document.getElementById("TerritoryTR");
+			TerritoryNC = document.getElementById("TerritoryNC");
+			
+			TerritoryVS.disabled = false;
+			TerritoryTR.disabled = false;
+			TerritoryNC.disabled = false;
+			TerritoryVS.value = "";
+			TerritoryTR.value = "";
+			TerritoryNC.value = "";
+			
+		}
 		function disabledomination()
 		{
 			document.getElementById("ResultDominationDuration").value=""
@@ -300,6 +391,7 @@ function message() {
 			animatedcollapse.hide('domination')
 			$( "#ResultDomination1" ).rules( "remove" );
 			$( "#ResultDomination2" ).rules( "remove" );
+			wipeterritorylocks()
 		}
 		
 		function disabledominationsub()
@@ -335,7 +427,7 @@ function message() {
 		</script>
         
         <div class="subquestion" id="duration">
-        <p class="form_item_title">How long did this alert last?</p>
+        <p class="form_item_title">How much time was there left in this alert?</p>
         <input type="text" id="ResultDominationDuration" style="width: 50px; text-align: center;" name="ResultDominationDuration" />
         <span class="form_item_text" style="margin-left: 5px;">Hours</span>
                
@@ -397,14 +489,16 @@ function message() {
         
         <table width="150" border="0" style="text-align: center;">
           <tr>
-            <td class="form_item_text" width="50">NC</td>
+          	<td class="form_item_text" width="50">VS</td>
             <td class="form_item_text" width="50">TR</td>
-            <td class="form_item_text" width="50">VS</td>
+            <td class="form_item_text" width="50">NC</td>
+            
           </tr>
           <tr>
-            <td><input class="two" type="text" id="pops_w_nc" name="ResultPopsNC" required /></td>
-            <td><input class="two" type="text" id="pops_w_tr" name="ResultPopsTR" required /></td>
             <td><input class="two" type="text" id="pops_w_vs" name="ResultPopsVS" required /></td>
+            <td><input class="two" type="text" id="pops_w_tr" name="ResultPopsTR" required /></td>
+            <td><input class="two" type="text" id="pops_w_nc" name="ResultPopsNC" required /></td>
+            
          </tr>
         </table>
         
@@ -416,14 +510,15 @@ function message() {
          <p class="form_item_title">How much <b>continent</b> population % did each empire have?</p>
         <table width="150" border="0" style="text-align: center;">
           <tr>
-            <td class="form_item_text" width="50">NC</td>
-            <td class="form_item_text" width="50">TR</td>
             <td class="form_item_text" width="50">VS</td>
+            <td class="form_item_text" width="50">TR</td>
+            <td class="form_item_text" width="50">NC</td>
           </tr>
           <tr>
-            <td><input class="two" type="text" id="pops_c_nc" name="ResultPopsNC" required /></td>
-            <td><input class="two" type="text" id="pops_c_tr" name="ResultPopsTR" required /></td>
             <td><input class="two" type="text" id="pops_c_vs" name="ResultPopsVS" required /></td>
+            <td><input class="two" type="text" id="pops_c_tr" name="ResultPopsTR" required /></td>
+            <td><input class="two" type="text" id="pops_c_nc" name="ResultPopsNC" required /></td>
+
           </tr>
         </table>
         
@@ -457,7 +552,7 @@ function message() {
             <span class="form_item_text">Bio Labs</span> <br />
             <input type="radio" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()" required />
             <span class="form_item_text">Tech Plants </span> <br />
-            <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onClick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable()" required />
+            <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onClick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable(), lockterritory()" required />
             <span id="territory_text" class="form_item_text">Territory Capture </span> <br /> 
                     
             <label for="ResultAlertType" class="error"></label> 
@@ -549,14 +644,14 @@ function message() {
         
         <table width="150" border="0" style="text-align: center;">
           <tr>
-            <td class="form_item_text" width="50">NC</td>
-            <td class="form_item_text" width="50">TR</td>
             <td class="form_item_text" width="50">VS</td>
+            <td class="form_item_text" width="50">TR</td>
+            <td class="form_item_text" width="50">NC</td>
           </tr>
           <tr>
-            <td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" required /></td>
+            <td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" required /></td>
             <td><input class="two" type="text" name="ResultTerritoryTR" id="TerritoryTR" required /></td>
-            <td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" required /> </td>
+            <td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" required /></td>
           </tr>
         </table>        
         <div id="TerritoryError" class="error-side-hidden" style="margin-top: -28px;"><label for="ResultTerritory" class="error"></label></div>
@@ -610,24 +705,26 @@ function message() {
     <form action="submitresult_process.php" method="post" name="AlertStats2">
     
     <div class="form_item_text" id="debug">
-  	<?php if ($SelfPost == "true") {
+  	<?php if ($SelfPost == "12345") {
 		echo '<div class="form_item_text">';
 			echo 'DEBUGGING </br>';
 			echo "<pre>";
 			var_dump($_POST);
 			echo "</pre>";
-		echo '</div>';
+		
+		echo '</br> Master Alert Type: ';
+		echo $ResultAlertMasterType;
+		
+		echo '<br /> NC Win:';
+		echo $winNC;
+		echo '<br /> TR Win:';
+		echo $winTR;
+		echo '<br /> VS Win:';
+		echo $winVS;
+		echo '<br />';
+	echo '</div>';
 	}	
-	echo '</br> Master Alert Type: ';
-	echo $ResultAlertMasterType;
 	
-	echo '<br /> NC Win:';
-	echo $winNC;
-	echo '<br /> TR Win:';
-	echo $winTR;
-	echo '<br /> VS Win:';
-	echo $winVS;
-	echo '<br />';
 	?>
     
     </div>
