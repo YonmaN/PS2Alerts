@@ -150,7 +150,7 @@ function message() {
    <div id="time_container" style="display: block; height: 100px;"> 
         <div id="time1" style="float: left; margin-top: 10px;">
         <p class="form_item_title">When did the Alert end? (UTC time)</p>
-        <input class="form_item" id="ResultDateTime" style="margin-top: 10px; width: 120px; text-align: center;" name="ResultDateTime" required/>
+        <input class="form_item" id="ResultDateTime" style="margin-top: 10px; margin-right: 10px; width: 120px; text-align: center;" name="ResultDateTime" required />
         <label for="ResultDateTime" class="form_item_text"></label>
         </div>
         <div id="time2">
@@ -163,9 +163,9 @@ function message() {
    <div class="question" id="alert_won">
         <p class="form_item_title">Who won this alert?</p>
         <p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
-        <input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck(), lockterritory()"  /><span class="form_item_text">New Conglomerate</span><br />
-        <input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck(), lockterritory()"  /><span class="form_item_text">Terran Republic</span><br />
-        <input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck(), lockterritory()"  /><span class="form_item_text">Vanu Soverignity</span><br />
+        <input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" /><span class="form_item_text">New Conglomerate</span><br />
+        <input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" /><span class="form_item_text">Terran Republic</span><br />
+        <input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" /><span class="form_item_text">Vanu Soverignity</span><br />
         <label for="checkboxes" class="error"></label>
    </div>
         <script>
@@ -550,16 +550,17 @@ function message() {
             <span class="form_item_text">Amp Stations </span> <br />
             <input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required />
             <span class="form_item_text">Bio Labs</span> <br />
-            <input type="radio" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()" required />
+            <input type="radio" id="AlertTech" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()" required />
             <span class="form_item_text">Tech Plants </span> <br />
-            <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" onClick="animatedcollapse.show('territory'), enableterritoryvalues(), drawterritories_disable(), lockterritory()" required />
+            <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" 
+			onClick="animatedcollapse.show('territory'), lockterritory(), enableterritoryvalues()" required />
             <span id="territory_text" class="form_item_text">Territory Capture </span> <br /> 
                     
             <label for="ResultAlertType" class="error"></label> 
         
         </div>
         
-        <script type="text/javascript">
+        <script type="text/javascript">		
 		
 		function wipevaluesterritory()
 		{
@@ -573,9 +574,14 @@ function message() {
 		
 		function enableterritoryvalues()
 		{
-			document.getElementById("TerritoryNC").disabled=false
-			document.getElementById("TerritoryTR").disabled=false
-			document.getElementById("TerritoryVS").disabled=false
+			if (document.getElementById("ResultDomination1").checked == true)
+			{
+				lockterritory()
+			} else {
+				document.getElementById("TerritoryNC").disabled=false
+				document.getElementById("TerritoryTR").disabled=false
+				document.getElementById("TerritoryVS").disabled=false
+			}
 		}
 		
 		function checkterritories()
@@ -588,19 +594,19 @@ function message() {
 			TerritoryTR = parseInt (TerritoryTRString)
 			TerritoryVS = parseInt (TerritoryVSString)
 						
-			if ((TerritoryNC + TerritoryTR + TerritoryVS < 99) && (TerritoryOption.checked=true))
+			if ((TerritoryNC + TerritoryTR + TerritoryVS < 97) && (TerritoryOption.checked == true))
 			{
-				window.alert("Territories do not match up to 100% - Too low! Please check the territory percentages and try again.");
+				window.alert("Territories do not match! The values submitted are too low! Please check the territory percentages and try again.");
 				document.getElementById("TerritoryError").className = "error-side";
 				return false
 				
-			} else if ((TerritoryNC + TerritoryTR + TerritoryVS > 100) && (TerritoryOption.checked=true))
+			} else if ((TerritoryNC + TerritoryTR + TerritoryVS > 100) && (TerritoryOption.checked == true))
 			{
 				window.alert("Territories do not match up to 100% - Too high! Please check the territory percentages and try again.");
 				document.getElementById("TerritoryError").className = "error-side";
 				return false
 			} 
-			else if ((TerritoryNC + TerritoryTR + TerritoryVS == 100) || (TerritoryNC + TerritoryTR + TerritoryVS == 99) && (TerritoryOption.checked=true))
+			else if ((TerritoryNC + TerritoryTR + TerritoryVS == 100) || (TerritoryNC + TerritoryTR + TerritoryVS == 99) && (TerritoryOption.checked == true))
 			{
 				document.getElementById("TerritoryError").className = "error-side-hidden";
 				return true
@@ -626,14 +632,16 @@ function message() {
 			win1 = document.getElementById("win1");
 			win2 = document.getElementById("win2");
 			win3 = document.getElementById("win3");
+			tech = document.getElementById("AlertTech")
 			
-			if ((win1.checked == true) && (win2.checked == true) && (win3.checked == true))
+			if ((win1.checked == true) && (win2.checked == true) && (win3.checked == true) && (tech.checked == true ))
 			{
 				window.alert("A three way draw is not possible with Tech Plant alerts. Please re-choose the winners.");
 				win1.checked = false;
 				win2.checked = false;
 				win3.checked = false;
 				disabledomination()
+				return false
 			}
 		}
 		</script>		
