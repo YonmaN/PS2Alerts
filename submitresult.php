@@ -133,7 +133,7 @@ function message() {
             echo '<div id="partone">';
         } 
         ?>
-      <form action="submitresult.php" id="form" method="post" onSubmit="return checkterritories()" name="AlertStats">
+      <form action="submitresult.php" id="form" method="post" onSubmit="return (checkterritories() && checkpops() )" name="AlertStats">
         <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
         
         <p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
@@ -447,7 +447,7 @@ function message() {
         <input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required />
         <span class="form_item_text">Indar</span><br />
         
-        <input type="radio" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory()" required />
+        <input type="radio" id="XCont" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory()" required />
         <span class="form_item_text">Cross Continent (All three)</span>
         
         <br />
@@ -593,7 +593,12 @@ function message() {
 			TerritoryNC = parseInt (TerritoryNCString)
 			TerritoryTR = parseInt (TerritoryTRString)
 			TerritoryVS = parseInt (TerritoryVSString)
-						
+			
+			if (TerritoryOption.checked == false) 
+			{
+				return true
+			}
+			
 			if ((TerritoryNC + TerritoryTR + TerritoryVS < 97) && (TerritoryOption.checked == true))
 			{
 				window.alert("Territories do not match! The values submitted are too low! Please check the territory percentages and try again.");
@@ -611,6 +616,70 @@ function message() {
 				document.getElementById("TerritoryError").className = "error-side-hidden";
 				return true
 			}
+		}
+		
+		function checkpops()
+		{
+			var XCont = document.getElementById("XCont")
+			
+			var popsWVSString = document.getElementById("pops_w_vs").value
+			var popsWTRString = document.getElementById("pops_w_tr").value
+			var popsWNCString = document.getElementById("pops_w_nc").value
+			popsWVS = parseInt (popsWVSString)
+			popsWTR = parseInt (popsWTRString)
+			popsWNC = parseInt (popsWNCString)
+			
+			var popsCVSString = document.getElementById("pops_c_vs").value
+			var popsCTRString = document.getElementById("pops_c_tr").value
+			var popsCNCString = document.getElementById("pops_c_nc").value
+			popsCVS = parseInt (popsCVSString)
+			popsCTR = parseInt (popsCTRString)
+			popsCNC = parseInt (popsCNCString)
+			
+			if (XCont.checked == true) // If Cross Continent
+			{
+				if (popsWVS + popsWTR + popsWNC < 99)
+				{
+					window.alert("Populations do not add up to 99% or 100%! The values you entered are too low (below 99%). Please check the populations!")
+					popsWVSString = ""
+					popsWTRString = ""
+					popsWNCString = ""
+					return false
+					
+				} else if (popsWVS + popsWTR + popsWNC > 100)
+				{
+					window.alert("Populations do not add up to 99% or 100%! The values you entered are too high (over 100%). Please check the populations!")
+					popsWVSString = ""
+					popsWTRString = ""
+					popsWNCString = ""
+					return false
+				} else 
+					{
+						return true
+					}
+				
+			} else if (XCont.checked == false) // If a continental alert
+			{
+				if (popsCVS + popsCTR + popsCNC < 99)
+				{
+					window.alert("Populations do not add up to 99% or 100%! The values you entered are too low (below 99%). Please check the populations!")
+					popsCVSString = ""
+					popsCTRString = ""
+					popsCNCString = ""
+					return false
+					
+				} else if (popsCVS + popsCTR + popsCNC > 100)
+				{
+					window.alert("Populations do not add up to 99% or 100%! The values you entered are too high (over 100%). Please check the populations!")
+					popsCVSString = ""
+					popsCTRString = ""
+					popsCNCString = ""
+					return false
+				} else 
+					{
+						return true
+					}
+			}	
 		}
 		
 		function drawterritories_enable()
