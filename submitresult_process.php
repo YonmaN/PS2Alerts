@@ -28,6 +28,22 @@ $ResultTerritoryTR = $_POST["ResultTerritoryTR"];
 $ResultTerritoryVS = $_POST["ResultTerritoryVS"];
 $ResultContestedFacility = $_POST["ResultContestedFacility"];
 
+// FIX for disabled text field
+
+if ($ResultTerritoryNC == '') 
+{
+	$ResultTerritoryNC = 75;
+}
+else if ($ResultTerritoryTR == '')
+{
+	$ResultTerritoryTR = 75;
+}
+else if ($ResultTerritoryVS == '')
+{
+	$ResultTerritoryVS = 75;
+}
+
+
 	echo 'DEBUGGING </br>';
 	echo "<pre>";
 	var_dump($_POST);
