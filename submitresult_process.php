@@ -6,9 +6,27 @@
 <title>Processing...</title>
 </head>
 
-
 <body>
 <?php 
+
+$gmtimenow = time() - (int)substr(date('H-i'),0,3)*60*60; 
+
+// Query for last alert time
+$alert_last_query = mysql_query("SELECT * FROM results2 ORDER BY ResultDateTime DESC LIMIT 1");
+$alert_last_time_result = mysql_fetch_array($alert_last_query);
+
+$alert_last_time_formatted = strtotime($alert_last_time_result['ResultDateTime'])+7200; // Last Alert, plus 2 hours in seconds
+
+if ($gmttimenow < $alert_last_time_formatted) {
+	echo 'TIME!!!';
+}
+
+echo 'GMT: Formatted:';
+echo $gmtimenow;
+echo '<br /> Data Formatted:';
+echo $alert_last_time_formatted;
+echo '<br /> Data Cell:';
+echo $alert_last_time_result['ResultDateTime'];
 
 $ResultServer = 10; //Currently always set to Miller
 $ResultDateTime = $_POST["ResultDateTime"];
@@ -43,7 +61,6 @@ else if ($ResultTerritoryVS == '')
 {
 	$ResultTerritoryVS = 75;
 }
-
 
 	echo 'DEBUGGING </br>';
 	echo "<pre>";
