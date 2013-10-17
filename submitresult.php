@@ -1,21 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link href="css/sitewide.css" rel="stylesheet" />
-<link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
-<?php include("includes/mysqlconnect.php") ?>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<title>Planetside 2 Statistics Index</title>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
-<script type="text/javascript" src="js/animatedcollapse.js"></script>
-<script type="text/javascript" src="js/jquery.validate.js"></script>
-<script type="text/javascript" src="js/additional-methods.js"></script>
+<?php include("includes/includes.php")?>
 
-
-<?php $SelfPost = $_POST["SelfPost"]; ?>
 <script type="text/javascript">
 /***********************************************
 * Animated Collapsible DIV v2.4- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
@@ -51,10 +38,14 @@ function message() {
 </script>
 
 </head>
+<body>
+
+<?php $SelfPost = $_POST["SelfPost"]; ?>
+
 <?php if ($SelfPost == "true") {
 	echo '<body>';
 } else {
-	echo '<body onLoad="message()">';
+	echo '<body>';
 } ?>
 
 <div id="wrapper">
@@ -106,7 +97,7 @@ function message() {
 	
 	?>
 
-    <div id="content">
+    <div class="content" id="content">
     
 <script type="text/javascript">
   $(function() {
@@ -522,7 +513,7 @@ function message() {
           </tr>
         </table>
         
-        <div id="popswarningc" style="margin-left: 150px; margin-top: -25px;"><label for="ResultPops" class="error"></label></div>
+        <div id="popswarningc" style="margin-left: 150px; margin-top: -27px;"><label for="ResultPops" class="error"></label></div>
         
         </div>
         
@@ -613,7 +604,6 @@ function message() {
 			} 
 			else if ((TerritoryNC + TerritoryTR + TerritoryVS == 100) || (TerritoryNC + TerritoryTR + TerritoryVS == 99) && (TerritoryOption.checked == true))
 			{
-				document.getElementById("TerritoryError").className = "error-side-hidden";
 				return true
 			}
 		}
@@ -731,7 +721,7 @@ function message() {
             <td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" required /></td>
           </tr>
         </table>        
-        <div id="TerritoryError" class="error-side-hidden" style="margin-top: -28px;"><label for="ResultTerritory" class="error"></label></div>
+        <div id="TerritoryError" class="error-side" style="margin-top: -28px;"><label for="ResultTerritory" class="error"></label></div>
         
         </div>
         
@@ -762,7 +752,7 @@ function message() {
    	
 	// PART 2 POST PROCESSING
 	
-	if ($ResultWinner == "Draw") 
+	if ($winNC or $winTR or $winVS == "1") 
    	{
 		$ResultDraw = "1";
 	} else {
@@ -884,6 +874,7 @@ function message() {
 	echo '<input type="hidden" name="ResultNCWin" value="'.$winNC.'">';
 	echo '<input type="hidden" name="ResultTRWin" value="'.$winTR.'">';
 	echo '<input type="hidden" name="ResultVSWin" value="'.$winVS.'">';
+	echo '<input type="hidden" name="ResultDraw" value="'.$ResultDraw.'">';
 	echo '<input type="hidden" name="ResultDomination" value="'.$ResultDomination.'">';
 	echo '<input type="hidden" name="ResultDominationDuration" value="'.$ResultDominationDuration.'">';
 	echo '<input type="hidden" name="ResultAlertCont" value="'.$ResultAlertCont.'">';

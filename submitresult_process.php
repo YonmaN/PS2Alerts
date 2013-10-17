@@ -15,6 +15,7 @@ $ResultDateTime = $_POST["ResultDateTime"];
 $ResultNCWin = $_POST["ResultNCWin"];
 $ResultTRWin = $_POST["ResultTRWin"];
 $ResultVSWin = $_POST["ResultVSWin"];
+$ResultDraw = $_POST["ResultDraw"];
 $ResultDomination =  $_POST["ResultDomination"];
 $ResultDominationDuration = $_POST["ResultDominationDuration"];
 $ResultAlertCont = $_POST["ResultAlertCont"];
@@ -51,13 +52,12 @@ else if ($ResultTerritoryVS == '')
 
 //SUBMIT DA DATA!
 
-$submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, ResultNC, ResultTR, ResultVS, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility) VALUES ('".$ResultDateTime."', '".$ResultServer."', '".$ResultNCWin."', '".$ResultTRWin."', '".$ResultVSWin."', '".$ResultAlertCont."', '".$ResultAlertType."', '".$ResultDomination."', '".$ResultDominationDuration."', '".$ResultPopsNC."', '".$ResultPopsTR."', '".$ResultPopsVS."', '".$ResultTerritoryNC."', '".$ResultTerritoryTR."', '".$ResultTerritoryVS."', '".$ResultFacilitiesWon."', '".$ResultContestedFacility."')");
+$submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, ResultNC, ResultTR, ResultVS, ResultDraw, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility) VALUES ('".$ResultDateTime."', '".$ResultServer."', '".$ResultNCWin."', '".$ResultTRWin."', '".$ResultVSWin."', '".$ResultDraw."', '".$ResultAlertCont."', '".$ResultAlertType."', '".$ResultDomination."', '".$ResultDominationDuration."', '".$ResultPopsNC."', '".$ResultPopsTR."', '".$ResultPopsVS."', '".$ResultTerritoryNC."', '".$ResultTerritoryTR."', '".$ResultTerritoryVS."', '".$ResultFacilitiesWon."', '".$ResultContestedFacility."')");
 
 if (!$submit) {
 	die('ERROR!: ' . mysql_error());
 } else {
 	header("Location: thanks.php"); /* Redirect browser */
-	echo 'SUBMISSION SUCCESSFUL';
 	exit();
 }
 
