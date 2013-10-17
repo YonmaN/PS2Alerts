@@ -12,7 +12,7 @@ body {
 
 /* Centering */
 
-#header, #content, #submit_content {
+#header, .content, #submit_content {
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -39,7 +39,7 @@ body {
 	margin-left: 20px;
 }
 
-#content {
+.content {
 	width: 680px;
 	height: auto;
 	background-image:url(../images/content_background.png);
@@ -133,7 +133,6 @@ body {
 /* CSS for validation */
 
 .error {
-	font-size: 14px;
 	color:#F00;
 	font-family: 'Noto Sans', sans-serif;
 	font-weight:bold;

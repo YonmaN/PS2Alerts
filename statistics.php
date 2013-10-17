@@ -11,7 +11,7 @@
 
 	<?php include('includes/header.php') ?>
     
-    <div id="content">
+    <div class="content" id="content">
     
 	<p class="form_headers">Nothing to see here. Move along.
 	<p class="form_item_text">&quot;These are not the droids you are looking for.&quot;</p>

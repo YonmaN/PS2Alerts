@@ -11,7 +11,7 @@
 
 	<?php include('includes/header.php') ?>
     
-    <div id="content">
+    <div class="content" id="content">
     
 	<p class="form_headers">Site is currently under construction!</h1>
     
