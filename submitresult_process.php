@@ -49,15 +49,15 @@ $ResultContestedFacility = $_POST["ResultContestedFacility"];
 
 // FIX for disabled text field
 
-if ($ResultTerritoryNC == '') 
+if (($ResultTerritoryNC == '') && ($ResultAlertType == 'Territory')) 
 {
 	$ResultTerritoryNC = 75;
 }
-else if ($ResultTerritoryTR == '')
+else if (($ResultTerritoryTR == '') && ($ResultAlertType == 'Territory')) 
 {
 	$ResultTerritoryTR = 75;
 }
-else if ($ResultTerritoryVS == '')
+else if (($ResultTerritoryVS == '') && ($ResultAlertType == 'Territory')) 
 {
 	$ResultTerritoryVS = 75;
 }
