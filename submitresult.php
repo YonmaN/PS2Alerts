@@ -38,21 +38,8 @@ function message() {
 </script>
 
 </head>
-<body>
 
-<?php $SelfPost = $_POST["SelfPost"]; ?>
-
-<?php if ($SelfPost == "true") {
-	echo '<body>';
-} else {
-	echo '<body>';
-} ?>
-
-<div id="wrapper">
-
-	<?php include('includes/header.php') ?>
-    
-    <?php
+<?php $SelfPost = $_POST["SelfPost"]; 
 
 	// Clean all variables at beginning of form and set defaults to blank, if the form is fresh
 	if ($SelfPost == '') {
@@ -95,7 +82,44 @@ function message() {
 		$ResultAlertMasterType = $ResultAlertType.$ResultAlertCont;
 	}
 	
+
+// Check recent alert timer
+
+date_default_timezone_set('GMT');
+
+$Now = new DateTime('NOW');
+$Now->sub(new DateInterval('PT1H'));
+$SpamTimer = $Now->format('Y-m-d H:i:s');
+
+$last_times_query = mysql_query("SELECT ResultServer, ResultDateTime FROM results2 WHERE ResultDateTime > '".$SpamTimer."' AND ResultServer = ".$ResultServer." ");
+
+$last_times = mysql_fetch_array($last_times_query);
+
+if (empty($last_times)) 
+{
+	$SpamLimit = 0; // Allows page to be opened
+} else 
+{
+	$SpamLimit = 1; // Restricts page
+}
+
+if ($SpamLimit == 1)
+{
+	header("Location: thanks.php?Message=1"); /* Redirect browser */
+	exit();
+}
+
+if ($SelfPost == "true") {
+	echo '<body>';
+} else {
+	echo '<body>';
+} 
+
 	?>
+
+<div id="wrapper">
+
+	<?php include('includes/header.php') ?>
 
     <div class="content" id="content">
     
