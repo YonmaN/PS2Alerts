@@ -759,9 +759,34 @@ function message() {
 		$ResultDraw = "0";
 	}
 	
+	// New database structure processing
+	
+	if ($winNC == 2)
+	{
+		$winNC = "WIN";
+	} else if ($winTR == 2)
+	{
+		$winTR = "WIN";
+	} else if ($winVS == 2)
+	{
+		$winVS = "WIN";
+	} else if ($winNC == 1)
+	{
+		$winNC = "DRAW";
+	} else if ($winTR == 1)
+	{
+		$winTR = "DRAW";
+	} else if ($winVS == 1)
+	{
+		$winVS = "DRAW";
+	}
+	
+	
+	echo '<p class="form_item_text">Domination Before: '.$ResultDominationDurationPre.'</p>';
+	
 	// Append seconds to Domination timer and Alert Timer
 	
-	if ($ResultDominationDurationPre = "") { // If no domination timer was chosen, leave NULL
+	if ($ResultDominationDurationPre == "") { // If no domination timer was chosen, leave NULL
 		$ResultDominationDuration = "00:00:00";
 	} else {
 		$ResultDominationDuration = $ResultDominationDurationPre.':00';
