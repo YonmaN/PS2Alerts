@@ -12,11 +12,20 @@
 	<?php include('includes/header.php') ?>
     
     <div class="content" id="content">
-    
-	<p class="form_headers">Thanks for your submission!</h1>
-    
-    <p class="form_item_text">Kitty loves you!</p>
-
+	
+	<?php 
+	
+	$Message = $_REQUEST["Message"];
+	
+	if ($Message == 1)
+	{
+		echo '<p class="form_headers">There has already been an alert submitted within the past hour. Please check again later!</p>';
+	} else {
+		echo '<p class="form_headers">Thanks for your submission!</p>';
+		echo '<p class="form_item_text">Kitty loves you!</p>';
+	}
+	?>
+	
 
   </div>
 
