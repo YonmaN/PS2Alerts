@@ -41,46 +41,46 @@ function message() {
 
 <?php $SelfPost = $_POST["SelfPost"]; 
 
-	// Clean all variables at beginning of form and set defaults to blank, if the form is fresh
-	if ($SelfPost == '') {
-		$ResultServer = '10'; //Currently always set to Miller. 10 is the PS2 API world ID for Miller Server.
-		$ResultDateTime = ''; 
-		$ResultNCWin = '';
-		$ResultTRWin = '';
-		$ResultVSWin = '';
-		$ResultDomination = '0';
-		$ResultDominationDuration = '00:00:00';
-		$ResultAlertCont = '';
-		$ResultAlertType = '';
-		$ResultFacilitiesWon = '';
-		$ResultPopsNC = '';
-		$ResultPopsTR = '';
-		$ResultPopsVS = '';
-		$ResultTerritoryNC = '';
-		$ResultTerritoryTR = '';
-		$ResultTerritoryVS = '';
+// Clean all variables at beginning of form and set defaults to blank, if the form is fresh
+if ($SelfPost == '') {
+	$ResultServer = '10'; //Currently always set to Miller. 10 is the PS2 API world ID for Miller Server.
+	$ResultDateTime = ''; 
+	$ResultNCWin = '';
+	$ResultTRWin = '';
+	$ResultVSWin = '';
+	$ResultDomination = '0';
+	$ResultDominationDuration = '00:00:00';
+	$ResultAlertCont = '';
+	$ResultAlertType = '';
+	$ResultFacilitiesWon = '';
+	$ResultPopsNC = '';
+	$ResultPopsTR = '';
+	$ResultPopsVS = '';
+	$ResultTerritoryNC = '';
+	$ResultTerritoryTR = '';
+	$ResultTerritoryVS = '';
+
+} elseif ($SelfPost == 'true') 
+{
+	$ResultServer = $_POST["ResultServer"]; //Currently always set to Miller
+	$ResultDateTimePre = $_POST["ResultDateTime"];
+	$ResultNCWin = $winNC;
+	$ResultTRWin = $winTR;
+	$ResultVSWin = $winVS;
+	$ResultDomination =  $_POST["ResultDomination"];
+	$ResultDominationDurationPre = $_POST["ResultDominationDuration"];
+	$ResultAlertCont = $_POST["ResultAlertCont"];
+	$ResultAlertType = $_POST["ResultAlertType"];
+	$ResultFacilitiesWon = $_POST["ResultFacilitiesWon"];
+	$ResultPopsNC = $_POST["ResultPopsNC"];
+	$ResultPopsTR = $_POST["ResultPopsTR"];
+	$ResultPopsVS = $_POST["ResultPopsVS"];
+	$ResultTerritoryNC = $_POST["ResultTerritoryNC"];
+	$ResultTerritoryTR = $_POST["ResultTerritoryTR"];
+	$ResultTerritoryVS = $_POST["ResultTerritoryVS"];
 	
-	} elseif ($SelfPost == 'true') 
-	{
-		$ResultServer = $_POST["ResultServer"]; //Currently always set to Miller
-		$ResultDateTimePre = $_POST["ResultDateTime"];
-		$ResultNCWin = $winNC;
-		$ResultTRWin = $winTR;
-		$ResultVSWin = $winVS;
-		$ResultDomination =  $_POST["ResultDomination"];
-		$ResultDominationDurationPre = $_POST["ResultDominationDuration"];
-		$ResultAlertCont = $_POST["ResultAlertCont"];
-		$ResultAlertType = $_POST["ResultAlertType"];
-		$ResultFacilitiesWon = $_POST["ResultFacilitiesWon"];
-		$ResultPopsNC = $_POST["ResultPopsNC"];
-		$ResultPopsTR = $_POST["ResultPopsTR"];
-		$ResultPopsVS = $_POST["ResultPopsVS"];
-		$ResultTerritoryNC = $_POST["ResultTerritoryNC"];
-		$ResultTerritoryTR = $_POST["ResultTerritoryTR"];
-		$ResultTerritoryVS = $_POST["ResultTerritoryVS"];
-		
-		$ResultAlertMasterType = $ResultAlertType.$ResultAlertCont;
-	}
+	$ResultAlertMasterType = $ResultAlertType.$ResultAlertCont;
+}
 	
 
 // Check recent alert timer
@@ -115,7 +115,7 @@ if ($SelfPost == "true") {
 	echo '<body>';
 } 
 
-	?>
+?>
 
 <div id="wrapper">
 
