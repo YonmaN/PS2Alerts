@@ -147,6 +147,7 @@ if ($SelfPost == "true") {
         } else {
             echo '<div id="partone">';
         } 
+		
         ?>
       <form action="submitresult.php" id="form" method="post" onSubmit="return (checkterritories() && checkpops() )" name="AlertStats">
         <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
@@ -652,9 +653,9 @@ if ($SelfPost == "true") {
 			
 			if (XCont.checked == true) // If Cross Continent
 			{
-				if (popsWVS + popsWTR + popsWNC < 99)
+				if (popsWVS + popsWTR + popsWNC < 98)
 				{
-					window.alert("Populations do not add up to 99% or 100%! The values you entered are too low (below 99%). Please check the populations!")
+					window.alert("Populations do not add up to 98%, 99% or 100%! The values you entered are too low (below 99%). Please check the populations!")
 					popsWVSString = ""
 					popsWTRString = ""
 					popsWNCString = ""
@@ -674,9 +675,9 @@ if ($SelfPost == "true") {
 				
 			} else if (XCont.checked == false) // If a continental alert
 			{
-				if (popsCVS + popsCTR + popsCNC < 99)
+				if (popsCVS + popsCTR + popsCNC < 98)
 				{
-					window.alert("Populations do not add up to 99% or 100%! The values you entered are too low (below 99%). Please check the populations!")
+					window.alert("Populations do not add up to 98%, 99% or 100%! The values you entered are too low (below 99%). Please check the populations!")
 					popsCVSString = ""
 					popsCTRString = ""
 					popsCNCString = ""
@@ -716,8 +717,9 @@ if ($SelfPost == "true") {
 			win2 = document.getElementById("win2");
 			win3 = document.getElementById("win3");
 			tech = document.getElementById("AlertTech")
+			cont = document.getelementbyid("XCont")
 			
-			if ((win1.checked == true) && (win2.checked == true) && (win3.checked == true) && (tech.checked == true ))
+			if ((win1.checked == true) && (win2.checked == true) && (win3.checked == true) && (tech.checked == true ) && (cont.checked == false))
 			{
 				window.alert("A three way draw is not possible with Tech Plant alerts. Please re-choose the winners.");
 				win1.checked = false;
@@ -878,7 +880,7 @@ if ($SelfPost == "true") {
 	
 	if ($ResultDomination == "1") 
 	{
-		echo '<p class="form_item_text">DOMINATION</p>';
+		//echo '<p class="form_item_text">DOMINATION</p>';
 		
 		if ($ResultAlertMasterType == "AmpCross" or $ResultAlertMasterType == "BioCross") 
 		{
