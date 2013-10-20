@@ -4,20 +4,18 @@
 <?php include("includes/includes.php")?>
 <title>Alert Stats</title>
 <style>
-.form_headers {
-	font-size: 28px;
-}
+.form_headers { font-size: 28px; }
 </style>
 </head>
 
 <body>
 <div id="wrapper">
-	<?php include('includes/header.php') ?>
-	<div id="float" style="margin-left: auto; margin-right: auto; width: 1050px;">
-		<div id="content_left" style="width:380px; float: left;">
-			<div class="content" id="general_stats" style="width: 320px; height: 260px">
-				<p class="form_headers">General Statistics</p>
-				<?php
+<?php include('includes/header.php') ?>
+<div id="float" style="margin-left: auto; margin-right: auto; width: 1020px;">
+	<div id="content_left" style="width:380px; float: left;">
+		<div class="content" id="general_stats" style="width: 320px; height: 260px">
+			<p class="form_headers">General Statistics</p>
+			<?php
 				
 				date_default_timezone_set('UTC');
 				
@@ -29,14 +27,14 @@
 				$count_domination = mysql_fetch_row($count_domination_query);
 				
 				?>
-				<p class="form_item_text"><span class="stats_highlight"> <?php echo $count_submit[0] ?> </span> Alerts Submitted</p>
-				<p class="form_item_text"><span class="stats_highlight"> <?php echo $count_domination[0] ?> </span> Alerts Dominated</p>
+			<p class="form_item_text"><span class="stats_highlight"> <?php echo $count_submit[0] ?> </span> Alerts Submitted</p>
+			<p class="form_item_text"><span class="stats_highlight"> <?php echo $count_domination[0] ?> </span> Alerts Dominated</p>
+		</div>
+		<div class="content" id="chart_container" style="margin-top: 10px; width: 320px;">
+			<p class="form_headers">Alerts by Faction &amp; Type</p>
+			<div id="factions_chart" style="width: 320px; height: 320px;">
 			</div>
-			<div class="content" id="chart_container" style="margin-top: 10px; width: 320px;">
-				<p class="form_headers">Alerts by Faction &amp; Type</p>
-				<div id="factions_chart" style="width: 320px; height: 320px;">
-				</div>
-				<?php
+			<?php
 	
 	$wins_NC_query = mysql_query ("SELECT * FROM results2 WHERE ResultNC = 'WIN'");
 	$wins_NC = mysql_num_rows($wins_NC_query);
@@ -84,7 +82,7 @@
 	$wins_Draw_territory = mysql_num_rows($wins_Draw_territory_query);
 	
 	?>
-				<script>
+			<script>
 				
 		$(function () {
     
@@ -204,14 +202,12 @@
     });
     
 </script>
-			</div>
 		</div>
 	</div>
 	<div id="content_middle" class="stats_middle" style="background: none; padding-top: 0px; width: 630px">
 		<div id="content_middle_submits" class="stats_middle" style="width: 630px;">
 			<div id="alert_submissions" style="width: 610px; height: 260px; margin-left: 10px;">
 			</div>
-			
 			<?php 
 			
 			$alert_submits_totals_query = mysql_query("SELECT COUNT( ResultID ) AS total, ResultDateTime, DATE( ResultDateTime ) AS DATE
@@ -460,8 +456,7 @@
 				}
 			}
 			
-			?>		
-						
+			?>
 			<script>
 		
 		$(function () {
@@ -723,6 +718,8 @@
 		</div>
 		<div class="content" id="content_right" style="width:200px; float: right; margin-left: 10px">
 			<p class="form_headers">Recent Alerts</p>
+			
+			<!--<a href="all_alerts.php" class="form_item_text" style="margin-left:55px; color: #C00;">View all alerts</a>-->
 			<?php 
 		
 		while ($row = mysql_fetch_array($alerts_list_query)) {
@@ -734,17 +731,18 @@
 			$ResultNC = $row['ResultNC'];
 			$ResultTR = $row['ResultTR'];
 			$ResultVS = $row['ResultVS'];
+			$ResultDraw = $row['ResultDraw'];
 			
-			if ($ResultNC == "2") 
+			if ($ResultNC == "WIN") 
 			{
 				$winner = "New Congonglomerate";
-			} else if ($ResultTR == "2")
+			} else if ($ResultTR == "WIN")
 			{
 				$winner = "Terran Republic";
-			} else if ($ResultVS == "2")
+			} else if ($ResultVS == "WIN")
 			{
 				$winner = "Vanu Sovereignity";
-			} else if ($ResultNC or $ResultTR or $ResultVS == "1") {
+			} else if ($ResultDraw == 1) {
 				$winner = "Draw";
 			}
 			
@@ -767,16 +765,12 @@
 			echo '<span style="color:#F00;">Type:</span> '.$row["ResultAlertType"];
 			echo "<br />";
 			echo '<span style="color:#F00;">Victor:</span> '.$winner;
-			
 			echo '</p>';
-			
-			
 			
 		}
 		?>
 		</div>
 	</div>
-</div>
 </div>
 </body>
 </html>
