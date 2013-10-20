@@ -603,44 +603,44 @@
 			$(function () {
 		
 			var colors = Highcharts.getOptions().colors,
-				categories = ['Amerish', 'Esamir', 'Indar', 'Cross'],
+				categories = ['Amerish', 'Esamir', 'Indar', 'Global'],
 				name = 'Alert Contients',
 				data = [{
 						y: <?php echo $amerish_total ?>,
-						color: colors[2],
+						color: '#63C716',
 						drilldown: {
 							name: 'Amerish',
 							categories: ['Amp', 'Bio', 'Tech', 'Territory'],
 							data: [<?php echo $amerish_amp ?>, <?php echo $amerish_bio ?>, <?php echo $amerish_tech ?>, <?php echo $amerish_territory ?>],
-							color: colors[2]
+							color: ['#93FA43', '#86ED37', '#78E028', '#63C716']
 						}
 						
 					}, {
 						y: <?php echo $esamir_total ?>,
-						color: '#646CA1',
+						color: '#A3C3FF',
 						drilldown: {
 							name: 'Esamir',
 							categories: ['Amp', 'Bio', 'Territory'],
 							data: [<?php echo $esamir_amp ?>, <?php echo $esamir_bio ?>, <?php echo $esamir_territory ?>],
-							color: ['#E5E7F1', '#C1C4D1', '#A4A5AF', '#646CA1']
+							color: ['#DBE8FF', '#C7DBFF', '#B3CDFF', '#A3C3FF']
 						}
 					}, {
 						y: <?php echo $indar_total ?>,
-						color: '#EFC15E',
+						color: '#D69D27',
 						drilldown: {
 							name: 'Indar',
 							categories: ['Amp', 'Bio', 'Tech', 'Territory'],
 							data: [<?php echo $indar_amp ?>, <?php echo $indar_bio ?>, <?php echo $indar_tech ?>, <?php echo $indar_territory ?>],
-							color: ['#91670D', '#A6853D', '#DBA124', '#EFC15E']
+							color: ['#FAC14B', '#EDB540', '#E3A930', '#D69D27']
 						}
 					}, {
 						y: <?php echo $cross_total ?>,
-						color: colors[3],
+						color: '#333333',
 						drilldown: {
-							name: 'Cross',
+							name: 'Global',
 							categories: ['Amp', 'Bio', 'Tech'],
 							data: [<?php echo $cross_amp ?>, <?php echo $cross_bio ?>, <?php echo $cross_tech ?>],
-							color: colors[3]
+							color: ['#999999', '#666666', '#333333']
 						}
 					}];
 		
