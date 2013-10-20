@@ -2,6 +2,7 @@
 <head>
 
 <?php include("includes/includes.php")?>
+<title>PS2 Alert Submission</title>
 
 <script type="text/javascript">
 /***********************************************
@@ -777,14 +778,6 @@ if ($SelfPost == "true") {
         }
    	
 	// PART 2 POST PROCESSING
-	
-	if ($winNC or $winTR or $winVS == "1") 
-   	{
-		$ResultDraw = "1";
-	} else {
-		$ResultDraw = "0";
-	}
-	
 	// New database structure processing
 	
 	if ($winNC == 2)
@@ -796,19 +789,29 @@ if ($SelfPost == "true") {
 	} else if ($winVS == 2)
 	{
 		$winVS = "WIN";
-	} else if ($winNC == 1)
+	}
+	
+	if ($winNC == 1)
 	{
 		$winNC = "DRAW";
-	} else if ($winTR == 1)
+	} 
+	if ($winTR == 1)
 	{
 		$winTR = "DRAW";
-	} else if ($winVS == 1)
+	}
+	if ($winVS == 1)
 	{
 		$winVS = "DRAW";
 	}
 	
+	$ResultDraw = 0;
 	
-	echo '<p class="form_item_text">Domination Before: '.$ResultDominationDurationPre.'</p>';
+	if (($winNC == "DRAW") or ($winTR == "DRAW") or ($winVS == "DRAW"))
+   	{
+		$ResultDraw = "1";
+	} else {
+		$ResultDraw = "0";
+	}
 	
 	// Append seconds to Domination timer and Alert Timer
 	
@@ -829,6 +832,8 @@ if ($SelfPost == "true") {
 			echo "<pre>";
 			var_dump($_POST);
 			echo "</pre>";
+			
+		echo '<p class="form_item_text">Domination Before: '.$ResultDominationDurationPre.'</p>';
 		
 		echo '</br> Master Alert Type: ';
 		echo $ResultAlertMasterType;
@@ -839,7 +844,9 @@ if ($SelfPost == "true") {
 		echo $winTR;
 		echo '<br /> VS Win:';
 		echo $winVS;
-		echo '<br />';
+		echo '<br /> Draw:';
+		echo $ResultDraw;
+		
 	echo '</div>';
 	}	
 	
@@ -937,6 +944,7 @@ if ($SelfPost == "true") {
 	echo '<input type="hidden" name="ResultTerritoryTR" value="'.$ResultTerritoryTR.'">';
 	echo '<input type="hidden" name="ResultTerritoryVS" value="'.$ResultTerritoryVS.'">';
 	?>
+	<br />
     <input type="Submit" name="AlertStats2" value="Submit The Data!" />
 	</form>
 	</div>

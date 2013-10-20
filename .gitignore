@@ -5,3 +5,6 @@ usercake/models/db-settings.php
 /nbproject/private/
 *.properties
 *.rej
+charts/
+test.php
+usercake/
