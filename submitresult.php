@@ -1,9 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
 <?php include("includes/includes.php")?>
 <title>PS2 Alert Submission</title>
-
 <script type="text/javascript">
 /***********************************************
 * Animated Collapsible DIV v2.4- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
@@ -12,7 +10,6 @@
 ***********************************************/
 
 </script>
-
 <script type="text/javascript">
 animatedcollapse.addDiv('territory', 'fade=1,height=110px')
 animatedcollapse.addDiv('pops_world', 'fade=1,height=110px')
@@ -37,9 +34,7 @@ function message() {
 	document.getElementById("submit_part1").disabled=true // Disable Submit button until user has chosen empire
 }
 </script>
-
 </head>
-
 <?php $SelfPost = $_POST["SelfPost"]; 
 
 // Clean all variables at beginning of form and set defaults to blank, if the form is fresh
@@ -109,22 +104,12 @@ if ($SpamLimit == 1)
 	header("Location: thanks.php?Message=1"); /* Redirect browser */
 	exit();
 }
-
-if ($SelfPost == "true") {
-	echo '<body>';
-} else {
-	echo '<body>';
-} 
-
 ?>
-
+<body>
 <div id="wrapper">
-
 	<?php include('includes/header.php') ?>
-
-    <div class="content" id="content">
-    
-<script type="text/javascript">
+	<div class="content" id="content">
+		<script type="text/javascript">
   $(function() {
     $('#ResultDateTime').datetimepicker({
 	timeFormat: 'HH:mm',
@@ -141,51 +126,48 @@ if ($SelfPost == "true") {
 	showButtonPanel: false
 	});
   });
-</script> 
-        
-        <?php if ($SelfPost == "true") {
+</script>
+		<?php if ($SelfPost == "true") {
             echo '<div id="partone" style="display:none">';
         } else {
             echo '<div id="partone">';
         } 
 		
         ?>
-      <form action="submitresult.php" id="form" method="post" onSubmit="return (checkterritories() && checkpops() )" name="AlertStats">
-        <p class="form_headers">Alert Stats Submission (Miller only for now!)</p> 
-        
-        <p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
-          <br/>
-        Please note, you can't submit another alert until two hours later, to prevent spamming and contaminating the results.</p>  
-        
-        <p class="form_item_title">Which server was this alert on?</p>
-        <select name="ResultServerDis" id="ResultServer" disabled="disabled" >
-          <option>Miller</option> 
-        </select>
-        <input type="hidden" name="ResultServer" value="1" />
-        <label for="ResultServer" class="form_item_text">(Disabled)</label>
-         
-   <div id="time_container" style="display: block; height: 100px;"> 
-        <div id="time1" style="float: left; margin-top: 10px;">
-        <p class="form_item_title">When did the Alert end? (UTC time)</p>
-        <input class="form_item" id="ResultDateTime" style="margin-top: 10px; margin-right: 10px; width: 120px; text-align: center;" name="ResultDateTime" required />
-        <label for="ResultDateTime" class="form_item_text"></label>
-        </div>
-        <div id="time2">
-        
-        	<iframe src="http://free.timeanddate.com/clock/i3tjjso2/tluk/fn17/fs22/fcfff/tct/pct/tt0/tw0/tm3/ts1/ta1" frameborder="0" width="269" height="28" allowTransparency="true"></iframe>
-
-             <p class="form_item_text" style="text-align: center; margin: 2px; font-size: 16px;">Current UTC Time</p>
-        </div>
-   </div>
-   <div class="question" id="alert_won">
-        <p class="form_item_title">Who won this alert?</p>
-        <p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
-        <input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" /><span class="form_item_text">New Conglomerate</span><br />
-        <input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" /><span class="form_item_text">Terran Republic</span><br />
-        <input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" /><span class="form_item_text">Vanu Soverignity</span><br />
-        <label for="checkboxes" class="error"></label>
-   </div>
-        <script>
+		<form action="submitresult.php" id="form" method="post" onSubmit="return (checkterritories() && checkpops() )" name="AlertStats">
+			<p class="form_headers">Alert Stats Submission (Miller only for now!)</p>
+			<p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
+				<br/>
+				Please note, you can't submit another alert until two hours later, to prevent spamming and contaminating the results.</p>
+			<p class="form_item_title">Which server was this alert on?</p>
+			<select name="ResultServerDis" id="ResultServer" disabled="disabled" >
+				<option>Miller</option>
+			</select>
+			<input type="hidden" name="ResultServer" value="1" />
+			<label for="ResultServer" class="form_item_text">(Disabled)</label>
+			<div id="time_container" style="display: block; height: 100px;">
+				<div id="time1" style="float: left; margin-top: 10px;">
+					<p class="form_item_title">When did the Alert end? (UTC time)</p>
+					<input class="form_item" id="ResultDateTime" style="margin-top: 10px; margin-right: 10px; width: 120px; text-align: center;" name="ResultDateTime" required />
+					<label for="ResultDateTime" class="form_item_text"></label>
+				</div>
+				<div id="time2">
+					<iframe src="http://free.timeanddate.com/clock/i3tjjso2/tluk/fn17/fs22/fcfff/tct/pct/tt0/tw0/tm3/ts1/ta1" frameborder="0" width="269" height="28" allowTransparency="true"></iframe>
+					<p class="form_item_text" style="text-align: center; margin: 2px; font-size: 16px;">Current UTC Time</p>
+				</div>
+			</div>
+			<div class="question" id="alert_won">
+				<p class="form_item_title">Who won this alert?</p>
+				<p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
+				<input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" />
+				<span class="form_item_text">New Conglomerate</span><br />
+				<input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" />
+				<span class="form_item_text">Terran Republic</span><br />
+				<input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" />
+				<span class="form_item_text">Vanu Soverignity</span><br />
+				<label for="checkboxes" class="error"></label>
+			</div>
+			<script>
 		function dominationcheck() 
 		{
 			var valid = 0
@@ -320,8 +302,7 @@ if ($SelfPost == "true") {
 		}
 		
 		</script>
-            
-            <?php               
+			<?php               
                 if(isset($_POST['AlertStats']))
                 { 
 				echo 'FIRST IF SUCCESSFUL';       
@@ -372,15 +353,17 @@ if ($SelfPost == "true") {
 				echo '<br />';
                 }
               ?>
-        <div class="subquestion" id="domination">
-        <p class="form_item_title">Did the faction win the alert by Domination?</p>
-        <input type="radio" id="ResultDomination1" name="ResultDomination" value="1" onClick="enabledominationsub(), enabledomination(), lockterritory()" /><span class="form_item_text">Yes</span> <br />
-        <input type="radio" id="ResultDomination2" name="ResultDomination" value="0" onClick="disabledominationsub(), disabledominationsub(), lockterritory()" /><span class="form_item_text">No</span> <br />
-        
-        <div id="DomDur" class="error-side" style="margin-top: -33px;"><label for="ResultDomination" class="error"></label></div>
-        </div>
-        
-        <script>
+			<div class="subquestion" id="domination">
+				<p class="form_item_title">Did the faction win the alert by Domination?</p>
+				<input type="radio" id="ResultDomination1" name="ResultDomination" value="1" onClick="enabledominationsub(), enabledomination(), lockterritory()" />
+				<span class="form_item_text">Yes</span> <br />
+				<input type="radio" id="ResultDomination2" name="ResultDomination" value="0" onClick="disabledominationsub(), disabledominationsub(), lockterritory()" />
+				<span class="form_item_text">No</span> <br />
+				<div id="DomDur" class="error-side" style="margin-top: -33px;">
+					<label for="ResultDomination" class="error"></label>
+				</div>
+			</div>
+			<script>
 		
 		function wipeterritorylocks()
 		{
@@ -442,36 +425,27 @@ if ($SelfPost == "true") {
 		}
 		
 		</script>
-        
-        <div class="subquestion" id="duration">
-        <p class="form_item_title">How much time was there left in this alert?</p>
-        <input type="text" id="ResultDominationDuration" style="width: 50px; text-align: center;" name="ResultDominationDuration" />
-        <span class="form_item_text" style="margin-left: 5px;">Hours</span>
-               
-        <div id="DomDur" class="error-side"><label for="ResultDominationDuration" class="error"></label></div>
-        
-        </div>
-                   
-        <div class="question" id="alert_loc">       
-        <p class="form_item_title">On which contient did the alert take place? </p>
-        
-        <input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required/>
-        <span class="form_item_text">Amerish</span> <br />
-        
-        <input type="radio" name="ResultAlertCont" value="Esamir" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required />
-        <span class="form_item_text">Esamir</span><br />
-        
-        <input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required />
-        <span class="form_item_text">Indar</span><br />
-        
-        <input type="radio" id="XCont" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory()" required />
-        <span class="form_item_text">Cross Continent (All three)</span>
-        
-        <br />
-        <label for="ResultAlertCont" class="error"></label>
-        
-        </div>
-       	<script>
+			<div class="subquestion" id="duration">
+				<p class="form_item_title">How much time was there left in this alert?</p>
+				<input type="text" id="ResultDominationDuration" style="width: 50px; text-align: center;" name="ResultDominationDuration" />
+				<span class="form_item_text" style="margin-left: 5px;">Hours</span>
+				<div id="DomDur" class="error-side">
+					<label for="ResultDominationDuration" class="error"></label>
+				</div>
+			</div>
+			<div class="question" id="alert_loc">
+				<p class="form_item_title">On which contient did the alert take place? </p>
+				<input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required/>
+				<span class="form_item_text">Amerish</span> <br />
+				<input type="radio" name="ResultAlertCont" value="Esamir" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required />
+				<span class="form_item_text">Esamir</span><br />
+				<input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required />
+				<span class="form_item_text">Indar</span><br />
+				<input type="radio" id="XCont" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory()" required />
+				<span class="form_item_text">Cross Continent (All three)</span> <br />
+				<label for="ResultAlertCont" class="error"></label>
+			</div>
+			<script>
 		
 		function wipepopscont()
 		{
@@ -499,51 +473,44 @@ if ($SelfPost == "true") {
 			document.getElementById("pops_c_vs").disabled=false
 		}
 		
-		</script>        
-        
-        <div class="subquestion" id="pops_world">
-        <p class="form_item_title">How much <b>world</b> population % did each empire have?</p>
-        
-        <table width="150" border="0" style="text-align: center;">
-          <tr>
-          	<td class="form_item_text" width="50">VS</td>
-            <td class="form_item_text" width="50">TR</td>
-            <td class="form_item_text" width="50">NC</td>
-            
-          </tr>
-          <tr>
-            <td><input class="two" type="text" id="pops_w_vs" name="ResultPopsVS" required /></td>
-            <td><input class="two" type="text" id="pops_w_tr" name="ResultPopsTR" required /></td>
-            <td><input class="two" type="text" id="pops_w_nc" name="ResultPopsNC" required /></td>
-            
-         </tr>
-        </table>
-        
-        <div id="popswarningw" class="error-side"><label for="ResultPops" class="error"></label></div>
-        
-        </div>
-        
-        <div class="subquestion" id="pops_cont">
-         <p class="form_item_title">How much <b>continent</b> population % did each empire have?</p>
-        <table width="150" border="0" style="text-align: center;">
-          <tr>
-            <td class="form_item_text" width="50">VS</td>
-            <td class="form_item_text" width="50">TR</td>
-            <td class="form_item_text" width="50">NC</td>
-          </tr>
-          <tr>
-            <td><input class="two" type="text" id="pops_c_vs" name="ResultPopsVS" required /></td>
-            <td><input class="two" type="text" id="pops_c_tr" name="ResultPopsTR" required /></td>
-            <td><input class="two" type="text" id="pops_c_nc" name="ResultPopsNC" required /></td>
-
-          </tr>
-        </table>
-        
-        <div id="popswarningc" style="margin-left: 150px; margin-top: -27px;"><label for="ResultPops" class="error"></label></div>
-        
-        </div>
-        
-        <script type="text/javascript">
+		</script>
+			<div class="subquestion" id="pops_world">
+				<p class="form_item_title">How much <b>world</b> population % did each empire have?</p>
+				<table width="150" border="0" style="text-align: center;">
+					<tr>
+						<td class="form_item_text" width="50">VS</td>
+						<td class="form_item_text" width="50">TR</td>
+						<td class="form_item_text" width="50">NC</td>
+					</tr>
+					<tr>
+						<td><input class="two" type="text" id="pops_w_vs" name="ResultPopsVS" required /></td>
+						<td><input class="two" type="text" id="pops_w_tr" name="ResultPopsTR" required /></td>
+						<td><input class="two" type="text" id="pops_w_nc" name="ResultPopsNC" required /></td>
+					</tr>
+				</table>
+				<div id="popswarningw" class="error-side">
+					<label for="ResultPops" class="error"></label>
+				</div>
+			</div>
+			<div class="subquestion" id="pops_cont">
+				<p class="form_item_title">How much <b>continent</b> population % did each empire have?</p>
+				<table width="150" border="0" style="text-align: center;">
+					<tr>
+						<td class="form_item_text" width="50">VS</td>
+						<td class="form_item_text" width="50">TR</td>
+						<td class="form_item_text" width="50">NC</td>
+					</tr>
+					<tr>
+						<td><input class="two" type="text" id="pops_c_vs" name="ResultPopsVS" required /></td>
+						<td><input class="two" type="text" id="pops_c_tr" name="ResultPopsTR" required /></td>
+						<td><input class="two" type="text" id="pops_c_nc" name="ResultPopsNC" required /></td>
+					</tr>
+				</table>
+				<div id="popswarningc" style="margin-left: 150px; margin-top: -27px;">
+					<label for="ResultPops" class="error"></label>
+				</div>
+			</div>
+			<script type="text/javascript">
         function disableIfCross()
         {
             document.getElementById("TypeTerritory").disabled=true
@@ -556,28 +523,23 @@ if ($SelfPost == "true") {
 			document.getElementById("territory_text").className = "form_item_text";
         }
         </script>
-        
-        <div class="question" id="alert_type">
-        
-        <p class="form_item_title">What kind of alert was this?</p>
-        
-        <!-- Based on the continant answer and this answer, PHP will change the submitted variable to be the proper one into the database -->
-        
-            <input type="radio" name="ResultAlertType" value="Amp" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required/>
-            <span class="form_item_text">Amp Stations </span> <br />
-            <input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required />
-            <span class="form_item_text">Bio Labs</span> <br />
-            <input type="radio" id="AlertTech" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()" required />
-            <span class="form_item_text">Tech Plants </span> <br />
-            <input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" 
+			<div class="question" id="alert_type">
+				<p class="form_item_title">What kind of alert was this?</p>
+				
+				<!-- Based on the continant answer and this answer, PHP will change the submitted variable to be the proper one into the database -->
+				
+				<input type="radio" name="ResultAlertType" value="Amp" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required/>
+				<span class="form_item_text">Amp Stations </span> <br />
+				<input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required />
+				<span class="form_item_text">Bio Labs</span> <br />
+				<input type="radio" id="AlertTech" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()" required />
+				<span class="form_item_text">Tech Plants </span> <br />
+				<input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" 
 			onClick="animatedcollapse.show('territory'), lockterritory(), enableterritoryvalues()" required />
-            <span id="territory_text" class="form_item_text">Territory Capture </span> <br /> 
-                    
-            <label for="ResultAlertType" class="error"></label> 
-        
-        </div>
-        
-        <script type="text/javascript">		
+				<span id="territory_text" class="form_item_text">Territory Capture </span> <br />
+				<label for="ResultAlertType" class="error"></label>
+			</div>
+			<script type="text/javascript">		
 		
 		function wipevaluesterritory()
 		{
@@ -730,34 +692,30 @@ if ($SelfPost == "true") {
 				return false
 			}
 		}
-		</script>		
-        
-        <div id="territory" class="subquestion">
-        
-        <p class="form_item_title">How much territory % did each empire control?</p>
-        
-        <table width="150" border="0" style="text-align: center;">
-          <tr>
-            <td class="form_item_text" width="50">VS</td>
-            <td class="form_item_text" width="50">TR</td>
-            <td class="form_item_text" width="50">NC</td>
-          </tr>
-          <tr>
-            <td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" required /></td>
-            <td><input class="two" type="text" name="ResultTerritoryTR" id="TerritoryTR" required /></td>
-            <td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" required /></td>
-          </tr>
-        </table>        
-        <div id="TerritoryError" class="error-side" style="margin-top: -28px;"><label for="ResultTerritory" class="error"></label></div>
-        
-        </div>
-        
-        <br />
-    <input type="hidden" name="SelfPost" value="true" />
-    <input type="submit" id="submit_part1" name="AlertStats" value="Continue..." /> 
-    </form>     
-    
-    <script type="text/javascript">
+		</script>
+			<div id="territory" class="subquestion">
+				<p class="form_item_title">How much territory % did each empire control?</p>
+				<table width="150" border="0" style="text-align: center;">
+					<tr>
+						<td class="form_item_text" width="50">VS</td>
+						<td class="form_item_text" width="50">TR</td>
+						<td class="form_item_text" width="50">NC</td>
+					</tr>
+					<tr>
+						<td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" required /></td>
+						<td><input class="two" type="text" name="ResultTerritoryTR" id="TerritoryTR" required /></td>
+						<td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" required /></td>
+					</tr>
+				</table>
+				<div id="TerritoryError" class="error-side" style="margin-top: -28px;">
+					<label for="ResultTerritory" class="error"></label>
+				</div>
+			</div>
+			<br />
+			<input type="hidden" name="SelfPost" value="true" />
+			<input type="submit" id="submit_part1" name="AlertStats" value="Continue..." />
+		</form>
+		<script type="text/javascript">
 
 	$("#form").validate({
 		groups: {
@@ -768,10 +726,10 @@ if ($SelfPost == "true") {
 	});
 	
 	</script>
-     
-	</div> <!-- Part 1 Div End -->
-        
-        <?php if ($SelfPost == "true") {
+	</div>
+	<!-- Part 1 Div End -->
+	
+	<?php if ($SelfPost == "true") {
             echo '<div id="parttwo" style="display:block">';
         } else {
             echo '<div id="parttwo" style="display:none">';
@@ -822,41 +780,36 @@ if ($SelfPost == "true") {
 	}
 	$ResultDateTime = $ResultDateTimePre.':00';
 	?>
-    
-    <form action="submitresult_process.php" method="post" name="AlertStats2">
-    
-    <div class="form_item_text" id="debug">
-  	<?php if ($SelfPost == "12345") {
-		echo '<div class="form_item_text">';
+	<form action="submitresult_process.php" method="post" name="AlertStats2">
+		<?php 
+		if ($SelfPost == "12345") {
+		echo '<div class="form_item_text" id="debug">';
 			echo 'DEBUGGING </br>';
 			echo "<pre>";
 			var_dump($_POST);
 			echo "</pre>";
 			
-		echo '<p class="form_item_text">Domination Before: '.$ResultDominationDurationPre.'</p>';
+			echo '<p class="form_item_text">Domination Before: '.$ResultDominationDurationPre.'</p>';
+			
+			echo '</br> Master Alert Type: ';
+			echo $ResultAlertMasterType;
+			
+			echo '<br /> NC Win:';
+			echo $winNC;
+			echo '<br /> TR Win:';
+			echo $winTR;
+			echo '<br /> VS Win:';
+			echo $winVS;
+			echo '<br /> Draw:';
+			echo $ResultDraw;
 		
-		echo '</br> Master Alert Type: ';
-		echo $ResultAlertMasterType;
-		
-		echo '<br /> NC Win:';
-		echo $winNC;
-		echo '<br /> TR Win:';
-		echo $winTR;
-		echo '<br /> VS Win:';
-		echo $winVS;
-		echo '<br /> Draw:';
-		echo $ResultDraw;
-		
-	echo '</div>';
+		echo '</div>';
 	}	
 	
 	?>
-    
-    </div>
-	<p class="form_headers">Facility Statistics</p>  
-    
-    <p class="form_item_title">Which facility was the most contested?</p>
-	<?php
+		<p class="form_headers">Facility Statistics</p>
+		<p class="form_item_title">Which facility was the most contested?</p>
+		<?php
 	
 	//Change Query based on Alert Type
 	
@@ -876,11 +829,7 @@ if ($SelfPost == "true") {
 		}
     echo '</select>';
 	?>
-    
-	
-    
-    
-    <?php 
+		<?php 
 	// Set up the form based on the previous information (cross continant or not etc)
 	
 	// IF Cross Continant and NOT territory and NOT a draw::
@@ -922,9 +871,8 @@ if ($SelfPost == "true") {
 	}
 		
 	?>
-    <br />
-    
-    <?php
+		<br />
+		<?php
 	
 	//Refresh Data to submit to processing script//
 	echo '<input type="hidden" name="ResultServer" value="'.$ResultServer.'">';
@@ -944,12 +892,10 @@ if ($SelfPost == "true") {
 	echo '<input type="hidden" name="ResultTerritoryTR" value="'.$ResultTerritoryTR.'">';
 	echo '<input type="hidden" name="ResultTerritoryVS" value="'.$ResultTerritoryVS.'">';
 	?>
-	<br />
-    <input type="Submit" name="AlertStats2" value="Submit The Data!" />
+		<br />
+		<input type="Submit" name="AlertStats2" value="Submit The Data!" />
 	</form>
-	</div>
-        </div>
-  </div>
+	</div> <!-- End of Part 2 DIV -->
 </div>
 </body>
 </html>
