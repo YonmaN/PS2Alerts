@@ -27,8 +27,21 @@
 				$count_domination = mysql_fetch_row($count_domination_query);
 				
 				?>
-			<p class="form_item_text"><span class="stats_highlight"> <?php echo $count_submit[0] ?> </span> Alerts Submitted</p>
-			<p class="form_item_text"><span class="stats_highlight"> <?php echo $count_domination[0] ?> </span> Alerts Dominated</p>
+				<table width="320" border="0" style="margin-top:35px;">
+	<tr>
+		<td style="text-align: center;"><img src="images/AlertIconWaves3.png" alt="Alerts Submitted Icon" /></td>
+		<td style="text-align: center;"><img src="images/AlertIconDominated.png" alt="Alerts Dominated Icon" /></td>
+	</tr>
+	<tr>
+		<td style="text-align: center;"><span class="stats_highlight"> <?php echo $count_submit[0] ?> </span></td>
+		<td style="text-align: center;"><span class="stats_highlight"> <?php echo $count_domination[0] ?> </span></td>
+	</tr>
+	<tr>
+		<td style="text-align: center;"><p class="form_item_text" style="margin: 0px;"> Alerts Submitted</p></td>
+		<td style="text-align: center;"><p class="form_item_text" style="margin: 0px;"> Alerts Dominated</p></td>
+	</tr>
+</table>
+			
 		</div>
 		<div class="content" id="chart_container" style="margin-top: 10px; width: 320px;">
 			<p class="form_headers">Alerts by Faction &amp; Type</p>
@@ -716,7 +729,7 @@
 		
 	</script>
 		</div>
-		<div class="content" id="content_right" style="width:200px; float: right; margin-left: 10px">
+		<div class="content" id="content_right" style="width:200px; float: right; margin-left: 10px; padding-bottom: 5px;">
 			<p class="form_headers">Recent Alerts</p>
 			
 			<!--<a href="all_alerts.php" class="form_item_text" style="margin-left:55px; color: #C00;">View all alerts</a>-->
