@@ -9,7 +9,7 @@
 <body>
 <?php 
 
-$ResultServer = 10; //Currently always set to Miller
+$ResultServer = $_POST['ResultServer'];
 $ResultDateTime = $_POST["ResultDateTime"];
 $ResultNCWin = $_POST["ResultNCWin"];
 $ResultTRWin = $_POST["ResultTRWin"];
@@ -43,6 +43,18 @@ else if (($ResultTerritoryVS == '') && ($ResultAlertType == 'Territory'))
 	$ResultTerritoryVS = 75;
 }
 
+if (($ResultTerritoryNC == '') && ($ResultTerritoryTR == '') && ($ResultTerritoryVS == '')) 
+{
+	$ResultTerritoryNC = 0;
+	$ResultTerritoryTR = 0;
+	$ResultTerritoryVS = 0;
+}
+
+if ($ResultFacilitiesWon == '')
+{
+	$ResultFacilitiesWon = 0;
+}
+
 	echo 'DEBUGGING </br>';
 	echo "<pre>";
 	var_dump($_POST);
@@ -50,7 +62,7 @@ else if (($ResultTerritoryVS == '') && ($ResultAlertType == 'Territory'))
 
 //SUBMIT DA DATA!
 
-$submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, ResultNC, ResultTR, ResultVS, ResultDraw, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility) VALUES ('".$ResultDateTime."', '".$ResultServer."', '".$ResultNCWin."', '".$ResultTRWin."', '".$ResultVSWin."', '".$ResultDraw."', '".$ResultAlertCont."', '".$ResultAlertType."', '".$ResultDomination."', '".$ResultDominationDuration."', '".$ResultPopsNC."', '".$ResultPopsTR."', '".$ResultPopsVS."', '".$ResultTerritoryNC."', '".$ResultTerritoryTR."', '".$ResultTerritoryVS."', '".$ResultFacilitiesWon."', '".$ResultContestedFacility."')");
+$submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, ResultNC, ResultTR, ResultVS, ResultDraw, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility) VALUES ('$ResultDateTime', '$ResultServer', '$ResultNCWin', '$ResultTRWin', '$ResultVSWin', '$ResultDraw', '$ResultAlertCont', '$ResultAlertType', '$ResultDomination', '$ResultDominationDuration', '$ResultPopsNC', '$ResultPopsTR', '$ResultPopsVS', '$ResultTerritoryNC', '$ResultTerritoryTR', '$ResultTerritoryVS', '$ResultFacilitiesWon', '$ResultContestedFacility')");
 
 if (!$submit) {
 	die('ERROR!: ' . mysql_error());
