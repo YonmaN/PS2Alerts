@@ -27,21 +27,36 @@
 				$count_domination = mysql_fetch_row($count_domination_query);
 				
 				?>
-				<table width="320" border="0" style="margin-top:35px;">
-	<tr>
-		<td style="text-align: center;"><img src="images/AlertIconWaves3.png" alt="Alerts Submitted Icon" /></td>
-		<td style="text-align: center;"><img src="images/AlertIconDominated.png" alt="Alerts Dominated Icon" /></td>
-	</tr>
-	<tr>
-		<td style="text-align: center;"><span class="stats_highlight"> <?php echo $count_submit[0] ?> </span></td>
-		<td style="text-align: center;"><span class="stats_highlight"> <?php echo $count_domination[0] ?> </span></td>
-	</tr>
-	<tr>
-		<td style="text-align: center;"><p class="form_item_text" style="margin: 0px;"> Alerts Submitted</p></td>
-		<td style="text-align: center;"><p class="form_item_text" style="margin: 0px;"> Alerts Dominated</p></td>
-	</tr>
-</table>
-			
+			<table width="320" border="0" style="margin-top:35px;">
+				<tr>
+					<td style="text-align: center;"><img src="images/AlertIconWaves3.png" alt="Alerts Submitted Icon" /></td>
+					<td style="text-align: center;"><img src="images/AlertIconDominated.png" alt="Alerts Dominated Icon" /></td>
+				</tr>
+				<tr>
+					<td style="text-align: center;"><span class="stats_highlight"> <?php echo $count_submit[0] ?> </span></td>
+					<td style="text-align: center;"><span class="stats_highlight"> <?php echo $count_domination[0] ?> </span></td>
+				</tr>
+				<tr>
+					<td style="text-align: center;"><p class="form_item_text" style="margin: 0px;"> Alerts Submitted</p></td>
+					<td style="text-align: center;"><p class="form_item_text" style="margin: 0px;"> Alerts Dominated</p></td>
+				</tr>
+			</table>
+			<div id="sever_selection" style="margin-top:10px; width: 210px; margin-left: auto; margin-right: auto;">
+				<p class="form_item_text" style="display: inline;"> Selected Server: </p>
+				<form action="alertlist.php" method="POST" style="display:inline;">
+					<select name="server" disabled="disabled" style="display: inline;">
+						<option value="ALL">All Servers</option>
+						<option value="25">Briggs</option>
+						<option value="11">Ceres</option>
+						<option value="13">Cobalt</option>
+						<option value="1">Connery</option>
+						<option value="17">Mattherson</option>
+						<option value="10">Miller</option>
+						<option value="18">Waterson</option>
+						<option value="9">Woodman</option>
+					</select>
+				</form>
+			</div>
 		</div>
 		<div class="content" id="chart_container" style="margin-top: 10px; width: 320px;">
 			<p class="form_headers">Alerts by Faction &amp; Type</p>
@@ -682,7 +697,7 @@
 					type: 'pie',
 					backgroundColor: '',
 					spacingLeft: 23,
-					spacingRight: 47,
+					spacingRight: 55,
 					spacingTop: 0
 				},
 				credits: {enabled: false},
