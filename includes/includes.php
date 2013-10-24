@@ -1,5 +1,6 @@
 <link href="css/sitewide.css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css' />
+<link rel="icon" href="images/favicon.ico" type="image/x-icon" />
 <?php include("includes/mysqlconnect.php") ?>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="css/jquery-ui.css" />
