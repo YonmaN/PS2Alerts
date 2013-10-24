@@ -754,7 +754,7 @@
 				$winner = "Terran Republic";
 			} else if ($ResultVS == "WIN")
 			{
-				$winner = "Vanu Sovereignity";
+				$winner = "Vanu Sovereignty";
 			} else if ($ResultDraw == 1) {
 				$winner = "Draw";
 			}
