@@ -29,4 +29,4 @@ Collaborators
 =========
 Maelstrome26 - Project Lead and Developer
 
-Wabizke - Developer & JavaScript Overlord
+fisu - API Data Collection Services (http://fishy.sytes.net)
