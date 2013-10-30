@@ -55,6 +55,7 @@ if ($SelfPost == '') {
 	$ResultTerritoryNC = '';
 	$ResultTerritoryTR = '';
 	$ResultTerritoryVS = '';
+	$SubmitterIP = $_SERVER['REMOTE_ADDR'];
 
 } elseif ($SelfPost == 'true') 
 {
@@ -77,7 +78,15 @@ if ($SelfPost == '') {
 	
 	$ResultAlertMasterType = $ResultAlertType.$ResultAlertCont;
 }
+// Check to see if IP is banned from submitting	
+
+$bans_query = mysql_query ("SELECT IPBanned FROM bans WHERE IPBanned = '$SubmitterIP'");
+$bans = mysql_fetch_array($bans_query);
 	
+if (($bans["IPBanned"] == $SubmitterIP) && ($SelfPost == ""))
+{
+	header("Location: thanks.php?Message=2");
+}
 
 // Check recent alert timer
 
