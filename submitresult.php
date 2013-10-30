@@ -382,6 +382,27 @@ if ($SpamLimit == 1)
 				echo '<br />';
                 }
               ?>
+			  
+			  <script type="text/javascript">
+			  function checkempires()
+			  {
+				  NC = document.getElementById("win1");
+				  TR = document.getElementById("win2");
+				  VS = document.getElementById("win3");
+				
+				if ((NC.checked == false) && (TR.checked == false) && (VS.checked == false))
+				{
+					window.alert("No empire selected!");
+					return false
+					
+				}
+				else 
+				{
+					return true
+				}				  
+			  } 
+			  
+			  </script>
 			<div class="subquestion" id="domination">
 				<p class="form_item_title">Did the faction win the alert by Domination?</p>
 				<input type="radio" id="ResultDomination1" name="ResultDomination" value="1" onClick="enabledominationsub(), enabledomination(), lockterritory()" />
@@ -453,6 +474,19 @@ if ($SpamLimit == 1)
 			});
 		}
 		
+		function disableEsamirTech()
+		{
+			document.getElementById("AlertTech").disabled = true
+			document.getElementById("AlertTech").checked = false
+			document.getElementById("TechPlantSpan").className = "strike";
+		}
+		
+		function enableEsamirTech()
+		{
+			document.getElementById("AlertTech").disabled = false
+			document.getElementById("TechPlantSpan").className = "form_item_text";
+		}
+		
 		</script>
 			<div class="subquestion" id="duration">
 				<p class="form_item_title">How much time was there left in this alert?</p>
@@ -464,13 +498,13 @@ if ($SpamLimit == 1)
 			</div>
 			<div class="question" id="alert_loc">
 				<p class="form_item_title">On which contient did the alert take place? </p>
-				<input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required/>
+				<input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld(), enableEsamirTech()" required/>
 				<span class="form_item_text">Amerish</span> <br />
-				<input type="radio" name="ResultAlertCont" value="Esamir" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required />
+				<input type="radio" name="ResultAlertCont" value="Esamir" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld(), disableEsamirTech()" required />
 				<span class="form_item_text">Esamir</span><br />
-				<input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld()" required />
+				<input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld(), enableEsamirTech()" required />
 				<span class="form_item_text">Indar</span><br />
-				<input type="radio" id="XCont" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory()" required />
+				<input type="radio" id="XCont" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory(), enableEsamirTech()" required />
 				<span class="form_item_text">Cross Continent (All three)</span> <br />
 				<label for="ResultAlertCont" class="error"></label>
 			</div>
@@ -562,7 +596,7 @@ if ($SpamLimit == 1)
 				<input type="radio" name="ResultAlertType" value="Bio" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory()" required />
 				<span class="form_item_text">Bio Labs</span> <br />
 				<input type="radio" id="AlertTech" name="ResultAlertType" value="Tech" onClick="javascript:animatedcollapse.hide('territory'), wipevaluesterritory(), checktechplantdraw()" required />
-				<span class="form_item_text">Tech Plants </span> <br />
+				<span id="TechPlantSpan" class="form_item_text">Tech Plants </span> <br />
 				<input type="radio" name="ResultAlertType" value="Territory" id="TypeTerritory" 
 			onClick="animatedcollapse.show('territory'), lockterritory(), enableterritoryvalues()" required />
 				<span id="territory_text" class="form_item_text">Territory Capture </span> <br />
@@ -721,6 +755,7 @@ if ($SpamLimit == 1)
 				return false
 			}
 		}
+		
 		</script>
 			<div id="territory" class="subquestion">
 				<p class="form_item_title">How much territory % did each empire control?</p>
