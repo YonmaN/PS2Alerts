@@ -9,7 +9,7 @@
 <body>
 <?php 
 
-$ResultServer = $_POST['ResultServer'];
+$ResultServer = $_POST["ResultServer"];
 $ResultDateTime = $_POST["ResultDateTime"];
 $ResultNCWin = $_POST["ResultNCWin"];
 $ResultTRWin = $_POST["ResultTRWin"];
@@ -23,10 +23,12 @@ $ResultFacilitiesWon = $_POST["ResultFacilitiesWon"];
 $ResultPopsNC = $_POST["ResultPopsNC"];
 $ResultPopsTR = $_POST["ResultPopsTR"];
 $ResultPopsVS = $_POST["ResultPopsVS"];
-$ResultTerritoryNC = $_POST["ResultTerritoryNC"];
-$ResultTerritoryTR = $_POST["ResultTerritoryTR"];
-$ResultTerritoryVS = $_POST["ResultTerritoryVS"];
+$ResultTerritoryNC = 0; // No longer used
+$ResultTerritoryTR = 0; // No longer used
+$ResultTerritoryVS = 0; // No longer used
 $ResultContestedFacility = $_POST["ResultContestedFacility"];
+
+$SubmitterIP = $_SERVER['REMOTE_ADDR'];
 
 // FIX for disabled text field
 
@@ -62,20 +64,17 @@ if ($ResultFacilitiesWon == '')
 
 //SUBMIT DA DATA!
 
-$submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, ResultNC, ResultTR, ResultVS, ResultDraw, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility) VALUES ('$ResultDateTime', '$ResultServer', '$ResultNCWin', '$ResultTRWin', '$ResultVSWin', '$ResultDraw', '$ResultAlertCont', '$ResultAlertType', '$ResultDomination', '$ResultDominationDuration', '$ResultPopsNC', '$ResultPopsTR', '$ResultPopsVS', '$ResultTerritoryNC', '$ResultTerritoryTR', '$ResultTerritoryVS', '$ResultFacilitiesWon', '$ResultContestedFacility')");
+$submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, ResultNC, ResultTR, ResultVS, ResultDraw, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility, SubmitterIP) VALUES ('$ResultDateTime', '$ResultServer', '$ResultNCWin', '$ResultTRWin', '$ResultVSWin', '$ResultDraw', '$ResultAlertCont', '$ResultAlertType', '$ResultDomination', '$ResultDominationDuration', '$ResultPopsNC', '$ResultPopsTR', '$ResultPopsVS', '$ResultTerritoryNC', '$ResultTerritoryTR', '$ResultTerritoryVS', '$ResultFacilitiesWon', '$ResultContestedFacility', '$SubmitterIP')");
+
+include_once ("api_poll.php"); // Process the API requests
 
 if (!$submit) {
-	die('ERROR!: ' . mysql_error());
+	die('SUBMIT ERROR!: ' . mysql_error());
 } else {
 	header("Location: thanks.php"); /* Redirect browser */
 	exit();
 }
 
-$Result = mysql_query ("SELECT * FROM results ORDER BY ResultID DESC LIMIT 1");
-
-while ($check = mysql_fetch_array($Result)) {
-	echo $check['ResultID'];
-}
 ?>
 </body>
 </html>

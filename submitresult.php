@@ -82,7 +82,7 @@ if ($SelfPost == '') {
 
 $bans_query = mysql_query ("SELECT IPBanned FROM bans WHERE IPBanned = '$SubmitterIP'");
 $bans = mysql_fetch_array($bans_query);
-	
+
 if (($bans["IPBanned"] == $SubmitterIP) && ($SelfPost == ""))
 {
 	header("Location: thanks.php?Message=2");
