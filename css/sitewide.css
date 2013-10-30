@@ -12,7 +12,7 @@ body {
 
 /* Centering */
 
-#header, .content, #submit_content {
+#header, .content, #submit_content, #links {
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -32,12 +32,20 @@ body {
 	margin-bottom: 10px;
 }
 
+#links {
+	width: 330px;
+	margin-top:7px;
+	background-image: url(../images/content_background.png);
+	border-radius: 10px;
+	padding:5px;
+}
+
 .header_links {
-	font-family: 'Noto Sans', sans-serif;
+	font-family: 'Orbitron', sans-serif;
 	font-size: 22px;
 	color: #FFF;
-	margin-right: 20px;
-	margin-left: 20px;
+	margin-right: 10px;
+	margin-left: 10px;
 	border-radius:10px;
 }
 
@@ -100,7 +108,8 @@ body {
 .form_headers {
 	font-size:30px;
 	text-align: center;
-	font-family: 'Noto Sans', sans-serif;
+	/*font-family: 'Noto Sans', sans-serif;*/
+	font-family: 'Orbitron', sans-serif;
 	margin-bottom: 10px;
 	margin-top: 5px;
 	color:#C00;
@@ -118,6 +127,12 @@ body {
 	text-decoration:line-through;
 }
 
+.center {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .stats_highlight {
 	font-size: 20px;
 	color:#F00;
@@ -130,7 +145,7 @@ body {
 	background-size: contain;
 	border-radius: 10px;
 	padding: 20px;
-	width:380px; 
+	width: 380px; 
 	float: left; 
 	padding-left: 0px; 
 	padding-right: 0px;
@@ -187,3 +202,21 @@ body {
 	margin-left: 150px; 
 	margin-top: -25px;
 }
+
+/* CSS for Alert Details */
+
+.facility_cell {width: 70px;}
+
+.icon {width: 32px; height: 32px; display: inline-block; background-image:url(../images/icons.png); margin-bottom:2px;}
+
+.icon_Amp_NC {background-position: -32px -32px;}
+.icon_Amp_TR {background-position: -32px -64px;}
+.icon_Amp_VS {background-position: -32px -96px;}
+
+.icon_Bio_NC {background-position: -64px -32px;}
+.icon_Bio_TR {background-position: -64px -64px;}
+.icon_Bio_VS {background-position: -64px -96px;}
+
+.icon_Tech_NC {background-position: -96px -32px;}
+.icon_Tech_TR {background-position: -96px -64px;}
+.icon_Tech_VS {background-position: -96px -96px;}
