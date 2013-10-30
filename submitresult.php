@@ -134,33 +134,36 @@ if ($SpamLimit == 1)
         } 
 		
         ?>
-		<form action="submitresult.php" id="form" method="post" onSubmit="return (checkterritories() && checkpops() )" name="AlertStats">
+		<form action="submitresult.php" id="form" method="post" onSubmit="return (checkterritories() && checkpops() && checkempires() )" name="AlertStats">
 			<p class="form_headers">Alert Statistics Submission</p>
 			<p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
 				<br/>
 				Please note, you can't submit another alert until an hour later, to prevent spamming and contaminating the results.</p>
 			<p class="form_item_title">Which server was this alert on?</p>
-			<select name="ResultServer" id="ResultServer" onChange="lastAlertCheck();" >
-				<?php if ($ResultServer == '') {echo '<option value="Select">Select Server</option>';} ?>
-				<option value="25" <?php if ($ResultServer == 25) {echo "selected='selected'"; } ?>>Briggs</option>
-				<option value="11" <?php if ($ResultServer == 11) {echo "selected='selected'"; } ?>>Ceres</option>
-				<option value="13" <?php if ($ResultServer == 13) {echo "selected='selected'"; } ?>>Cobalt</option>
-				<option value="1" <?php if ($ResultServer == 1) {echo "selected='selected'"; } ?>>Connery</option>
-				<option value="17" <?php if ($ResultServer == 17) {echo "selected='selected'"; } ?>>Mattherson</option>
-				<option value="10" <?php if ($ResultServer == 10) {echo "selected='selected'"; } ?>>Miller</option>
-				<option value="18" <?php if ($ResultServer == 18) {echo "selected='selected'"; } ?>>Waterson</option>
-				<option value="9" <?php if ($ResultServer == 9) {echo "selected='selected'"; } ?>>Woodman</option>
+			<select name="ResultServerSelect" id="ResultServerSelect" onChange="lastAlertCheck();" >
+				<?php if ($ResultServerSelect == '') {echo '<option value="Select">Select Server</option>';} ?>
+				<option value="25" <?php if ($ResultServerSelect == 25) {echo "selected='selected'"; } ?>>Briggs</option>
+				<option value="11" <?php if ($ResultServerSelect == 11) {echo "selected='selected'"; } ?>>Ceres</option>
+				<option value="13" <?php if ($ResultServerSelect == 13) {echo "selected='selected'"; } ?>>Cobalt</option>
+				<option value="1" <?php if ($ResultServerSelect == 1) {echo "selected='selected'"; } ?>>Connery</option>
+				<option value="17" <?php if ($ResultServerSelect == 17) {echo "selected='selected'"; } ?>>Mattherson</option>
+				<option value="10" <?php if ($ResultServerSelect == 10) {echo "selected='selected'"; } ?>>Miller</option>
+				<option value="18" <?php if ($ResultServerSelect == 18) {echo "selected='selected'"; } ?>>Waterson</option>
+				<option value="9" <?php if ($ResultServerSelect == 9) {echo "selected='selected'"; } ?>>Woodman</option>
 			</select>
+			
+			<input type="hidden" name="ResultServer" value="<?php echo $ResultServerSelect; ?>">
 			
 			<script type="text/javascript">
 			
 			function lastAlertCheck()
 			{
-				ResultServerValue = document.getElementById("ResultServer").value
+				ResultServerValue = document.getElementById("ResultServerSelect").value
 				
-				this.document.location.href = "submitresult.php?ResultServer="+ResultServerValue+"";
+				this.document.location.href = "submitresult.php?ResultServerSelect="+ResultServerValue+"";
 				
-				$("#ResultServer option[value='Select']").remove();
+				$("#ResultServerSelect option[value='Select']").remove();
+				document.getElementById("submit_part1").disabled=false;
 			}
 						
 			</script>
