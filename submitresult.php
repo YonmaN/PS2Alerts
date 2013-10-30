@@ -29,9 +29,8 @@ animatedcollapse.init()
 
 </script>
 <script>
-function message() {
-	window.alert("This system is NOT YET LIVE. Please use the Google document at www.bit.ly/MillerAlertStats until announcement!");
-	document.getElementById("submit_part1").disabled=true // Disable Submit button until user has chosen empire
+function load() {
+	document.getElementById("submit_part1").disabled=true // Disable Submit button until user has chosen empire and server
 }
 </script>
 </head>
@@ -39,7 +38,8 @@ function message() {
 
 // Clean all variables at beginning of form and set defaults to blank, if the form is fresh
 if ($SelfPost == '') {
-	$ResultServer = $_REQUEST["ResultServer"];; 
+	$ResultServer = $_REQUEST["ResultServer"];
+	$ResultServerSelect = $_REQUEST["ResultServerSelect"];
 	$ResultDateTime = ''; 
 	$ResultNCWin = '';
 	$ResultTRWin = '';
@@ -96,7 +96,7 @@ $Now = new DateTime('NOW');
 $Now->sub(new DateInterval('PT1H'));
 $SpamTimer = $Now->format('Y-m-d H:i:s');
 
-$last_times_query = mysql_query("SELECT ResultServer, ResultDateTime FROM results2 WHERE ResultDateTime > '".$SpamTimer."' AND ResultServer = ".$ResultServer." ");
+$last_times_query = mysql_query("SELECT ResultServer, ResultDateTime FROM results2 WHERE ResultDateTime > '".$SpamTimer."' AND ResultServer = ".$ResultServerSelect." ");
 
 $last_times = mysql_fetch_array($last_times_query);
 
@@ -328,8 +328,6 @@ if ($SpamLimit == 1)
 					TerritoryNC.value = 33;
 				}
 			}
-				 
-			
 		}
 		
 		</script>
