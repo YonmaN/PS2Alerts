@@ -3,17 +3,34 @@
 include ("includes/mysqlconnect.php");
 
 $mode = "";
+$import = $_POST["import"];
 
 echo 'MODE = '.$mode;
 
-// GRAB ALL DATA FOR NEWLY CREATED DATABASE RECORD
-
+if ($import == "import") // Set up API Poll Script to insert data into the database using the ResultID supplied by the Import Script
+{
+	echo '<a href="api_input.php"><<<<<-----BACK TO INPUT</a>';
+	$mode = "debugging";
 	$ResultID = $_POST["ResultID"];
+	$grab_info_query = mysql_query("SELECT * FROM results2 WHERE ResultID = $ResultID");
+	$grab_info = mysql_fetch_array($grab_info_query);
+	
+	$world_id = $grab_info["ResultServer"];
+	$ResultDateTime = $grab_info["ResultDateTime"];
+	$ResultAlertCont = $grab_info["ResultAlertCont"];
+	$ResultAlertType = $grab_info["ResultAlertType"];
+}
+
+
+if ($import == "") // If not importing
+{
+	//$ResultID = $_POST["ResultID"];
 	//$ResultAlertType = $_POST["ResultAlertType"];
 	//$ResultAlertCont = $_POST["ResultAlertCont"];
 	$ResultDateTime = $_POST["ResultDateTime"];
 	$world_id = $_POST["ResultServer"];
 	
+}
 	// Calculate time based on Alert Type and date given
 	
 	if (($ResultAlertCont != "Cross") && ($ResultAlertType != "Territory")) // If facility alert on one continent (1 hour duration)
@@ -24,6 +41,8 @@ echo 'MODE = '.$mode;
 	{
 		$duration = 7200; // 2 hours (normal)
 	}	
+	
+	echo '<br />RESULT ID: <a href="alertdetail.php?AlertID='.$ResultID.'">'.$ResultID.'</a>';
 		
 	$UNIX = strtotime($ResultDateTime); // Convert recorded end of result to UNIX time
 	echo '<br />UNIX END TIME: '.$UNIX;
@@ -96,13 +115,6 @@ if ($mode == "debugging")
 }
 
 $territory = $json["control_list"][0]["control-percentage"];
-
-$last_result_query = mysql_query ("SELECT ResultID FROM results2 ORDER BY ResultID DESC LIMIT 1");
-$last_result = mysql_fetch_array($last_result_query);
-
-$ResultID = $last_result["ResultID"];
-
-$total = $territory[1] + $territory[2] + $territory[3];
 	
 if (($mode == "") || ($mode == "debugging")) // Live Data Scripts
 {	
@@ -180,6 +192,7 @@ if (($mode == "") || ($mode == "debugging")) // Live Data Scripts
 		
 		if ($mode == "debugging")
 		{
+			$total = $territory[1] + $territory[2] + $territory[3];
 			echo 'RESULT DEBUGGING <br />';
 			echo '<br /> Last Result ID: '.$ResultID;
 			echo '<br /> VS Territory % = '.$territory[1] * 100;
