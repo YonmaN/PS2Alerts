@@ -64,8 +64,7 @@ if ($SelfPost == "true")
 			<div class="content stats_left" id="Facility_Vote">
 				<p class="form_headers">Facility Voting</p>
 				<p class="form_item_text" style="text-align: center;">Which facility was the most contested?</p>
-				<div id="facility_graph" style="width:320px; height: 320px;">
-				</div>
+				<div id="facility_graph" style="width:320px; height: 320px;"></div>
 				<div id="facility_votes" style="width: 320px; height: 30px; background-color:#840003;">
 					<?php
 	
@@ -106,7 +105,7 @@ if ($SelfPost == "true")
 					<br />
 					<br />
 					<br />
-					<p class="form_headers">Alert populations through duration of alert (Area line graph)</p>
+					<p class="form_headers">Alert populations through duration of alert (Line Graph)</p>
 				</div>
 			</div>
 			<?php 
@@ -120,16 +119,11 @@ if ($SelfPost == "true")
 				}
 			?>
 			<p class="form_headers">Territory Percentages</p>
-			<p class="form_item_text" style="text-align: center; font-size: 12px;">Due to server calculations, territories may not always add up to 100%.</p>
 			<div id="territory_percentages" style="width: 630px; height: 300px;"></div>
-			
 			<?php 
 			
 			$territory_query = mysql_query ("SELECT * FROM results_territory WHERE ResultID = $AlertID");
 			
-			
-			//if ($territory_result["ResultID"] == $AlertID)
-			//{
 				$territory_data_VS = array();
 				$territory_data_NC = array();
 				$territory_data_TR = array();
@@ -149,7 +143,6 @@ if ($SelfPost == "true")
 				print_r(array_values($territory_data_TR));
 				echo '</pre>';*/
 				
-			//}
 				$territory_old_query = mysql_query ("SELECT ResultID, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS FROM results2 WHERE ResultID = $AlertID ");
 				$territory_old_result = mysql_fetch_array ($territory_old_query);
 				
@@ -158,10 +151,9 @@ if ($SelfPost == "true")
 				$territoryVS = $territory_old_result["ResultTerritoryVS"];
 				
 			?>
-			
 			<script>
 			$(function () {
-        $('#territory_percentages').highcharts({
+       		$('#territory_percentages').highcharts({
             chart: {
                 type: 'area',
 				backgroundColor: ''
@@ -195,7 +187,7 @@ if ($SelfPost == "true")
             tooltip: {
                 shared: true,
 				crosshairs:[{width:1,color:'white',zIndex:22}],
-                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b><br/>',
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.0f}%</b><br/>',
             },
             plotOptions: {
                 area: {
@@ -226,59 +218,322 @@ if ($SelfPost == "true")
     });
     </script>
 		</div>
-		<?php 
-			if ($AlertStats['ResultAlertType'] != "Territory")
-				{
-					echo '<div class="content stats_right" id="facilities">';
+		
+		<?php if ($AlertStats["ResultAlertType"] != "Territory") // Hide facilities DIV if not relevent
+		{
+			echo '<div class="content stats_right" id="facility_history_graph">';
+		}
+		else
+		{
+			echo '<div class="content stats_right" style="display: none;">';
+		}
+		?>
+			
+		<p class="form_headers">Facility History</p>
+		<div id="facility_history" style="width: 640px; height: 300px;"></div>
+		
+		<?php					
+		
+		if ($AlertStats["ResultAlertType"] == "Amp")
+		{
+			$type = "amp";
+		}
+		else if ($AlertStats["ResultAlertType"] == "Bio")
+		{
+			$type = "bio";
+		}
+		else if ($AlertStats["ResultAlertType"] == "Tech")
+		{
+			$type = "tech";
+		}
+		else
+		{
+			$type = "UNKNOWN";
+		}
+			
+			$facility_query = mysql_query ("SELECT * FROM results_".$type." WHERE resultID = $AlertID");	
+			
+			$facility_last_query = mysql_query ("SELECT * FROM results_".$type." WHERE resultID = $AlertID ORDER BY dataTimestamp DESC LIMIT 1");
+			$facility_last_result = mysql_fetch_array($facility_last_query);
+			
+			
+				$facility_data_VS = array();
+				$facility_data_NC = array();
+				$facility_data_TR = array();
+				$facility_data_dates = array();
 					
-					if ($AlertStats['ResultAlertType'] == "Amp") 
-					{					
-						$facility_query = mysql_query("SELECT * FROM results_amp WHERE resultID = $AlertID ");
-					} 
-					else if ($AlertStats['ResultAlertType'] == "Bio")
+				echo $type;
+				echo $ResultAlertCont;
+				
+				while ($row = mysql_fetch_array($facility_query))
+				{	
+				
+				if ($type == "amp") 
 					{
-						$facility_query = mysql_query("SELECT * FROM results_bio WHERE resultID = $AlertID ");
-					} 
-					else if ($AlertStats['ResultAlertType'] == "Tech")
-					{
-						$facility_query = mysql_query("SELECT * FROM results_tech WHERE resultID = $AlertID ");
+						$fac1 = $row["Peris"];
+						$fac2 = $row["Dahaka"];
+						$fac3 = $row["Zurvan"];
+						$fac4 = $row["Kwahtee"];
+						$fac5 = $row["Sungrey"];
+						$fac6 = $row["Wokuk"];
+						$fac7 = $row["Elli"];
+						$fac8 = $row["Freyr"];
+						$fac9 = $row["Nott"];
 					}
-
-				}
-				else 
+				else if ($type == "bio") 
+					{
+						$fac1 = $row["Allatum"];
+						$fac2 = $row["Saurva"];
+						$fac3 = $row["Rashnu"];
+						$fac4 = $row["Ikanam"];
+						$fac5 = $row["Onatha"];
+						$fac6 = $row["Xelas"];
+						$fac7 = $row["Andvari"];
+						$fac8 = $row["Mani"];
+						$fac9 = $row["Ymir"];
+					}
+				else if ($type == "tech")
+					{
+						$fac1 = $row["Hvar"];
+						$fac2 = $row["Mao"];
+						$fac3 = $row["Tawrich"];
+						$fac4 = $row["Heyoka"];
+						$fac5 = $row["Mekala"];
+						$fac6 = $row["Tumas"];
+						$fac7 = $row["Eisa"];
+					}
+				
+				$VS = 0;
+				$NC = 0;
+				$TR = 0;
+								
+				if (($ResultAlertCont == "Indar") || ($ResultAlertCont == "Cross")) 
 				{
-					echo '<div style="display:none" id="facilities">';
+					if ($fac1 == 1)
+					{
+						$VS++;
+					}
+					else if ($fac1 == 2)
+					{
+						$NC++;
+					}
+					else if ($fac1 == 3)
+					{
+						$TR++;
+					}
+					
+					if ($fac2 == 1)
+					{
+						$VS++;
+					}
+					else if ($fac2 == 2)
+					{
+						$NC++;
+					}
+					else if ($fac2 == 3)
+					{
+						$TR++;
+					}
+					
+					if ($fac3 == 1)
+					{
+						$VS++;
+					}
+					else if ($fac3 == 2)
+					{
+						$NC++;
+					}
+					else if ($fac3 == 3)
+					{
+						$TR++;
+					}
+				}
+				if (($ResultAlertCont == "Amerish") || ($ResultAlertCont == "Cross"))
+				{		
+					if ($fac4 == 1)
+					{
+						$VS++;
+					}
+					else if ($fac4 == 2)
+					{
+						$NC++;
+					}
+					else if ($fac4 == 3)
+					{
+						$TR++;
+					}
+						
+					if ($fac5 == 1)
+					{
+						$VS++;
+					}
+					else if ($fac5 == 2)
+					{
+						$NC++;
+					}
+					else if ($fac5 == 3)
+					{
+						$TR++;
+					}
+					
+					if ($fac6 == 1)
+					{
+						$VS++;
+					}
+					else if ($fac6 == 2)
+					{
+						$NC++;
+					}
+					else if ($fac6 == 3)
+					{
+						$TR++;
+					}
+				}
+				if (($ResultAlertCont == "Esamir") || ($ResultAlertCont == "Cross"))
+				{					
+					if ($fac7 == 1)
+					{
+						$VS++;
+					}
+					else if ($fac7 == 2)
+					{
+						$NC++;
+					}
+					else if ($fac7 == 3)
+					{
+						$TR++;
+					}
+					
+					if ($fac8 == 1)
+					{
+						$VS++;
+					}
+					else if ($fac8 == 2)
+					{
+						$NC++;
+					}
+					else if ($fac8 == 3)
+					{
+						$TR++;
+					}
+					
+					if ($fac9 == 1)
+					{
+						$VS++;
+					}
+					else if ($fac9 == 2)
+					{
+						$NC++;
+					}
+					else if ($fac9 == 3)
+					{
+						$TR++;
+					}
+				}
+									
+					array_push($facility_data_VS, $VS);
+					array_push($facility_data_NC, $NC);
+					array_push($facility_data_TR, $TR);
+					array_push($facility_data_dates, gmdate("H:i", $row['dataTimestamp']));
+				}
+				/*echo '<pre class="form_item_text">';
+				print_r(array_values($facility_data_dates));
+				print_r(array_values($facility_data_VS));
+				print_r(array_values($facility_data_NC));
+				print_r(array_values($facility_data_TR));
+				echo '</pre>';*/
+				
+				// Set Max for Graph:
+				
+				if (($ResultAlertCont == "Cross") && ($ResultAlertType != "Tech"))
+				{
+					$max = 9; // Cross Amp or Bio
+				} 
+				else if (($ResultAlertCont == "Cross") && ($ResultAlertType == "Tech"))
+				{
+					$max = 7; // Cross Tech
+				}
+				else if ($ResultAlertCont != "Cross")
+				{
+					$max = 3; // Cont Alert
 				}
 				
-					$facility_result = mysql_fetch_array($facility_query);
+				
+				
 			?>
-		<p class="form_headers">Facilities</p>
-		
-			<div id="facility_graph" style="width: 640px; height: 200px; margin-bottom: 10px; background-color:#900;">
-				<br />
-<br />
-<br />
-<p class="form_headers">Facility captures over alert period<br />
-placeholder (Area Line Graph)</p>
-			</div>
-		
+			<script>
+			$(function () {
+       		$('#facility_history').highcharts({
+            chart: {
+                type: 'area',
+				backgroundColor: ''
+            },
+            title: {
+                text: ''
+            },
+			credits:{enabled: false},
+			exporting:{enabled: false},
+            xAxis: {
+                categories: [<?php foreach ($facility_data_dates as $key) {echo "'".$key."', ";}?>],
+                tickmarkPlacement: 'on',
+				tickInterval: 2,
+                title: {
+                    enabled: false
+                }
+            },
+            yAxis:{title:{text:''},max:<?php echo $max;?>,tickInterval:1},
+			legend: {
+				enabled: false
+			},
+            tooltip: {
+                shared: true,
+				crosshairs:[{width:1,color:'white',zIndex:22}],
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+            },
+            plotOptions: {
+                area: {
+                    stacking: 'normal',
+                    lineColor: '#ffffff',
+                    lineWidth: 1,
+					fillOpacity: 0.85,
+                    marker: {
+                        lineWidth: 1,
+                        lineColor: '#CCCCCC'
+                    }
+                }
+            },
+            series: [{
+                name: 'Vanu Soverignity',
+                data: [<?php foreach ($facility_data_VS as $key) {echo "".$key.", ";}?>],
+				color: '#7309AA'
+            }, {
+                name: 'New Conglomerate',
+                data: [<?php foreach ($facility_data_NC as $key) {echo "".$key.", ";}?>],
+				color: '#080B74'
+			}, {
+                name: 'Terran Republic',
+                data: [<?php foreach ($facility_data_TR as $key) {echo "".$key.", ";}?>],
+				color: '#910000'
+            }]
+        });
+    });
+    </script>
 		<table width="630" border="0">
-				<?php 
+			<?php 
 				
 				if ($AlertStats['ResultAlertType'] == "Amp") 
 				{
-					
 					if (($AlertStats['ResultAlertCont'] == "Indar") || ($AlertStats['ResultAlertCont'] == "Cross"))
 					{
-						if ($facility_result["Peris"] == 1)
+						if ($facility_last_result["Peris"] == 1)
 						{
 							$win_peris = "VS";
 						}
-						else if ($facility_result["Peris"] == 2)
+						else if ($facility_last_result["Peris"] == 2)
 						{
 							$win_peris = "NC";
 						}
-						else if ($facility_result["Peris"] == 3)
+						else if ($facility_last_result["Peris"] == 3)
 						{
 							$win_peris = "TR";
 						}
@@ -291,15 +546,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Indar)';
 						echo '</td>';
 						
-						if ($facility_result["Dahaka"] == 1)
+						if ($facility_last_result["Dahaka"] == 1)
 						{
 							$win_dahaka = "VS";
 						}
-						else if ($facility_result["Dahaka"] == 2)
+						else if ($facility_last_result["Dahaka"] == 2)
 						{
 							$win_dahaka = "NC";
 						}
-						else if ($facility_result["Dahaka"] == 3)
+						else if ($facility_last_result["Dahaka"] == 3)
 						{
 							$win_dahaka = "TR";
 						}
@@ -312,15 +567,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Indar)';
 						echo '</td>';
 						
-						if ($facility_result["Zurvan"] == 1)
+						if ($facility_last_result["Zurvan"] == 1)
 						{
 							$win_zurvan = "VS";
 						}
-						else if ($facility_result["Zurvan"] == 2)
+						else if ($facility_last_result["Zurvan"] == 2)
 						{
 							$win_zurvan = "NC";
 						}
-						else if ($facility_result["Zurvan"] == 3)
+						else if ($facility_last_result["Zurvan"] == 3)
 						{
 							$win_zurvan = "TR";
 						}
@@ -336,15 +591,15 @@ placeholder (Area Line Graph)</p>
 					
 					if (($AlertStats['ResultAlertCont'] == "Amerish") || ($AlertStats['ResultAlertCont'] == "Cross"))
 					{
-						if ($facility_result["Kwahtee"] == 1)
+						if ($facility_last_result["Kwahtee"] == 1)
 						{
 							$win_kwahtee = "VS";
 						}
-						else if ($facility_result["Kwahtee"] == 2)
+						else if ($facility_last_result["Kwahtee"] == 2)
 						{
 							$win_kwahtee = "NC";
 						}
-						else if ($facility_result["Kwahtee"] == 3)
+						else if ($facility_last_result["Kwahtee"] == 3)
 						{
 							$win_kwahtee = "TR";
 						}
@@ -356,15 +611,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Amerish)';
 						echo '</td>';
 						
-						if ($facility_result["Sungrey"] == 1)
+						if ($facility_last_result["Sungrey"] == 1)
 						{
 							$win_sungrey = "VS";
 						}
-						else if ($facility_result["Sungrey"] == 2)
+						else if ($facility_last_result["Sungrey"] == 2)
 						{
 							$win_sungrey = "NC";
 						}
-						else if ($facility_result["Sungrey"] == 3)
+						else if ($facility_last_result["Sungrey"] == 3)
 						{
 							$win_sungrey = "TR";
 						}
@@ -377,15 +632,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Amerish)';
 						echo '</td>';
 						
-						if ($facility_result["Wokuk"] == 1)
+						if ($facility_last_result["Wokuk"] == 1)
 						{
 							$win_wokuk = "VS";
 						}
-						else if ($facility_result["Wokuk"] == 2)
+						else if ($facility_last_result["Wokuk"] == 2)
 						{
 							$win_wokuk = "NC";
 						}
-						else if ($facility_result["Wokuk"] == 3)
+						else if ($facility_last_result["Wokuk"] == 3)
 						{
 							$win_wokuk = "TR";
 						}
@@ -402,15 +657,15 @@ placeholder (Area Line Graph)</p>
 					if (($AlertStats['ResultAlertCont'] == "Esamir") || ($AlertStats['ResultAlertCont'] == "Cross"))
 					{
 						
-						if ($facility_result["Elli"] == 1)
+						if ($facility_last_result["Elli"] == 1)
 						{
 							$win_elli = "VS";
 						}
-						else if ($facility_result["Elli"] == 2)
+						else if ($facility_last_result["Elli"] == 2)
 						{
 							$win_elli = "NC";
 						}
-						else if ($facility_result["Elli"] == 3)
+						else if ($facility_last_result["Elli"] == 3)
 						{
 							$win_elli = "TR";
 						}
@@ -423,15 +678,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Esamir)';
 						echo '</td>';
 						
-						if ($facility_result["Freyr"] == 1)
+						if ($facility_last_result["Freyr"] == 1)
 						{
 							$win_freyr = "VS";
 						}
-						else if ($facility_result["Freyr"] == 2)
+						else if ($facility_last_result["Freyr"] == 2)
 						{
 							$win_freyr = "NC";
 						}
-						else if ($facility_result["Freyr"] == 3)
+						else if ($facility_last_result["Freyr"] == 3)
 						{
 							$win_freyr = "TR";
 						}
@@ -444,15 +699,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Esamir)';
 						echo '</td>';
 						
-						if ($facility_result["Nott"] == 1)
+						if ($facility_last_result["Nott"] == 1)
 						{
 							$win_nott = "VS";
 						}
-						else if ($facility_result["Nott"] == 2)
+						else if ($facility_last_result["Nott"] == 2)
 						{
 							$win_nott = "NC";
 						}
-						else if ($facility_result["Nott"] == 3)
+						else if ($facility_last_result["Nott"] == 3)
 						{
 							$win_nott = "TR";
 						}
@@ -469,18 +724,17 @@ placeholder (Area Line Graph)</p>
 				} 
 				else if ($AlertStats['ResultAlertType'] == "Bio") 
 				{
-					
 					if (($AlertStats['ResultAlertCont'] == "Indar") || ($AlertStats['ResultAlertCont'] == "Cross"))
 					{
-						if ($facility_result["Allatum"] == 1)
+						if ($facility_last_result["Allatum"] == 1)
 						{
 							$win_allatum = "VS";
 						}
-						else if ($facility_result["Allatum"] == 2)
+						else if ($facility_last_result["Allatum"] == 2)
 						{
 							$win_allatum = "NC";
 						}
-						else if ($facility_result["Allatum"] == 3)
+						else if ($facility_last_result["Allatum"] == 3)
 						{
 							$win_allatum = "TR";
 						}
@@ -493,15 +747,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Indar)';
 						echo '</td>';
 						
-						if ($facility_result["Saurva"] == 1)
+						if ($facility_last_result["Saurva"] == 1)
 						{
 							$win_saurva = "VS";
 						}
-						else if ($facility_result["Saurva"] == 2)
+						else if ($facility_last_result["Saurva"] == 2)
 						{
 							$win_saurva = "NC";
 						}
-						else if ($facility_result["Saurva"] == 3)
+						else if ($facility_last_result["Saurva"] == 3)
 						{
 							$win_saurva = "TR";
 						}
@@ -514,15 +768,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Indar)';
 						echo '</td>';
 						
-						if ($facility_result["Rashnu"] == 1)
+						if ($facility_last_result["Rashnu"] == 1)
 						{
 							$win_rashnu = "VS";
 						}
-						else if ($facility_result["Zurvan"] == 2)
+						else if ($facility_last_result["Rashnu"] == 2)
 						{
 							$win_rashnu = "NC";
 						}
-						else if ($facility_result["Zurvan"] == 3)
+						else if ($facility_last_result["Rashnu"] == 3)
 						{
 							$win_rashnu = "TR";
 						}
@@ -538,15 +792,15 @@ placeholder (Area Line Graph)</p>
 					
 					if (($AlertStats['ResultAlertCont'] == "Amerish") || ($AlertStats['ResultAlertCont'] == "Cross"))
 					{
-						if ($facility_result["Ikanam"] == 1)
+						if ($facility_last_result["Ikanam"] == 1)
 						{
 							$win_ikanam = "VS";
 						}
-						else if ($facility_result["Ikanam"] == 2)
+						else if ($facility_last_result["Ikanam"] == 2)
 						{
 							$win_ikanam = "NC";
 						}
-						else if ($facility_result["Ikanam"] == 3)
+						else if ($facility_last_result["Ikanam"] == 3)
 						{
 							$win_ikanam = "TR";
 						}
@@ -558,15 +812,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Amerish)';
 						echo '</td>';
 						
-						if ($facility_result["Onatha"] == 1)
+						if ($facility_last_result["Onatha"] == 1)
 						{
 							$win_onatha = "VS";
 						}
-						else if ($facility_result["Onatha"] == 2)
+						else if ($facility_last_result["Onatha"] == 2)
 						{
 							$win_onatha = "NC";
 						}
-						else if ($facility_result["Onatha"] == 3)
+						else if ($facility_last_result["Onatha"] == 3)
 						{
 							$win_onatha = "TR";
 						}
@@ -579,15 +833,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Amerish)';
 						echo '</td>';
 						
-						if ($facility_result["Xelas"] == 1)
+						if ($facility_last_result["Xelas"] == 1)
 						{
 							$win_xelas = "VS";
 						}
-						else if ($facility_result["Xelas"] == 2)
+						else if ($facility_last_result["Xelas"] == 2)
 						{
 							$win_xelas = "NC";
 						}
-						else if ($facility_result["Xelas"] == 3)
+						else if ($facility_last_result["Xelas"] == 3)
 						{
 							$win_xelas = "TR";
 						}
@@ -604,15 +858,15 @@ placeholder (Area Line Graph)</p>
 					if (($AlertStats['ResultAlertCont'] == "Esamir") || ($AlertStats['ResultAlertCont'] == "Cross"))
 					{
 						
-						if ($facility_result["Andvari"] == 1)
+						if ($facility_last_result["Andvari"] == 1)
 						{
 							$win_andvari = "VS";
 						}
-						else if ($facility_result["Andvari"] == 2)
+						else if ($facility_last_result["Andvari"] == 2)
 						{
 							$win_andvari = "NC";
 						}
-						else if ($facility_result["Andvari"] == 3)
+						else if ($facility_last_result["Andvari"] == 3)
 						{
 							$win_andvari = "TR";
 						}
@@ -625,15 +879,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Esamir)';
 						echo '</td>';
 						
-						if ($facility_result["Mani"] == 1)
+						if ($facility_last_result["Mani"] == 1)
 						{
 							$win_mani = "VS";
 						}
-						else if ($facility_result["Mani"] == 2)
+						else if ($facility_last_result["Mani"] == 2)
 						{
 							$win_mani = "NC";
 						}
-						else if ($facility_result["Mani"] == 3)
+						else if ($facility_last_result["Mani"] == 3)
 						{
 							$win_mani = "TR";
 						}
@@ -646,15 +900,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Esamir)';
 						echo '</td>';
 						
-						if ($facility_result["Ymir"] == 1)
+						if ($facility_last_result["Ymir"] == 1)
 						{
 							$win_ymir = "VS";
 						}
-						else if ($facility_result["Ymir"] == 2)
+						else if ($facility_last_result["Ymir"] == 2)
 						{
 							$win_ymir = "NC";
 						}
-						else if ($facility_result["Ymir"] == 3)
+						else if ($facility_last_result["Ymir"] == 3)
 						{
 							$win_ymir = "TR";
 						}
@@ -674,15 +928,15 @@ placeholder (Area Line Graph)</p>
 					
 					if (($AlertStats['ResultAlertCont'] == "Indar") || ($AlertStats['ResultAlertCont'] == "Cross"))
 					{
-						if ($facility_result["Hvar"] == 1)
+						if ($facility_last_result["Hvar"] == 1)
 						{
 							$win_hvar = "VS";
 						}
-						else if ($facility_result["Hvar"] == 2)
+						else if ($facility_last_result["Hvar"] == 2)
 						{
 							$win_hvar = "NC";
 						}
-						else if ($facility_result["Hvar"] == 3)
+						else if ($facility_last_result["Hvar"] == 3)
 						{
 							$win_hvar = "TR";
 						}
@@ -695,15 +949,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Indar)';
 						echo '</td>';
 						
-						if ($facility_result["Mao"] == 1)
+						if ($facility_last_result["Mao"] == 1)
 						{
 							$win_mao = "VS";
 						}
-						else if ($facility_result["Mao"] == 2)
+						else if ($facility_last_result["Mao"] == 2)
 						{
 							$win_mao = "NC";
 						}
-						else if ($facility_result["Mao"] == 3)
+						else if ($facility_last_result["Mao"] == 3)
 						{
 							$win_mao = "TR";
 						}
@@ -716,15 +970,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Indar)';
 						echo '</td>';
 						
-						if ($facility_result["Tawrich"] == 1)
+						if ($facility_last_result["Tawrich"] == 1)
 						{
 							$win_tarwich = "VS";
 						}
-						else if ($facility_result["Tawrich"] == 2)
+						else if ($facility_last_result["Tawrich"] == 2)
 						{
 							$win_tarwich = "NC";
 						}
-						else if ($facility_result["Tawrich"] == 3)
+						else if ($facility_last_result["Tawrich"] == 3)
 						{
 							$win_tarwich = "TR";
 						}
@@ -740,15 +994,15 @@ placeholder (Area Line Graph)</p>
 					
 					if (($AlertStats['ResultAlertCont'] == "Amerish") || ($AlertStats['ResultAlertCont'] == "Cross"))
 					{
-						if ($facility_result["Heyoka"] == 1)
+						if ($facility_last_result["Heyoka"] == 1)
 						{
 							$win_heyoka = "VS";
 						}
-						else if ($facility_result["Heyoka"] == 2)
+						else if ($facility_last_result["Heyoka"] == 2)
 						{
 							$win_heyoka = "NC";
 						}
-						else if ($facility_result["Heyoka"] == 3)
+						else if ($facility_last_result["Heyoka"] == 3)
 						{
 							$win_heyoka = "TR";
 						}
@@ -760,15 +1014,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Amerish)';
 						echo '</td>';
 						
-						if ($facility_result["Mekala"] == 1)
+						if ($facility_last_result["Mekala"] == 1)
 						{
 							$win_mekala = "VS";
 						}
-						else if ($facility_result["Mekala"] == 2)
+						else if ($facility_last_result["Mekala"] == 2)
 						{
 							$win_mekala = "NC";
 						}
-						else if ($facility_result["Mekala"] == 3)
+						else if ($facility_last_result["Mekala"] == 3)
 						{
 							$win_mekala = "TR";
 						}
@@ -781,15 +1035,15 @@ placeholder (Area Line Graph)</p>
 							echo '(Amerish)';
 						echo '</td>';
 						
-						if ($facility_result["Tumas"] == 1)
+						if ($facility_last_result["Tumas"] == 1)
 						{
 							$win_tumas = "VS";
 						}
-						else if ($facility_result["Tumas"] == 2)
+						else if ($facility_last_result["Tumas"] == 2)
 						{
 							$win_tumas = "NC";
 						}
-						else if ($facility_result["Tumas"] == 3)
+						else if ($facility_last_result["Tumas"] == 3)
 						{
 							$win_tumas = "TR";
 						}
@@ -806,15 +1060,15 @@ placeholder (Area Line Graph)</p>
 					if (($AlertStats['ResultAlertCont'] == "Esamir") || ($AlertStats['ResultAlertCont'] == "Cross"))
 					{
 						
-						if ($facility_result["Eisa"] == 1)
+						if ($facility_last_result["Eisa"] == 1)
 						{
 							$win_eisa = "VS";
 						}
-						else if ($facility_result["Eisa"] == 2)
+						else if ($facility_last_result["Eisa"] == 2)
 						{
 							$win_eisa = "NC";
 						}
-						else if ($facility_result["Eisa"] == 3)
+						else if ($facility_last_result["Eisa"] == 3)
 						{
 							$win_eisa = "TR";
 						}
@@ -829,7 +1083,8 @@ placeholder (Area Line Graph)</p>
 					}
 				} 
 				?>
-			</tr>
+				</tr>
+			
 		</table>
 	</div>
 </div>

@@ -24,7 +24,10 @@ if ($import == "import") // Set up API Poll Script to insert data into the datab
 
 if ($import == "") // If not importing
 {
-	//$ResultID = $_POST["ResultID"];
+	$last_id_query = mysql_query("SELECT ResultID FROM results2 ORDER BY ResultID DESC LIMIT 1");
+	$last_id = mysql_fetch_array($last_id_query);
+	
+	$ResultID = $last_id["ResultID"];
 	//$ResultAlertType = $_POST["ResultAlertType"];
 	//$ResultAlertCont = $_POST["ResultAlertCont"];
 	$ResultDateTime = $_POST["ResultDateTime"];
@@ -220,7 +223,8 @@ if (($mode == "") || ($mode == "debugging")) // Live Data Scripts
 			
 			$key ++;
 			
-			$submit_stats = mysql_query ("INSERT INTO results_territory (dataTimestamp, ResultID, TerritoryVS, TerritoryNC, TerritoryTR) VALUES (".$result['datetime'].", $ResultID, $territoryVS, $territoryNC, $territoryTR) ");
+			$submit_stats = mysql_query ("INSERT INTO results_territory (dataTimestamp, ResultID, TerritoryVS, TerritoryNC, TerritoryTR) 
+			VALUES (".$result['datetime'].", $ResultID, $territoryVS, $territoryNC, $territoryTR) ");
 			
 		} // End for each Territory loop
 		
