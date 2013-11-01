@@ -20,7 +20,8 @@
 	
 	if ($Message == 1)
 	{
-		echo '<p class="form_headers">There has already been an alert submitted within the past hour.</p> <p class="form_headers">Please check again later!</p>';
+		echo '<p class="form_headers">There has already been an alert submitted within the past hour.</p> ';
+		echo '<p class="form_headers">Please check again later!</p>';
 	} 
 	else if ($Message == 2)
 	{
@@ -30,8 +31,17 @@
 		
 		echo '<p class="form_headers">You have been banned from submitting Alert Statistics.</p>';
 		echo '<p class="form_item_text">Reason: '. $bans["Comment"];
-	} else 
+	} else if ($Message == 3)
 	{
+		echo '<p class="form_headers">This alert doesnt exist!</p>';
+		echo '<p class="form_item_text" style="text-align: center; font-size: 20px;">This alert may have been deleted for the following reasons:</p>';
+		echo '<ul class="form_item_text">';
+			echo '<li class="form_item_text">The alert may have been a false result and deleted to maintain statistical integrity.</li>';
+			echo '<li class="form_item_text">The alert data may have been malformed, which has been deleted to maintain proper results.</li>';
+			echo '<li class="form_item_text">The alert may have been submitted by a spam bot, or a malicious user. <span style="color: #F00;">(Beware, if we find people doing this, they will be banned!)</span></li>';
+			echo '<li class="form_item_text">The alert data may have been for testing purposes.</li>';
+		echo '</ul>';
+	} else {
 		
 		$last_alert_query = mysql_query ("SELECT ResultID FROM results2 ORDER BY ResultID DESC LIMIT 1");
 		$last_alert = mysql_fetch_array($last_alert_query);
