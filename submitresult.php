@@ -32,7 +32,7 @@ animatedcollapse.init()
 function load() {
 	document.getElementById("submit_part1").disabled=true // Disable Submit button until user has chosen empire and server
 	
-	alert("There is currently an issue with the submission script, where it displays a wall of text. Your alert will be submitted, please ignore this!");
+	<!--alert("There is currently an issue with the submission script, where it displays a wall of text. Your alert will be submitted, please ignore this!"); -->
 }
 </script>
 </head>
