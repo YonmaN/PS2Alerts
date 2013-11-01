@@ -13,6 +13,11 @@ $AlertID = $_REQUEST["AlertID"];
 $AlertStats_query = mysql_query("SELECT * FROM results2 WHERE ResultID = $AlertID ");
 $AlertStats = mysql_fetch_array($AlertStats_query);
 
+if ($AlertStats["ResultID"] != $AlertID) // Check if alert exists
+{
+	header("Location: thanks.php?Message=3"); //Send them to error page if not
+}
+
 if ($AlertStats['ResultNC'] == 'WIN') 
 {
 	$ResultVictor = "New Conglomerate";
@@ -97,7 +102,12 @@ if ($SelfPost == "true")
 		<div class="stats_right" id="content_right">
 			<div class="content stats_right" id="populations">
 				<p class="form_headers">Populations Chart</p>
-				<p class="form_item_text">IN DEVELOPMENT</p>
+				<div id="facility_graph" style="width: 640px; height: 200px; margin-bottom: 10px; background-color:#900;">
+					<br />
+					<br />
+					<br />
+					<p class="form_headers">Alert populations through duration of alert (Area line graph)</p>
+				</div>
 			</div>
 			<?php 
 			if ($AlertStats['ResultAlertType'] == "Territory")
@@ -111,29 +121,35 @@ if ($SelfPost == "true")
 			?>
 			<p class="form_headers">Territory Percentages</p>
 			<p class="form_item_text" style="text-align: center; font-size: 12px;">Due to server calculations, territories may not always add up to 100%.</p>
-			<div id="territory_percentages" style="width: 630px; height: 150px;">
-			</div>
+			<div id="territory_percentages" style="width: 630px; height: 300px;"></div>
 			
 			<?php 
 			
 			$territory_query = mysql_query ("SELECT * FROM results_territory WHERE ResultID = $AlertID");
-			$territory_result = mysql_fetch_array ($territory_query);
 			
 			
-			if ($territory_result["ResultID"] == $AlertID)
-			{
-				$territoryNC_pre = $territory_result["Territory_NC"] * 100;
-				$territoryTR_pre = $territory_result["Territory_TR"] * 100;
-				$territoryVS_pre = $territory_result["Territory_VS"] * 100;
+			//if ($territory_result["ResultID"] == $AlertID)
+			//{
+				$territory_data_VS = array();
+				$territory_data_NC = array();
+				$territory_data_TR = array();
+				$territory_data_dates = array();
 				
-				$territoryNC = floor($territoryNC_pre);
-				$territoryTR = floor($territoryTR_pre);
-				$territoryVS = floor($territoryVS_pre);
+				while ($row = mysql_fetch_array($territory_query))
+				{
+					array_push($territory_data_VS, $row["TerritoryVS"]);
+					array_push($territory_data_NC, $row["TerritoryNC"]);
+					array_push($territory_data_TR, $row["TerritoryTR"]);
+					array_push($territory_data_dates, gmdate("H:i", $row['dataTimestamp']));
+				}
+				/*echo '<pre class="form_item_text">';
+				print_r(array_values($territory_data_dates));
+				print_r(array_values($territory_data_VS));
+				print_r(array_values($territory_data_NC));
+				print_r(array_values($territory_data_TR));
+				echo '</pre>';*/
 				
-				var_dump(phpversion());
-			}
-			else 
-			{
+			//}
 				$territory_old_query = mysql_query ("SELECT ResultID, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS FROM results2 WHERE ResultID = $AlertID ");
 				$territory_old_result = mysql_fetch_array ($territory_old_query);
 				
@@ -141,56 +157,74 @@ if ($SelfPost == "true")
 				$territoryTR = $territory_old_result["ResultTerritoryTR"];
 				$territoryVS = $territory_old_result["ResultTerritoryVS"];
 				
-			}
 			?>
 			
 			<script>
 			$(function () {
-				$('#territory_percentages').highcharts({
-					chart: {
-						type: 'bar',
-						backgroundColor: '',
-					},
-					credits: {enabled: false},
-					title: {
-						text: ''
-					},
-					xAxis: {
-						categories: 'Territory'
-					},
-					yAxis: {
-						min: 0,
-						max: 100
-					},
-					legend: {
-						backgroundColor: '#FFFFFF',
-						reversed: true
-					},
-					plotOptions: {
-						series: {
-							stacking: 'normal',
-								dataLabels: {
-									color: '#FFF',
-									enabled: true
-								}
-						},
-					},
-						series: [{
-						name: 'New Congolomerate',
-						color: '#0080FF',
-						data: [<?php echo $territoryNC ?>]
-					}, {
-						name: 'Terran Republic',
-						color: '#DF0101',
-						data: [<?php echo $territoryTR ?>]
-					}, {
-						name: 'Vanu Soverignity',
-						color: '#7309AA',
-						data: [<?php echo $territoryVS ?>]
-					}]
-				});
-			});
-			</script>
+        $('#territory_percentages').highcharts({
+            chart: {
+                type: 'area',
+				backgroundColor: ''
+            },
+            title: {
+                text: ''
+            },
+			credits:{enabled: false},
+			exporting:{enabled: false},
+            xAxis: {
+                categories: [<?php foreach ($territory_data_dates as $key) {echo "'".$key."', ";}?>],
+                tickmarkPlacement: 'on',
+				tickInterval: 2,
+                title: {
+                    enabled: false
+                }
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value;
+                    }
+                }
+            },
+			legend: {
+				enabled: false
+			},
+            tooltip: {
+                shared: true,
+				crosshairs:[{width:1,color:'white',zIndex:22}],
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b><br/>',
+            },
+            plotOptions: {
+                area: {
+                    stacking: 'percent',
+                    lineColor: '#ffffff',
+                    lineWidth: 1,
+					fillOpacity: 0.85,
+                    marker: {
+                        lineWidth: 1,
+                        lineColor: '#CCCCCC'
+                    }
+                }
+            },
+            series: [{
+                name: 'Vanu Soverignity',
+                data: [<?php foreach ($territory_data_VS as $key) {echo "".$key.", ";}?>],
+				color: '#7309AA'
+            }, {
+                name: 'New Conglomerate',
+                data: [<?php foreach ($territory_data_NC as $key) {echo "".$key.", ";}?>],
+				color: '#080B74'
+			}, {
+                name: 'Terran Republic',
+                data: [<?php foreach ($territory_data_TR as $key) {echo "".$key.", ";}?>],
+				color: '#910000'
+            }]
+        });
+    });
+    </script>
 		</div>
 		<?php 
 			if ($AlertStats['ResultAlertType'] != "Territory")
@@ -219,6 +253,15 @@ if ($SelfPost == "true")
 					$facility_result = mysql_fetch_array($facility_query);
 			?>
 		<p class="form_headers">Facilities</p>
+		
+			<div id="facility_graph" style="width: 640px; height: 200px; margin-bottom: 10px; background-color:#900;">
+				<br />
+<br />
+<br />
+<p class="form_headers">Facility captures over alert period<br />
+placeholder (Area Line Graph)</p>
+			</div>
+		
 		<table width="630" border="0">
 				<?php 
 				

@@ -31,6 +31,8 @@ animatedcollapse.init()
 <script>
 function load() {
 	document.getElementById("submit_part1").disabled=true // Disable Submit button until user has chosen empire and server
+	
+	alert("There is currently an issue with the submission script, where it displays a wall of text. Your alert will be submitted, please ignore this!");
 }
 </script>
 </head>
@@ -113,8 +115,17 @@ if ($SpamLimit == 1)
 	header("Location: thanks.php?Message=1"); /* Redirect browser */
 	exit();
 }
+
+$SelfPost_error = $_REQUEST["SelfPost_error"];
+if ($SelfPost == "true")
+{
+	echo '<body>';
+}
+else if ($SelfPost_error == "")
+{
+	echo '<body onload="load()">';
+}
 ?>
-<body>
 <div id="wrapper">
 	<?php include('includes/header.php') ?>
 	<div class="content" id="content">
@@ -160,7 +171,6 @@ if ($SpamLimit == 1)
 				<option value="18" <?php if ($ResultServerSelect == 18) {echo "selected='selected'"; } ?>>Waterson</option>
 				<option value="9" <?php if ($ResultServerSelect == 9) {echo "selected='selected'"; } ?>>Woodman</option>
 			</select>
-			
 			<input type="hidden" name="ResultServer" value="<?php echo $ResultServerSelect; ?>">
 			
 			<script type="text/javascript">
@@ -169,7 +179,7 @@ if ($SpamLimit == 1)
 			{
 				ResultServerValue = document.getElementById("ResultServerSelect").value
 				
-				this.document.location.href = "submitresult.php?ResultServerSelect="+ResultServerValue+"";
+				this.document.location.href = "submitresult.php?ResultServerSelect="+ResultServerValue+"&SelfPost_error=submitted";
 				
 				$("#ResultServerSelect option[value='Select']").remove();
 				document.getElementById("submit_part1").disabled=false;
@@ -190,11 +200,11 @@ if ($SpamLimit == 1)
 			<div class="question" id="alert_won">
 				<p class="form_item_title">Who won this alert?</p>
 				<p class="form_item_title" style="font-size: 13px; color: #fff;">If the alert was a draw, please select the factions that drew together.</p>
-				<input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" />
+				<input type="checkbox" class="checkboxes" id="win1" name="rNC" onClick="dominationcheck(), lockterritory(), threewayTech()" />
 				<span class="form_item_text">New Conglomerate</span><br />
-				<input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" />
+				<input type="checkbox" class="checkboxes" id="win2" name="rTR" onClick="dominationcheck(), lockterritory(), threewayTech()" />
 				<span class="form_item_text">Terran Republic</span><br />
-				<input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck(), lockterritory(), checktechplantdraw()" />
+				<input type="checkbox" class="checkboxes" id="win3" name="rVS" onClick="dominationcheck(), lockterritory(), threewayTech()" />
 				<span class="form_item_text">Vanu Soverignity</span><br />
 				<label for="checkboxes" class="error"></label>
 			</div>
@@ -474,17 +484,34 @@ if ($SpamLimit == 1)
 			});
 		}
 		
-		function disableEsamirTech()
+		function disableTech()
 		{
 			document.getElementById("AlertTech").disabled = true
 			document.getElementById("AlertTech").checked = false
 			document.getElementById("TechPlantSpan").className = "strike";
 		}
 		
-		function enableEsamirTech()
+		function enableTech()
 		{
 			document.getElementById("AlertTech").disabled = false
 			document.getElementById("TechPlantSpan").className = "form_item_text";
+		}
+		
+		function threewayTech() 
+		{
+			win1 = document.getElementById("win1");
+			win2 = document.getElementById("win2");
+			win3 = document.getElementById("win3");
+			XCont = document.getElementById("XCont");
+			
+			if ((win1.checked == true) && (win2.checked == true) && (win3.checked == true) && (XCont.checked == true))
+			{
+				disableTech();
+			} 
+			else if ((win1.checked == false) || (win2.checked == false) || (win3.checked == false) || (XCont.checked == false))
+			{
+				enableTech();
+			}
 		}
 		
 		</script>
@@ -498,13 +525,13 @@ if ($SpamLimit == 1)
 			</div>
 			<div class="question" id="alert_loc">
 				<p class="form_item_title">On which contient did the alert take place? </p>
-				<input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld(), enableEsamirTech()" required/>
+				<input type="radio" name="ResultAlertCont" value="Amerish" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld(), threewayTech()" required/>
 				<span class="form_item_text">Amerish</span> <br />
-				<input type="radio" name="ResultAlertCont" value="Esamir" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld(), disableEsamirTech()" required />
+				<input type="radio" name="ResultAlertCont" value="Esamir" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld(), threewayTech()" required />
 				<span class="form_item_text">Esamir</span><br />
-				<input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld(), enableEsamirTech()" required />
+				<input type="radio" name="ResultAlertCont" value="Indar" onClick="reenableIfNotCross(), animatedcollapse.show('pops_cont'), animatedcollapse.hide('pops_world'), wipepopsworld(), threewayTech()" required />
 				<span class="form_item_text">Indar</span><br />
-				<input type="radio" id="XCont" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory(), enableEsamirTech()" required />
+				<input type="radio" id="XCont" name="ResultAlertCont" value="Cross" onClick="disableIfCross(), animatedcollapse.hide('territory'), animatedcollapse.show('pops_world'), animatedcollapse.hide('pops_cont'), wipepopscont(), wipevaluesterritory(), threewayTech()" required />
 				<span class="form_item_text">Cross Continent (All three)</span> <br />
 				<label for="ResultAlertCont" class="error"></label>
 			</div>
@@ -737,27 +764,8 @@ if ($SpamLimit == 1)
 			
 		}
 		
-		function checktechplantdraw() // Since a 3 way tech plant alert is not possible (7 is not divisiable by 3), prevent it from being selected.
-		{
-			win1 = document.getElementById("win1");
-			win2 = document.getElementById("win2");
-			win3 = document.getElementById("win3");
-			tech = document.getElementById("AlertTech")
-			cont = document.getelementbyid("XCont")
-			
-			if ((win1.checked == true) && (win2.checked == true) && (win3.checked == true) && (tech.checked == true ) && (cont.checked == false))
-			{
-				window.alert("A three way draw is not possible with Tech Plant alerts. Please re-choose the winners.");
-				win1.checked = false;
-				win2.checked = false;
-				win3.checked = false;
-				disabledomination()
-				return false
-			}
-		}
-		
 		</script>
-			<div id="territory" class="subquestion">
+			<!--<div id="territory" class="subquestion">
 				<p class="form_item_title">How much territory % did each empire control?</p>
 				<table width="150" border="0" style="text-align: center;">
 					<tr>
@@ -774,7 +782,7 @@ if ($SpamLimit == 1)
 				<div id="TerritoryError" class="error-side" style="margin-top: -28px;">
 					<label for="ResultTerritory" class="error"></label>
 				</div>
-			</div>
+			</div>-->
 			<br />
 			<input type="hidden" name="SelfPost" value="true" />
 			<input type="submit" id="submit_part1" name="AlertStats" value="Continue..." />
@@ -880,7 +888,7 @@ if ($SpamLimit == 1)
 	if ($ResultAlertType == "Territory") {
 		$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityType");
 	
-	}else if($ResultAlertCont == "Amerish" or $ResultAlertCont == "Esamir" or $ResultAlertCont == "Indar") {			
+	} else if($ResultAlertCont == "Amerish" or $ResultAlertCont == "Esamir" or $ResultAlertCont == "Indar") {			
 	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityContID ");
 	
 	} else if ($ResultAlertCont == "Cross") {
@@ -894,49 +902,6 @@ if ($SpamLimit == 1)
     echo '</select>';
 	?>
 		<?php 
-	// Set up the form based on the previous information (cross continant or not etc)
-	
-	// IF Cross Continant and NOT territory and NOT a draw::
-	
-	if ($ResultDomination == "1") 
-	{
-		//echo '<p class="form_item_text">DOMINATION</p>';
-		
-		if ($ResultAlertMasterType == "AmpCross" or $ResultAlertMasterType == "BioCross") 
-		{
-			$ResultFacilitiesWon = 9;
-		} elseif ($ResultAlertMasterType == "TechCross") {
-			$ResultFacilitiesWon = 7;
-		} else { // If Continential
-			$ResultFacilitiesWon = 3;
-		}
-	} else 
-	{
-		if ($ResultAlertType != "Territory") 
-		{				
-			if ($ResultAlertMasterType == "AmpCross" or $ResultAlertMasterType == "BioCross") 
-				{
-					echo '<p class="form_item_title">How many facilties did the victor have?</p>';
-					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=4> <span class="form_item_text">4/9</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=5> <span class="form_item_text">5/9</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=6> <span class="form_item_text">6/9</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=7> <span class="form_item_text">7/9</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=8> <span class="form_item_text">8/9</span> </br>';
-					
-				} elseif ($ResultAlertMasterType == "TechCross") 
-				{
-					echo '<p class="form_item_title">How many facilties did the victor have?</p>';
-					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=3> <span class="form_item_text">3/7</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=4> <span class="form_item_text">4/7</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=5> <span class="form_item_text">5/7</span> </br>';
-					echo '<input type="radio" class="form_item_text" name="ResultFacilitiesWon" value=6> <span class="form_item_text">6/7</span> </br>';
-				}
-		}
-	}
-		
-	?>
-		<br />
-		<?php
 	
 	//Refresh Data to submit to processing script//
 	echo '<input type="hidden" name="ResultServer" value="'.$ResultServer.'">';

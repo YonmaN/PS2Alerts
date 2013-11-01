@@ -32,7 +32,7 @@ $SubmitterIP = $_SERVER['REMOTE_ADDR'];
 
 // FIX for disabled text field
 
-if (($ResultTerritoryNC == '') && ($ResultAlertType == 'Territory')) 
+/*if (($ResultTerritoryNC == '') && ($ResultAlertType == 'Territory')) 
 {
 	$ResultTerritoryNC = 75;
 }
@@ -43,7 +43,7 @@ else if (($ResultTerritoryTR == '') && ($ResultAlertType == 'Territory'))
 else if (($ResultTerritoryVS == '') && ($ResultAlertType == 'Territory')) 
 {
 	$ResultTerritoryVS = 75;
-}
+}*/
 
 if (($ResultTerritoryNC == '') && ($ResultTerritoryTR == '') && ($ResultTerritoryVS == '')) 
 {
@@ -57,6 +57,11 @@ if ($ResultFacilitiesWon == '')
 	$ResultFacilitiesWon = 0;
 }
 
+if ($ResultDomination == '')
+{
+	$ResultDomination = 0;
+}
+
 	echo 'DEBUGGING </br>';
 	echo "<pre>";
 	var_dump($_POST);
@@ -64,17 +69,21 @@ if ($ResultFacilitiesWon == '')
 
 //SUBMIT DA DATA!
 
-$submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, ResultNC, ResultTR, ResultVS, ResultDraw, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility, SubmitterIP) VALUES ('$ResultDateTime', '$ResultServer', '$ResultNCWin', '$ResultTRWin', '$ResultVSWin', '$ResultDraw', '$ResultAlertCont', '$ResultAlertType', '$ResultDomination', '$ResultDominationDuration', '$ResultPopsNC', '$ResultPopsTR', '$ResultPopsVS', '$ResultTerritoryNC', '$ResultTerritoryTR', '$ResultTerritoryVS', '$ResultFacilitiesWon', '$ResultContestedFacility', '$SubmitterIP')");
+$submit = mysql_query ("INSERT INTO results2 (ResultDateTime, ResultServer, ResultNC, ResultTR, ResultVS, ResultDraw, ResultAlertCont, ResultAlertType, ResultDomination, ResultDominationDuration, ResultPopsNC, ResultPopsTR, ResultPopsVS, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS, ResultFacilitiesWon, ResultContestedFacility, SubmitterIP) 
+VALUES ('$ResultDateTime', '$ResultServer', '$ResultNCWin', '$ResultTRWin', '$ResultVSWin', '$ResultDraw', '$ResultAlertCont', '$ResultAlertType', '$ResultDomination', '$ResultDominationDuration', '$ResultPopsNC', '$ResultPopsTR', '$ResultPopsVS', '$ResultTerritoryNC', '$ResultTerritoryTR', '$ResultTerritoryVS', '$ResultFacilitiesWon', '$ResultContestedFacility', '$SubmitterIP')");
 
-include_once ("api_poll.php"); // Process the API requests
+include_once ("api_poll.php");
+
+error_reporting(E_ALL); ini_set('display_errors', 'On'); 
 
 if (!$submit) {
 	die('SUBMIT ERROR!: ' . mysql_error());
-} else {
-	header("Location: thanks.php"); /* Redirect browser */
+} 
+else
+{
+	header("Location: thanks.php");
 	exit();
 }
-
 ?>
 </body>
 </html>
