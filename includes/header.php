@@ -3,7 +3,7 @@
         <a href="index.php"><img style="display:block;" src="images/alertbanner.png" alt="Courtesy of Kamteix!"/></a>
         <div id="links">
             <a class="header_links" href="submitresult.php">Submit Result</a>
-			<a class="header_links" href="index.php">Statistics</a>
+			<a class="header_links" href="/">Statistics</a>
         </div>
     </div>
 </div>
