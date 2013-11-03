@@ -39,18 +39,42 @@ animatedcollapse.init()
 			<p class="form_headers">General Statistics</p>
 			<?php
 			
+			$time_filter = $_REQUEST["time_filter"];
+			$today_date = date("Y-m-d");
+			
+			if ($time_filter == "prime")
+			{
+				$time_start = "19:00:00";
+				$time_end = "23:59:00";
+				
+				$prime_time_query = mysql_query("SELECT *, CAST(ResultDateTime AS time) FROM results2 WHERE CAST(ResultDateTime as time) BETWEEN '17:00' AND '23:59'");
+			} 
+			else 
+			{
+				$time_start = "2013-09-28 00:00:00"; // From first record
+				$time_end = $today_date." 23:59:59"; // End of today
+			}
+			
 			$ResultServer = $_POST["server"]; // For server selections 
-							
-				date_default_timezone_set('UTC');
-				
+			date_default_timezone_set('UTC');
+			
+			if ($time_filter == "prime")
+			{
+				$count_submit_query = mysql_query("SELECT CAST(ResultDateTime AS time) FROM results2 WHERE CAST(ResultDateTime as time) BETWEEN '17:00' AND '23:59'");
+				$count_domination_query = mysql_query("SELECT CAST(ResultDateTime AS time) FROM results2 WHERE ResultDomination = 1 AND  CAST(ResultDateTime as time) BETWEEN '17:00' AND '23:59'");
+			}
+			else	
+			{					
 				$count_submit_query = mysql_query("SELECT COUNT(ResultID) FROM results2");
-				$alerts_list_query = mysql_query("SELECT * FROM results2 ORDER BY ResultDateTime DESC LIMIT 3 ");
 				$count_domination_query = mysql_query("SELECT COUNT(ResultID) FROM results2 WHERE ResultDomination = 1 ");
+			}
+			$alerts_list_query = mysql_query("SELECT * FROM results2 ORDER BY ResultDateTime DESC LIMIT 3 ");
+			
+			$count_submit = mysql_fetch_row($count_submit_query);
+			$count_domination = mysql_fetch_row($count_domination_query);
 				
-				$count_submit = mysql_fetch_row($count_submit_query);
-				$count_domination = mysql_fetch_row($count_domination_query);
-				
-				?>
+			?>
+			
 			<table width="320" border="0" style="margin-top:25px;">
 				<tr>
 					<td style="text-align: center;"><img src="images/AlertIconWaves3.png" alt="Alerts Submitted Icon" /></td>
