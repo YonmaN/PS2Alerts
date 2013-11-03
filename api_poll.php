@@ -3,6 +3,7 @@
 include ("includes/mysqlconnect.php");
 
 $mode = "";
+$debug = $_REQUEST["debug"];
 $import = $_POST["import"];
 
 echo 'MODE = '.$mode;
@@ -33,24 +34,71 @@ if ($import == "") // If not importing
 	$ResultDateTime = $_POST["ResultDateTime"];
 	$world_id = $_POST["ResultServer"];
 	
+	// DOMINATION
+	
+	list($hours,$mins,$secs) = explode(':',$ResultDominationDuration);
+	$ResultDominationDuration_formatted = mktime($hours,$mins,$secs) - mktime(0,0,0);
+	echo '<br />UNIX Duration: '.$ResultDominationDuration_formatted;
+	echo '<br />';
+	
 }
+
+if ($debug == "debug")
+{
+	//$ResultDateTime = date("Y-m-d H:i:s");
+	$ResultDateTime = "2013-11-13 05:00:00";
+	
+	$ResultAlertCont = "Cross";
+	$ResultAlertType = "Tech";
+	$ResultDomination = "1";
+	$ResultDominationDuration = "01:00:00";
+	//$ResultDominationDuration_formatted = strtotime($ResultDominationDuration);
+	
+	list($hours,$mins,$secs) = explode(':',$ResultDominationDuration);
+	$ResultDominationDuration_formatted = mktime($hours,$mins,$secs) - mktime(0,0,0);
+	
+	
+}
+
 	// Calculate time based on Alert Type and date given
 	
 	if (($ResultAlertCont != "Cross") && ($ResultAlertType != "Territory")) // If facility alert on one continent (1 hour duration)
 	{
-		$duration = 3600; // 1 hour
+		if ($ResultDomination == "0") 
+		{		
+			$duration = 3900 ; // 1 hour plus 5 minutes for Database Script
+			echo '<br />Duration (Domination): '.$duration;
+			echo '<br />Formatted duration: '.$ResultDominationDuration_formatted;
+		} 
+		else if ($ResultDomination == "1")
+		{
+			$duration =  3900 - $ResultDominationDuration_formatted;
+			echo '<br />Duration (Domination): '.$duration;
+			echo '<br />Formatted duration: '.$ResultDominationDuration_formatted;
+		}
 	} 
 	else 
 	{
-		$duration = 7200; // 2 hours (normal)
+		if ($ResultDomination == "0") 
+		{		
+			$duration = 7500 ; // 1 hour plus 5 minutes for Database Script
+			echo '<br />Duration (Domination): '.$duration;
+			echo '<br />Formatted duration: '.$ResultDominationDuration_formatted;
+		} 
+		else if ($ResultDomination == "1")
+		{
+			$duration =  7500 - $ResultDominationDuration_formatted;
+			echo '<br />Duration (Domination): '.$duration;
+			echo '<br />Formatted duration: '.$ResultDominationDuration_formatted;
+		}
 	}	
 	
 	echo '<br />RESULT ID: <a href="alertdetail.php?AlertID='.$ResultID.'">'.$ResultID.'</a>';
-		
-	$UNIX = strtotime($ResultDateTime); // Convert recorded end of result to UNIX time
-	echo '<br />UNIX END TIME: '.$UNIX;
 	
-	$time = $UNIX + 10800 - $duration; // To get start time, take END ($UNIX) time from $duration of Alert
+	$UNIX = strtotime($ResultDateTime) + 300; // Convert recorded end of result to UNIX time (4:59 minutes)
+	echo '<br />UNIX END TIME: '.$UNIX;
+	$time = $UNIX + 10800 - $duration; // Plus 300 seconds for Data End overlap
+	
 	// For some reason, the ResultDateTime is behind by 3 hours (10800 secs)?? WTF???
 	
 	echo '<br />UNIX START TIME: '.$time;
@@ -218,7 +266,6 @@ if (($mode == "") || ($mode == "debugging")) // Live Data Scripts
 				echo '<br /> TerritoryVS: '.$territoryVS;
 				echo '<br /> TerritoryNC: '.$territoryNC;
 				echo '<br /> TerritoryTR: '.$territoryTR;
-				
 			}
 			
 			$key ++;
