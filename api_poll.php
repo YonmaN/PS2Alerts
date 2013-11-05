@@ -11,7 +11,7 @@ echo 'MODE = '.$mode;
 if ($import == "import") // Set up API Poll Script to insert data into the database using the ResultID supplied by the Import Script
 {
 	echo '<a href="api_input.php"><<<<<-----BACK TO INPUT</a>';
-	$mode = "debugging";
+	$mode = "";
 	$ResultID = $_POST["ResultID"];
 	$grab_info_query = mysql_query("SELECT * FROM results2 WHERE ResultID = $ResultID");
 	$grab_info = mysql_fetch_array($grab_info_query);
@@ -20,6 +20,13 @@ if ($import == "import") // Set up API Poll Script to insert data into the datab
 	$ResultDateTime = $grab_info["ResultDateTime"];
 	$ResultAlertCont = $grab_info["ResultAlertCont"];
 	$ResultAlertType = $grab_info["ResultAlertType"];
+	$ResultDomination = $grab_info["ResultDomination"];
+	$ResultDominationDuration = $grab_info["ResultDominationDuration"];
+	
+	list($hours,$mins,$secs) = explode(':',$ResultDominationDuration);
+	$ResultDominationDuration_formatted = mktime($hours,$mins,$secs) - mktime(0,0,0);
+	echo '<br />UNIX Duration: '.$ResultDominationDuration_formatted;
+	echo '<br />';
 }
 
 
@@ -81,7 +88,7 @@ if ($debug == "debug")
 	{
 		if ($ResultDomination == "0") 
 		{		
-			$duration = 7500 ; // 1 hour plus 5 minutes for Database Script
+			$duration = 7200 ; // 1 hour plus 5 minutes for Database Script
 			echo '<br />Duration (Domination): '.$duration;
 			echo '<br />Formatted duration: '.$ResultDominationDuration_formatted;
 		} 
