@@ -1,6 +1,6 @@
 <script>
 $(function () {
-	$('#territory_bar_<?php echo $AlertStats["ResultID"] ?>').highcharts({
+	$('#territory_bar_new_<?php echo $AlertStats["ResultID"] ?>').highcharts({
 		chart: {
 			backgroundColor: '',
 			type: 'bar',
@@ -26,22 +26,22 @@ $(function () {
 				dataLabels: {
 					enabled: true,
 					color: '#FFFFFF',
-					format: "{y}%"
+					format: "{point.y:.0f}%"
 				}
 			}
 		},
 			series: [{
 			name: 'New Congolomerate',
 			color: '#0080FF',
-			data: [<?php echo $AlertStats["ResultTerritoryNC"] ?>]
+			data: [<?php echo $AlertStatsTerritory["TerritoryNC"] ?>]
 		}, {
 			name: 'Terran Republic',
 			color: '#DF0101',
-			data: [<?php echo $AlertStats["ResultTerritoryTR"] ?>]
+			data: [<?php echo $AlertStatsTerritory["TerritoryTR"] ?>]
 		}, {
 			name: 'Vanu Soverignity',
 			color: '#7309AA',
-			data: [<?php echo $AlertStats["ResultTerritoryVS"] ?>]
+			data: [<?php echo $AlertStatsTerritory["TerritoryVS"] ?>]
 		}]
 	});
 });
