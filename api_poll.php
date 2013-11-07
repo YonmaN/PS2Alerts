@@ -73,28 +73,28 @@ if ($debug == "debug")
 	{
 		if ($ResultDomination == "0") 
 		{		
-			$duration = 3900 ; // 1 hour plus 5 minutes for Database Script
+			$duration = 3600 ; // 1 hour minutes for Database Script
 			echo '<br />Duration (Domination): '.$duration;
 			echo '<br />Formatted duration: '.$ResultDominationDuration_formatted;
 		} 
 		else if ($ResultDomination == "1")
 		{
-			$duration =  3900 - $ResultDominationDuration_formatted;
+			$duration =  3900 - $ResultDominationDuration_formatted; // 1 hour plus 5 minutes for Database Script
 			echo '<br />Duration (Domination): '.$duration;
 			echo '<br />Formatted duration: '.$ResultDominationDuration_formatted;
 		}
 	} 
-	else 
+	else // Else if Cross continent, any type
 	{
 		if ($ResultDomination == "0") 
 		{		
-			$duration = 7200 ; // 1 hour plus 5 minutes for Database Script
+			$duration = 7200 ; 
 			echo '<br />Duration (Domination): '.$duration;
 			echo '<br />Formatted duration: '.$ResultDominationDuration_formatted;
 		} 
 		else if ($ResultDomination == "1")
 		{
-			$duration =  7500 - $ResultDominationDuration_formatted;
+			$duration =  7500 - $ResultDominationDuration_formatted; // 1 hour plus 5 minutes for Database Script
 			echo '<br />Duration (Domination): '.$duration;
 			echo '<br />Formatted duration: '.$ResultDominationDuration_formatted;
 		}
@@ -172,7 +172,7 @@ if ($mode == "debugging")
 	echo '</pre>';
 }
 
-$territory = $json["control_list"][0]["control-percentage"];
+$territory = $json["control-list"][0]["control-percentage"];
 	
 if (($mode == "") || ($mode == "debugging")) // Live Data Scripts
 {	
@@ -183,20 +183,20 @@ if (($mode == "") || ($mode == "debugging")) // Live Data Scripts
 	
 		$key = 0;
 			
-		foreach ($json["control_list"] as $result)
+		foreach ($json["control-list"] as $result)
 		{
 			$array_fac = $result["facilities"];
-			$fac1 = $array_fac[0]["owned_by_faction"];
-			$fac2 = $array_fac[1]["owned_by_faction"];
-			$fac3 = $array_fac[2]["owned_by_faction"];
-			$fac4 = $array_fac[3]["owned_by_faction"];
-			$fac5 = $array_fac[4]["owned_by_faction"];
-			$fac6 = $array_fac[5]["owned_by_faction"];
-			$fac7 = $array_fac[6]["owned_by_faction"];
+			$fac1 = $array_fac[0]["owned-by-faction"];
+			$fac2 = $array_fac[1]["owned-by-faction"];
+			$fac3 = $array_fac[2]["owned-by-faction"];
+			$fac4 = $array_fac[3]["owned-by-faction"];
+			$fac5 = $array_fac[4]["owned-by-faction"];
+			$fac6 = $array_fac[5]["owned-by-faction"];
+			$fac7 = $array_fac[6]["owned-by-faction"];
 			if ($ResultAlertType != "Tech") // Remove extra facilities for Tech
 			{ 
-				$fac8 = $array_fac[7]["owned_by_faction"];
-				$fac9 = $array_fac[8]["owned_by_faction"];
+				$fac8 = $array_fac[7]["owned-by-faction"];
+				$fac9 = $array_fac[8]["owned-by-faction"];
 			}
 			
 				if ($mode == "debugging")
@@ -258,7 +258,7 @@ if (($mode == "") || ($mode == "debugging")) // Live Data Scripts
 			echo '<br /> TR Territory % = '.$territory[3] * 100;
 		}
 		
-		foreach ($json["control_list"] as $result)
+		foreach ($json["control-list"] as $result)
 		{
 			$territory_array = $result["control-percentage"];
 			$territoryVS = $territory_array[1] * 100;
