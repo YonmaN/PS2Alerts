@@ -22,7 +22,9 @@ animatedcollapse.init()
 
 <body>
 <div id="wrapper">
-<?php include('includes/header.php') ?>
+<?php 
+$subheader = 1;
+include('includes/header.php') ?>
 <div id="info" class="content" id="content" style="margin-bottom: 10px":>
 	<p class="form_headers">Site is currently under construction!</p>
 	<p class="form_item_text">The aim of this project is collect statistical and analyitical data for Alerts within Planetside 2.</p>

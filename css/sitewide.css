@@ -26,13 +26,13 @@ body {
 
 #header {
 	width: 1024px;
-	height: 300px;
+	height: auto;
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 	margin-bottom: 10px;
 }
 
-#links {
+.header_links {
 	width: 330px;
 	margin-top:7px;
 	background-image: url(../images/content_background.png);
@@ -44,6 +44,15 @@ body {
 	font-family: 'Orbitron', sans-serif;
 	font-size: 22px;
 	color: #FFF;
+	margin-right: 10px;
+	margin-left: 10px;
+	border-radius:10px;
+}
+
+.subheader_links {
+	font-family: 'Orbitron', sans-serif;
+	font-size: 16px;
+	color: #F00;
 	margin-right: 10px;
 	margin-left: 10px;
 	border-radius:10px;
@@ -113,8 +122,18 @@ body {
 	margin-bottom: 10px;
 	margin-top: 5px;
 	color:#C00;
-
 }
+
+.table_headers {
+	font-size:20px;
+	text-align: center;
+	/*font-family: 'Noto Sans', sans-serif;*/
+	font-family: 'Orbitron', sans-serif;
+	margin-bottom: 10px;
+	margin-top: 5px;
+	color:#C00;
+}
+
 .two {
 	width: 30px;
 	text-align: center;
