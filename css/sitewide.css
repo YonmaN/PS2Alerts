@@ -134,6 +134,13 @@ body {
 	color:#C00;
 }
 
+.table_item_text {
+	font-size: 16px;
+	color:#FFF;
+	font-family: 'Noto Sans', sans-serif;
+	text-align: center;
+}
+
 .two {
 	width: 30px;
 	text-align: center;
