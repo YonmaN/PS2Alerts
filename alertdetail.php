@@ -266,12 +266,9 @@ if ($SelfPost == "true")
         });
     });
     </script>
-		
 		<?php include("includes/facility_bar.php") ?>
-			
-		
-	</div>
 </div>
+		<?php include("includes/disqus.php") // Include Comment Section ?>
 </div>
 </body>
 </html>
