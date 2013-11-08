@@ -3,6 +3,21 @@
 
 html {margin: 0px;}
 
+/* For Disqus */
+
+a {
+	font-size: 14px;
+	color:#C03;
+	font-family: 'Noto Sans', sans-serif;
+}
+
+.post-message {
+	font-size: 14px;
+	color:#FFF;
+	font-family: 'Noto Sans', sans-serif;
+}
+
+
 body {
 	margin: 0px; 
 	background-image:url(../images/background-middle.png);

@@ -64,46 +64,46 @@ if ($SelfPost == "true")
 			<div class="content stats_left" id="Facility_Vote">
 				<p class="form_headers">Facility Voting</p>
 				<p class="form_item_text" style="text-align: center;">Which facility was the most contested?</p>
-				<div id="facility_graph" style="width:320px; height: 320px;"></div>
+				<div id="facility_graph" style="width:320px; height: 320px;">
+				</div>
 				<div id="facility_votes" style="width: 320px; height: 30px; background-color:#840003;">
 					<?php
-	
-				//Change Query based on Alert Type
-				
-				$ResultAlertType = $AlertStats['ResultAlertType'];
-				$ResultAlertCont = $AlertStats['ResultAlertCont'];
-				
-				if ($ResultAlertType == "Territory") 
-				{
-					$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityType");
-				} 
-				else if ($ResultAlertCont == "Amerish" or $ResultAlertCont == "Esamir" or $ResultAlertCont == "Indar") 
-				{			
-					$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityContID ");
-				} 
-				else if ($AlertStats['ResultAlertCont'] == "Cross") // Referenced literally here because of Cross / Global variable change
-				{
-					$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' ORDER BY FacilityContID");
-				} 
-				echo '<form name="facilities">';
-					echo '<select name="ResultContestedFacility">';
-						while($facility_result = mysql_fetch_array($SelectQuery))
-						{
-							echo '<option value="'.$facility_result['FacilityID'].'">'.$facility_result['FacilityContID'].' - '.$facility_result['FacilityName'].'</option>';
-						}
-					echo '</select>';
-					echo '<input type="button" value="Vote!"</input>';
-				echo '</form>';
-				?>
+		
+					//Change Query based on Alert Type
+					
+					$ResultAlertType = $AlertStats['ResultAlertType'];
+					$ResultAlertCont = $AlertStats['ResultAlertCont'];
+					
+					if ($ResultAlertType == "Territory") 
+					{
+						$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityType");
+					} 
+					else if ($ResultAlertCont == "Amerish" or $ResultAlertCont == "Esamir" or $ResultAlertCont == "Indar") 
+					{			
+						$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityContID ");
+					} 
+					else if ($AlertStats['ResultAlertCont'] == "Cross") // Referenced literally here because of Cross / Global variable change
+					{
+						$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' ORDER BY FacilityContID");
+					} 
+					echo '<form name="facilities">';
+						echo '<select name="ResultContestedFacility">';
+							while($facility_result = mysql_fetch_array($SelectQuery))
+							{
+								echo '<option value="'.$facility_result['FacilityID'].'">'.$facility_result['FacilityContID'].' - '.$facility_result['FacilityName'].'</option>';
+							}
+						echo '</select>';
+						echo '<input type="button" value="Vote!"</input>';
+					echo '</form>';
+					?>
 				</div>
 			</div>
 		</div>
 		<div class="stats_right" id="content_right">
-		
-		<div class="content stats_right" id="populations">
+			<div class="content stats_right" id="populations">
 				<p class="form_headers">Final Alert Populations</p>
-				<div id="population_end" style="width: 640px; height: 200px; margin-bottom: 10px; background-color:#900;">
-				<br />
+				<div id="population_end" style="width: 640px; height: 225px; margin-bottom: 10px; background-color:#900;">
+					<br />
 					<br />
 					<br />
 					<p class="form_headers">Alert populations history (Line Graph)</p>
@@ -119,155 +119,154 @@ if ($SelfPost == "true")
 				</div>
 			</div>
 			<?php 
-			if ($AlertStats['ResultAlertType'] == "Territory")
+				if ($AlertStats['ResultAlertType'] == "Territory")
+					{
+						echo '<div class="content stats_right" id="territory">';
+					}
+					else 
+					{
+						echo '<div style="display:none" id="territory">';
+					}
+				
+				echo '<p class="form_headers">Territory Percentages</p>';
+				
+				// Determine to use Percentages graph or bar chart
+				$territory_chart_query = mysql_query("SELECT ResultID FROM results_territory WHERE ResultID = $AlertID") or die ("ERROR! ".mysql_error());
+				$territory_chart_array = mysql_fetch_array($territory_chart_query);
+				$territory_chart = mysql_num_rows($territory_chart_array);
+				
+				echo 'CHART RESULT: '.$territory_chart;
+				
+				if ($territory_chart >= 1)
 				{
-					echo '<div class="content stats_right" id="territory">';
+					echo '<div id="territory_bar" style="width: 630px; height: 150px;"></div>';
+					$territory_result = 0;
 				}
 				else 
 				{
-					echo '<div style="display:none" id="territory">';
+					echo '<div id="territory_percentages" style="width: 630px; height: 300px;"></div>';
+					$territory_result = 1;
 				}
-			
-			echo '<p class="form_headers">Territory Percentages</p>';
-			
-			// Determine to use Percentages graph or bar chart
-			$territory_chart_query = mysql_query("SELECT ResultID FROM results_territory WHERE ResultID = $AlertID") or die ("ERROR! ".mysql_error());
-			$territory_chart_array = mysql_fetch_array($territory_chart_query);
-			$territory_chart = mysql_num_rows($territory_chart_array);
-			
-			echo 'CHART RESULT: '.$territory_chart;
-			
-			if ($territory_chart >= 1)
-			{
-				echo '<div id="territory_bar" style="width: 630px; height: 150px;"></div>';
-				$territory_result = 0;
-			}
-			else 
-			{
-				echo '<div id="territory_percentages" style="width: 630px; height: 300px;"></div>';
-				$territory_result = 1;
-			}
-			
-			?>
-			
-			</div>
-			<?php 
-			if ($territory_result == 1)
-			{
-				$territory_query = mysql_query ("SELECT * FROM results_territory WHERE ResultID = $AlertID");
 				
-				/*echo '<pre class="form_item_text">';
-				print_r(array_values($territory_data_dates));
-				print_r(array_values($territory_data_VS));
-				print_r(array_values($territory_data_NC));
-				print_r(array_values($territory_data_TR));
-				echo '</pre>';*/
-				
-				$territory_data_VS = array();
-				$territory_data_NC = array();
-				$territory_data_TR = array();
-				$territory_data_dates = array();
-				
-				while ($row = mysql_fetch_array($territory_query))
+					echo '</div>';
+
+				if ($territory_result == 1)
 				{
-					array_push($territory_data_VS, $row["TerritoryVS"]);
-					array_push($territory_data_NC, $row["TerritoryNC"]);
-					array_push($territory_data_TR, $row["TerritoryTR"]);
-					array_push($territory_data_dates, gmdate("H:i", $row['dataTimestamp']));
+					$territory_query = mysql_query ("SELECT * FROM results_territory WHERE ResultID = $AlertID");
+					
+					/*echo '<pre class="form_item_text">';
+					print_r(array_values($territory_data_dates));
+					print_r(array_values($territory_data_VS));
+					print_r(array_values($territory_data_NC));
+					print_r(array_values($territory_data_TR));
+					echo '</pre>';*/
+					
+					$territory_data_VS = array();
+					$territory_data_NC = array();
+					$territory_data_TR = array();
+					$territory_data_dates = array();
+					
+					while ($row = mysql_fetch_array($territory_query))
+					{
+						array_push($territory_data_VS, $row["TerritoryVS"]);
+						array_push($territory_data_NC, $row["TerritoryNC"]);
+						array_push($territory_data_TR, $row["TerritoryTR"]);
+						array_push($territory_data_dates, gmdate("H:i", $row['dataTimestamp']));
+					}
+					include ("includes/territory_percentages.php"); // Include code for Territory Chart
 				}
-				include ("includes/territory_percentages.php"); // Include code for Territory Chart
-			}
-			else if ($territory_result == 0)
-			{
-				
-				$territory_old_query = mysql_query ("SELECT ResultID, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS FROM results2 WHERE ResultID = $AlertID ");
-				$territory_old_result = mysql_fetch_array ($territory_old_query);
-				
-				$territoryNC = $territory_old_result["ResultTerritoryNC"];
-				$territoryTR = $territory_old_result["ResultTerritoryTR"];
-				$territoryVS = $territory_old_result["ResultTerritoryVS"];
-				
-				echo '<br />'. $territoryNC;
-				echo '<br />'. $territoryTR;
-				echo '<br />'. $territoryVS;
-				
-				include ("includes/territory_bar.php"); // Include code for territory chart
-			}
-							
-			?>
-    </script>
+				else if ($territory_result == 0)
+				{
+					
+					$territory_old_query = mysql_query ("SELECT ResultID, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS FROM results2 WHERE ResultID = $AlertID ");
+					$territory_old_result = mysql_fetch_array ($territory_old_query);
+					
+					$territoryNC = $territory_old_result["ResultTerritoryNC"];
+					$territoryTR = $territory_old_result["ResultTerritoryTR"];
+					$territoryVS = $territory_old_result["ResultTerritoryVS"];
+					
+					echo '<br />'. $territoryNC;
+					echo '<br />'. $territoryTR;
+					echo '<br />'. $territoryVS;
+					
+					include ("includes/territory_bar.php"); // Include code for territory chart
+				}
+								
+				?>
+			</script>
 		</div>
 		<?php if ($AlertStats["ResultAlertType"] != "Territory") // Hide facilities DIV if not relevent
-		{
-			echo '<div class="content stats_right" id="facility_history_graph">';
-		}
-		else
-		{
-			echo '<div class="content stats_right" style="display: none;">';
-		}
-		?>
-		<p class="form_headers">Facility History</p>
-		<div id="facility_history" style="width: 640px; height: 300px;"></div>
+			{
+				echo '<div class="content stats_right" id="facility_history_graph">';
+			}
+			else
+			{
+				echo '<div class="content stats_right" style="display: none;">';
+			}
+			?>
+			<p class="form_headers">Facility History</p>
+			<div id="facility_history" style="width: 640px; height: 300px;">
+			</div>
 			<?php include("includes/facility_graph_logic.php") ?>
-		<script>
-			$(function () {
-       		$('#facility_history').highcharts({
-            chart: {
-                type: 'area',
-				backgroundColor: ''
-            },
-            title: {
-                text: ''
-            },
-			credits:{enabled: false},
-			exporting:{enabled: false},
-            xAxis: {
-                categories: [<?php foreach ($facility_data_dates as $key) {echo "'".$key."', ";}?>],
-                tickmarkPlacement: 'on',
-				tickInterval: 2,
-                title: {
-                    enabled: false
-                }
-            },
-            yAxis:{title:{text:''},max:<?php echo $max;?>,tickInterval:1},
-			legend: {
-				enabled: false
-			},
-            tooltip: {
-                shared: true,
-				crosshairs:[{width:1,color:'white',zIndex:22}],
-                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
-            },
-            plotOptions: {
-                area: {
-                    stacking: 'normal',
-                    lineColor: '#ffffff',
-                    lineWidth: 1,
-					fillOpacity: 0.85,
-                    marker: {
-                        lineWidth: 1,
-                        lineColor: '#CCCCCC'
-                    }
-                }
-            },
-            series: [{
-                name: 'Vanu Soverignity',
-                data: [<?php foreach ($facility_data_VS as $key) {echo "".$key.", ";}?>],
-				color: '#7309AA'
-            }, {
-                name: 'New Conglomerate',
-                data: [<?php foreach ($facility_data_NC as $key) {echo "".$key.", ";}?>],
-				color: '#080B74'
-			}, {
-                name: 'Terran Republic',
-                data: [<?php foreach ($facility_data_TR as $key) {echo "".$key.", ";}?>],
-				color: '#910000'
-            }]
-        });
-    });
-    </script>
-		<?php include("includes/facility_bar.php") ?>
-</div>
+			<script>
+					$(function () {
+					$('#facility_history').highcharts({
+					chart: {
+						type: 'area',
+						backgroundColor: ''
+					},
+					title: {
+						text: ''
+					},
+					credits:{enabled: false},
+					exporting:{enabled: false},
+					xAxis: {
+						categories: [<?php foreach ($facility_data_dates as $key) {echo "'".$key."', ";}?>],
+						tickmarkPlacement: 'on',
+						tickInterval: 2,
+						title: {
+							enabled: false
+						}
+					},
+					yAxis:{title:{text:''},max:<?php echo $max;?>,tickInterval:1},
+					legend: {
+						enabled: false
+					},
+					tooltip: {
+						shared: true,
+						crosshairs:[{width:1,color:'white',zIndex:22}],
+						pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
+					},
+					plotOptions: {
+						area: {
+							stacking: 'normal',
+							lineColor: '#ffffff',
+							lineWidth: 1,
+							fillOpacity: 0.85,
+							marker: {
+								lineWidth: 1,
+								lineColor: '#CCCCCC'
+							}
+						}
+					},
+					series: [{
+						name: 'Vanu Soverignity',
+						data: [<?php foreach ($facility_data_VS as $key) {echo "".$key.", ";}?>],
+						color: '#7309AA'
+					}, {
+						name: 'New Conglomerate',
+						data: [<?php foreach ($facility_data_NC as $key) {echo "".$key.", ";}?>],
+						color: '#080B74'
+					}, {
+						name: 'Terran Republic',
+						data: [<?php foreach ($facility_data_TR as $key) {echo "".$key.", ";}?>],
+						color: '#910000'
+					}]
+				});
+			});
+			</script>
+			<?php include("includes/facility_bar.php") ?>
+		</div>
 		<?php include("includes/disqus.php") // Include Comment Section ?>
 </div>
 </body>
