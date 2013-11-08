@@ -70,8 +70,6 @@ include('includes/header.php') ?>
 	
 	$all_alerts_query = mysql_query ("SELECT * FROM results2 ORDER BY ResultDateTime DESC");
 	
-	
-	
 	while($AlertStats = mysql_fetch_array($all_alerts_query) )
 	{
 			
@@ -151,12 +149,14 @@ include('includes/header.php') ?>
 			$row_formatted = strtotime($AlertStats["ResultDateTime"]);
 				echo '<a class="form_item_title" href="alertdetail.php?AlertID='.$AlertStats['ResultID'].'">';
 					echo '<p class="table_item_text" style="color: #F00;">';
-					echo date('H', $row_formatted) . ":";
-					echo date('i', $row_formatted) . "   ";
-					
 					echo date('d', $row_formatted) . "-";
 					echo date('m', $row_formatted) . "-";
 					echo date('y', $row_formatted) . " ";
+					
+					echo date('H', $row_formatted) . ":";
+					echo date('i', $row_formatted) ;
+					
+					
 					echo '</p>';
 				echo '</a>';
 			echo '</td>';

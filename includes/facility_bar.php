@@ -1,6 +1,17 @@
 <?php // Logic for Facility Bar
 		echo '<table id="facility_bar" width="630" border="0">';
+			
 			echo '<tr>';
+			
+			if ($AlertStats["ResultID"] < 157) {
+				echo '<td>';
+					echo '<img src="/images/DataNotFound2.png" />';
+				echo '</td>';
+			echo '<tr>';
+		echo '</table>';
+			}
+			else 
+			{
 				
 				if ($AlertStats['ResultAlertType'] == "Amp") 
 				{
@@ -566,4 +577,5 @@
 		
 			echo '</tr>';		
 		echo '</table>';
+			} // End of IF check for facility alerts
 		?>
