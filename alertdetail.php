@@ -129,14 +129,6 @@ if ($SelfPost == "true")
 					<p class="form_headers">Alert populations history (Line Graph) [SOE'S API CURRENLTY DOWN!]</p>
 				</div>
 			</div>
-			<div class="content stats_right" id="populations" style="display: none;">
-				<p class="form_headers">Population History Chart</p>
-				<div id="population_history" style="width: 640px; height: 200px; margin-bottom: 10px; background-color:#900;">
-					<br />
-					<br />
-					<br />
-					<p class="form_headers">Alert populations history (Line Graph)</p>
-				</div>
 			<?php 
 				if ($AlertStats['ResultAlertType'] == "Territory")
 					{
