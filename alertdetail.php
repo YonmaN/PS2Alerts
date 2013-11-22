@@ -102,7 +102,6 @@ if ($SelfPost == "true")
 					echo '<p class="form_item_text">Domination? <span class="stats_highlight">No</span></p>';
 				}
 				?>
-				
 			</div>
 			<?php 
 			
@@ -115,98 +114,35 @@ if ($SelfPost == "true")
 				echo '<div class="content stats_left" id="Facility_Changes" style="display: none;">';
 			}
 			?>
-				<p class="form_headers">Most Contested Facilities</p>
-				<?php include("includes/facility_changes.php"); ?>
+			<p class="form_headers">Most Contested Facilities</p>
+			<?php include("includes/facility_changes.php"); ?>
+		</div>
+	</div>
+	<div class="stats_right" id="content_right_container">
+		<div class="content stats_right" id="populations">
+			<p class="form_headers">Final Alert Populations</p>
+			<div id="population_end" style="width: 640px; height: 225px; margin-bottom: 10px; background-color:#900; border-radius: 10px;">
+				<br />
+				<br />
+				<br />
+				<p class="form_headers">Alert populations history (Line Graph) [SOE'S API CURRENLTY DOWN!]</p>
 			</div>
 		</div>
-		<div class="stats_right" id="content_right_container">
-			<div class="content stats_right" id="populations">
-				<p class="form_headers">Final Alert Populations</p>
-				<div id="population_end" style="width: 640px; height: 225px; margin-bottom: 10px; background-color:#900; border-radius: 10px;">
-					<br />
-					<br />
-					<br />
-					<p class="form_headers">Alert populations history (Line Graph) [SOE'S API CURRENLTY DOWN!]</p>
-				</div>
-			</div>
-			<?php 
+		<?php 
 				if ($AlertStats['ResultAlertType'] == "Territory")
 					{
 						echo '<div class="content stats_right" id="territory">';
+						include("includes/territory_logic.php");
 					}
 					else 
 					{
-						echo '<div style="display:none" id="territory">';
+						echo '<div style="display:none" id="territory"></div>';
 					}
 				
-				echo '<p class="form_headers">Territory Percentages</p>';
 				
-				// Determine to use Percentages graph or bar chart
-				$territory_chart_query = mysql_query("SELECT ResultID FROM results_territory WHERE ResultID = $AlertID") or die ("ERROR! ".mysql_error());
-				$territory_chart_array = mysql_fetch_array($territory_chart_query);
-				$territory_chart = mysql_num_rows($territory_chart_array);
-				
-				echo 'CHART RESULT: '.$territory_chart;
-				
-				if ($territory_chart >= 1)
-				{
-					echo '<div id="territory_bar" style="width: 630px; height: 150px;"></div>';
-					$territory_result = 0;
-				}
-				else 
-				{
-					echo '<div id="territory_percentages" style="width: 630px; height: 300px;"></div>';
-					$territory_result = 1;
-				}
-				
-					echo '</div>';
-
-				if ($territory_result == 1)
-				{
-					$territory_query = mysql_query ("SELECT * FROM results_territory WHERE ResultID = $AlertID");
-					
-					/*echo '<pre class="form_item_text">';
-					print_r(array_values($territory_data_dates));
-					print_r(array_values($territory_data_VS));
-					print_r(array_values($territory_data_NC));
-					print_r(array_values($territory_data_TR));
-					echo '</pre>';*/
-					
-					$territory_data_VS = array();
-					$territory_data_NC = array();
-					$territory_data_TR = array();
-					$territory_data_dates = array();
-					
-					while ($row = mysql_fetch_array($territory_query))
-					{
-						array_push($territory_data_VS, $row["TerritoryVS"]);
-						array_push($territory_data_NC, $row["TerritoryNC"]);
-						array_push($territory_data_TR, $row["TerritoryTR"]);
-						array_push($territory_data_dates, gmdate("H:i", $row['dataTimestamp']));
-					}
-					include ("includes/territory_percentages.php"); // Include code for Territory Chart
-				}
-				else if ($territory_result == 0)
-				{
-					
-					$territory_old_query = mysql_query ("SELECT ResultID, ResultTerritoryNC, ResultTerritoryTR, ResultTerritoryVS FROM results2 WHERE ResultID = $AlertID ");
-					$territory_old_result = mysql_fetch_array ($territory_old_query);
-					
-					$territoryNC = $territory_old_result["ResultTerritoryNC"];
-					$territoryTR = $territory_old_result["ResultTerritoryTR"];
-					$territoryVS = $territory_old_result["ResultTerritoryVS"];
-					
-					echo '<br />'. $territoryNC;
-					echo '<br />'. $territoryTR;
-					echo '<br />'. $territoryVS;
-					
-					include ("includes/territory_bar.php"); // Include code for territory chart
-				}
 								
 				?>
-			</script>
-		</div>
-		<?php if ($AlertStats["ResultAlertType"] != "Territory") // Hide facilities DIV if not relevent
+	<?php if ($AlertStats["ResultAlertType"] != "Territory") // Hide facilities DIV if not relevent
 			{
 				echo '<div class="content stats_right" id="facility_history_graph">';
 			}
@@ -215,11 +151,11 @@ if ($SelfPost == "true")
 				echo '<div class="content stats_right" style="display: none;">';
 			}
 			?>
-			<p class="form_headers">Facility History</p>
-			<div id="facility_history" style="width: 640px; height: 300px;">
-			</div>
-			<?php include("includes/facility_graph_logic.php") ?>
-			<script>
+	<p class="form_headers">Facility History</p>
+	<div id="facility_history" style="width: 640px; height: 300px;">
+	</div>
+	<?php include("includes/facility_graph_logic.php") ?>
+	<script>
 					$(function () {
 					$('#facility_history').highcharts({
 					chart: {
@@ -276,18 +212,16 @@ if ($SelfPost == "true")
 				});
 			});
 			</script>
-			<?php include("includes/facility_bar.php") ?>
-		</div>
-	</div>
-		<?php 
+	<?php include("includes/facility_bar.php") ?>
+	</div> <!-- End of Right Content DIV -->
+</div>
+<?php 
 		if ($testing == 0) {		
 		include("includes/disqus.php"); // Include Comment Section 
 		}
 		else 
 		{ echo '<div class="content" id="comments" style="display:inline-block; margin-top: 0px; width: 1010px;"></div>';
 		}?>
-	</div>
-
 <?php include("includes/footer.php") ?>
 </div>
 </body>
