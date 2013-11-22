@@ -147,7 +147,12 @@ include('includes/header.php') ?>
 		echo '<tr>';
 			echo '<td class="table_item_text table_border table_bottom">';
 			$row_formatted = strtotime($AlertStats["ResultDateTime"]);
+				
+				if ($AlertStats['ResultID'] > 157) {
+					
 				echo '<a class="form_item_title" href="alertdetail.php?AlertID='.$AlertStats['ResultID'].'">';
+				
+				}
 					echo '<p class="table_item_text" style="color: #F00;">';
 					echo date('d', $row_formatted) . "-";
 					echo date('m', $row_formatted) . "-";
@@ -159,6 +164,7 @@ include('includes/header.php') ?>
 					
 					echo '</p>';
 				echo '</a>';
+				
 			echo '</td>';
 			
 			echo '<td class="table_item_text table_border table_bottom">';
