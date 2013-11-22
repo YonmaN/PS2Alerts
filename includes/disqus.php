@@ -1,5 +1,5 @@
 <div class="content" id="comments" style="display:inline-block; margin-top: -10px; width: 1010px;">
-		<p class="form_headers">Comments</p>    
+		<p class="form_headers">Join the Discussion!</p>    
 	<div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */

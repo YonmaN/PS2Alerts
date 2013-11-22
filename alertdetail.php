@@ -128,20 +128,17 @@ if ($SelfPost == "true")
 				<p class="form_headers">Alert populations history (Line Graph) [SOE'S API CURRENLTY DOWN!]</p>
 			</div>
 		</div>
-		<?php 
-				if ($AlertStats['ResultAlertType'] == "Territory")
-					{
-						echo '<div class="content stats_right" id="territory">';
-						include("includes/territory_logic.php");
-					}
-					else 
-					{
-						echo '<div style="display:none" id="territory"></div>';
-					}
-				
-				
-								
-				?>
+	<?php 
+	if ($AlertStats['ResultAlertType'] == "Territory")
+		{
+			echo '<div class="content stats_right" id="territory">';
+			include("includes/territory_logic.php");
+		}
+		else 
+		{
+			echo '<div style="display:none" id="territory"></div>';
+		}			
+	?>
 	<?php if ($AlertStats["ResultAlertType"] != "Territory") // Hide facilities DIV if not relevent
 			{
 				echo '<div class="content stats_right" id="facility_history_graph">';
@@ -160,12 +157,15 @@ if ($SelfPost == "true")
 	</div> <!-- End of Right Content DIV -->
 </div>
 <?php 
-		if ($testing == 0) {		
-		include("includes/disqus.php"); // Include Comment Section 
-		}
-		else 
-		{ echo '<div class="content" id="comments" style="display:inline-block; margin-top: 0px; width: 1010px;"></div>';
-		}?>
+if ($testing == 0) 
+{		
+	include("includes/disqus.php"); // Include Comment Section 
+}
+else 
+{ 
+	echo '<div class="content" id="comments" style="display:inline-block; margin-top: 0px; width: 1010px;"></div>';
+}
+?>
 <?php include("includes/footer.php") ?>
 </div>
 </body>
