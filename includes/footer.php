@@ -1,0 +1,1 @@
+<div id="footer" class="footer"><p class="form_item_text" style="font-size: 12px;">Copyright 2013 &copy; Matt Cavanagh (Maelstrome26) - <a href="http://www.maelstrome-designs.co.uk" style="font-size: 12px;">www.maelstrome-designs.co.uk</a></p></div>
