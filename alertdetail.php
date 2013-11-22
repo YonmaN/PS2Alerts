@@ -7,6 +7,7 @@
 
 <body>
 <?php
+$subheader = 1;
 
 $AlertID = $_REQUEST["AlertID"];
 
@@ -86,7 +87,7 @@ if ($SelfPost == "true")
 	<?php include('includes/header.php') ?>
 	<div id="float" style="margin-left: auto; margin-right: auto; width: 1050px;">
 		<div class="stats_left" id="content_left_container">
-			<div class="content stats_left" id="general_stats">
+			<div class="content stats_left" id="general_stats" style="height: 285px;>
 				<p class="form_headers">Alert Details</p>
 				<p class="form_item_text">Alert Type: <span class="stats_highlight"><?php echo $AlertStats['ResultAlertType']?></span></p>
 				<p class="form_item_text">Server: <span class="stats_highlight"><?php echo $ResultServer ?></span></p>
@@ -98,7 +99,7 @@ if ($SelfPost == "true")
 			
 			$testing = $_REQUEST["testing"];
 			
-			if($ResultAlertType != "Territory") {
+			if(($ResultAlertType != "Territory") && ($AlertID > 157)) {
 				echo '<div class="content stats_left" id="Facility_Changes">';
 			}
 			else {
@@ -109,7 +110,7 @@ if ($SelfPost == "true")
 				<?php include("includes/facility_changes.php"); ?>
 			</div>
 		</div>
-		<div class="stats_right" id="content_right">
+		<div class="stats_right" id="content_right_container">
 			<div class="content stats_right" id="populations">
 				<p class="form_headers">Final Alert Populations</p>
 				<div id="population_end" style="width: 640px; height: 225px; margin-bottom: 10px; background-color:#900;">
@@ -127,7 +128,6 @@ if ($SelfPost == "true")
 					<br />
 					<p class="form_headers">Alert populations history (Line Graph)</p>
 				</div>
-			</div>
 			<?php 
 				if ($AlertStats['ResultAlertType'] == "Territory")
 					{
@@ -277,6 +277,7 @@ if ($SelfPost == "true")
 			</script>
 			<?php include("includes/facility_bar.php") ?>
 		</div>
+	</div>
 		<?php 
 		if ($testing == 0) {		
 		include("includes/disqus.php"); // Include Comment Section 
@@ -284,7 +285,9 @@ if ($SelfPost == "true")
 		else 
 		{ echo '<div class="content" id="comments" style="display:inline-block; margin-top: 0px; width: 1010px;"></div>';
 		}?>
-</div>
+	</div>
+
 <?php include("includes/footer.php") ?>
+</div>
 </body>
 </html>
