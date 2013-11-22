@@ -1,4 +1,4 @@
-<div class="content" id="comments" style="display:inline-block; margin-top: 5px; width: 1010px;">
+<div class="content" id="comments" style="display:inline-block; margin-top: 0px; width: 1010px;">
 		<p class="form_headers">Comments</p>    
 	<div id="disqus_thread"></div>
     <script type="text/javascript">
