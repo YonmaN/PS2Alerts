@@ -756,7 +756,7 @@ include('includes/header.php') ?>
 				chart: {
 					type: 'pie',
 					backgroundColor: '',
-					spacingLeft: 25,
+					spacingLeft: 30,
 					spacingRight: 57,
 					spacingTop: 0
 				},
@@ -777,7 +777,7 @@ include('includes/header.php') ?>
 				series: [{
 					name: 'Continents',
 					data: browserData,
-					size: '60%',
+					size: '65%',
 					dataLabels: {
 						align: 'center',
 						style: {
@@ -787,13 +787,13 @@ include('includes/header.php') ?>
 							return this.y > 5 ? this.point.name +'<br />'+ this.y:+ null;
 						},
 						color: 'white',
-						distance: -40
+						distance: -45
 					}
 				}, {
 					name: 'Types',
 					data: versionsData,
 					size: '80%',
-					innerSize: '60%',
+					innerSize: '65%',
 					dataLabels: {
 						distance: 10,
 						formatter: function() {
