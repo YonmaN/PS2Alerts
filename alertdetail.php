@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php include("includes/includes.php")?>
-<title>Alert Stats</title>
+<?php include("includes/alerttitle.php")?>
 </head>
 
 <body>
