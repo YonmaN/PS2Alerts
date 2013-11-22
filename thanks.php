@@ -47,19 +47,10 @@
 		$last_alert = mysql_fetch_array($last_alert_query);
 		
 		echo '<p class="form_headers">Thanks for your submission!</p>';
-		echo '<p class="form_item_text">Thank you for your alert submission! You can now view the details for the alert <a class="stats_highlight" style="font-size: 16px" href="alertdetail.php?AlertID='.$last_alert["ResultID"].'">here</a>.</p>';
+		echo '<p class="form_item_text" style="text-align: center;">Thank you for your alert submission! You can now view the details for the alert <a class="stats_highlight" style="font-size: 16px" href="alertdetail.php?AlertID='.$last_alert["ResultID"].'">here</a>.</p>';
 	}
-	
-	
-	
-	
-	
 	?>
-	
-
   </div>
-
-
 </div>
 </body>
 </html>
