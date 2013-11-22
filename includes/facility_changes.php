@@ -53,50 +53,60 @@ $prev_9 = $facility_history[11];
 // Loop to compare the previous result with the currently selected one. If changed, then add to counter.
 while ($history = mysql_fetch_array($facility_query)) 
 {
-	if ($history[3] != $prev_1) 
+	if (($AlertStats["ResultAlertCont"] == "Indar") || ($AlertStats["ResultAlertCont"] == "Cross")) 
 	{
-		$fac1++;
-		$indar++;
+		
+		if ($history[3] != $prev_1) 
+		{
+			$fac1++;
+			$indar++;
+		}
+		if ($history[4] != $prev_2) 
+		{
+			$fac2++;
+			$indar++;
+		}
+		if ($history[5] != $prev_3) 
+		{
+			$fac3++;
+			$indar++;
+		}
 	}
-	if ($history[4] != $prev_2) 
+	if (($AlertStats["ResultAlertCont"] == "Amerish") || ($AlertStats["ResultAlertCont"] == "Cross")) 
 	{
-		$fac2++;
-		$indar++;
+		if ($history[6] != $prev_4) 
+		{
+			$fac4++;
+			$amerish++;
+		}
+		if ($history[7] != $prev_5) 
+		{
+			$fac5++;
+			$amerish++;
+		}
+		if ($history[8] != $prev_6) 
+		{
+			$fac6++;
+			$amerish++;
+		}
 	}
-	if ($history[5] != $prev_3) 
+	if (($AlertStats["ResultAlertCont"] == "Esamir") || ($AlertStats["ResultAlertCont"] == "Cross")) 
 	{
-		$fac3++;
-		$indar++;
-	}
-	if ($history[6] != $prev_4) 
-	{
-		$fac4++;
-		$amerish++;
-	}
-	if ($history[7] != $prev_5) 
-	{
-		$fac5++;
-		$amerish++;
-	}
-	if ($history[8] != $prev_6) 
-	{
-		$fac6++;
-		$amerish++;
-	}
-	if ($history[9] != $prev_7) 
-	{
-		$fac7++;
-		$esamir++;
-	}
-	if ($history[10] != $prev_8) 
-	{
-		$fac8++;
-		$esamir++;
-	}
-	if ($history[11] != $prev_9) 
-	{
-		$fac9++;
-		$esamir++;
+		if ($history[9] != $prev_7) 
+		{
+			$fac7++;
+			$esamir++;
+		}
+		if ($history[10] != $prev_8) 
+		{
+			$fac8++;
+			$esamir++;
+		}
+		if ($history[11] != $prev_9) 
+		{
+			$fac9++;
+			$esamir++;
+		}
 	}
 
 	$prev_1 = $history[3];
@@ -112,7 +122,16 @@ while ($history = mysql_fetch_array($facility_query))
 
 $keys = array_keys($facility_history);
 
-include("facility_changes_graph.php");
+if (($indar == 0) && ($amerish == 0) && ($esamir == 0)) // If there were no changes detected during the alert
+{
+	echo '<div id="no_change" style="width: 330px; height: 200px; margin-left: auto; margin-right: auto; padding-top: 115px;">';
+		echo '<p class="form_headers">No changes!</p>';
+	echo '</div>';
+}
+else 
+{
+	include("facility_changes_graph.php");
+}
 
 echo '</div> <!-- end of graph DIV -->';
 
