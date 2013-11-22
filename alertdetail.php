@@ -87,7 +87,7 @@ if ($SelfPost == "true")
 	<?php include('includes/header.php') ?>
 	<div id="float" style="margin-left: auto; margin-right: auto; width: 1050px;">
 		<div class="stats_left" id="content_left_container">
-			<div class="content stats_left" id="general_stats" style="height: 285px;">
+			<div class="content stats_left" id="general_stats" style="height: 287px;">
 				<p class="form_headers">Alert Details</p>
 				<p class="form_item_text">Alert Type: <span class="stats_highlight"><?php echo $AlertStats['ResultAlertType']?></span></p>
 				<p class="form_item_text">Server: <span class="stats_highlight"><?php echo $ResultServer ?></span></p>
@@ -122,11 +122,11 @@ if ($SelfPost == "true")
 		<div class="stats_right" id="content_right_container">
 			<div class="content stats_right" id="populations">
 				<p class="form_headers">Final Alert Populations</p>
-				<div id="population_end" style="width: 640px; height: 225px; margin-bottom: 10px; background-color:#900;">
+				<div id="population_end" style="width: 640px; height: 225px; margin-bottom: 10px; background-color:#900; border-radius: 10px;">
 					<br />
 					<br />
 					<br />
-					<p class="form_headers">Alert populations history (Line Graph) [API DOWN]</p>
+					<p class="form_headers">Alert populations history (Line Graph) [SOE'S API CURRENLTY DOWN!]</p>
 				</div>
 			</div>
 			<div class="content stats_right" id="populations" style="display: none;">
