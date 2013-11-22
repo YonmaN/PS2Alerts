@@ -13,6 +13,9 @@ $AlertID = $_REQUEST["AlertID"];
 $AlertStats_query = mysql_query("SELECT * FROM results2 WHERE ResultID = $AlertID ");
 $AlertStats = mysql_fetch_array($AlertStats_query);
 
+$ResultAlertType = $AlertStats['ResultAlertType'];
+$ResultAlertCont = $AlertStats['ResultAlertCont'];
+
 if ($AlertStats["ResultID"] != $AlertID) // Check if alert exists
 {
 	header("Location: thanks.php?Message=3"); //Send them to error page if not
@@ -34,6 +37,35 @@ if ($AlertStats['ResultNC'] == 'WIN')
 	$ResultVictor = "ERROR";
 }
 
+if ($AlertStats['ResultServer'] == "1")
+{
+	$ResultServer = "Connery";
+} else if ($AlertStats['ResultServer'] == "9")
+{
+	$ResultServer = "Woodman";
+} else if ($AlertStats['ResultServer'] == "9")
+{
+	$ResultServer = "Woodman";
+} else if ($AlertStats['ResultServer'] == "10")
+{
+	$ResultServer = "Miller";
+} else if ($AlertStats['ResultServer'] == "11")
+{
+	$ResultServer = "Ceres";
+} else if ($AlertStats['ResultServer'] == "13")
+{
+	$ResultServer = "Cobalt";
+} else if ($AlertStats['ResultServer'] == "17")
+{
+	$ResultServer = "Mattherson";
+} else if ($AlertStats['ResultServer'] == "18")
+{
+	$ResultServer = "Waterson";
+} else if ($AlertStats['ResultServer'] == "25")
+{
+	$ResultServer = "Briggs";
+} 
+
 if ($AlertStats['ResultAlertCont'] == "Cross") 
 {
 	$ResultContinent = "Cross Continent (Global)";
@@ -47,7 +79,7 @@ else
 
 if ($SelfPost == "true") 
 {
-	setcookie("votedAlertID", "".$AlertStats['AlertID']."", time()+31536000);
+	//setcookie("votedAlertID", "".$AlertStats['AlertID']."", time()+31536000);
 }
 ?>
 <div id="wrapper">
@@ -57,46 +89,24 @@ if ($SelfPost == "true")
 			<div class="content stats_left" id="general_stats">
 				<p class="form_headers">Alert Details</p>
 				<p class="form_item_text">Alert Type: <span class="stats_highlight"><?php echo $AlertStats['ResultAlertType']?></span></p>
+				<p class="form_item_text">Server: <span class="stats_highlight"><?php echo $ResultServer ?></span></p>
 				<p class="form_item_text">Continent: <span class="stats_highlight"><?php echo $ResultContinent ?></span></p>
 				<p class="form_item_text">Victor: <span class="stats_highlight"><?php echo $ResultVictor ?></span></p>
 				<p class="form_item_text">Ended: <span class="stats_highlight"><?php echo $AlertStats['ResultDateTime']?></span></p>
 			</div>
-			<div class="content stats_left" id="Facility_Vote">
-				<p class="form_headers">Facility Voting</p>
-				<p class="form_item_text" style="text-align: center;">Which facility was the most contested?</p>
-				<div id="facility_graph" style="width:320px; height: 320px;">
-				</div>
-				<div id="facility_votes" style="width: 320px; height: 30px; background-color:#840003;">
-					<?php
-		
-					//Change Query based on Alert Type
-					
-					$ResultAlertType = $AlertStats['ResultAlertType'];
-					$ResultAlertCont = $AlertStats['ResultAlertCont'];
-					
-					if ($ResultAlertType == "Territory") 
-					{
-						$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityType");
-					} 
-					else if ($ResultAlertCont == "Amerish" or $ResultAlertCont == "Esamir" or $ResultAlertCont == "Indar") 
-					{			
-						$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityContID ");
-					} 
-					else if ($AlertStats['ResultAlertCont'] == "Cross") // Referenced literally here because of Cross / Global variable change
-					{
-						$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' ORDER BY FacilityContID");
-					} 
-					echo '<form name="facilities">';
-						echo '<select name="ResultContestedFacility">';
-							while($facility_result = mysql_fetch_array($SelectQuery))
-							{
-								echo '<option value="'.$facility_result['FacilityID'].'">'.$facility_result['FacilityContID'].' - '.$facility_result['FacilityName'].'</option>';
-							}
-						echo '</select>';
-						echo '<input type="button" value="Vote!"</input>';
-					echo '</form>';
-					?>
-				</div>
+			<?php 
+			
+			$testing = $_REQUEST["testing"];
+			
+			if($ResultAlertType != "Territory") {
+				echo '<div class="content stats_left" id="Facility_Changes">';
+			}
+			else {
+				echo '<div class="content stats_left" id="Facility_Changes" style="display: none;">';
+			}
+			?>
+				<p class="form_headers">Most Contested Facilities</p>
+				<?php include("includes/facility_changes.php"); ?>
 			</div>
 		</div>
 		<div class="stats_right" id="content_right">
@@ -106,7 +116,7 @@ if ($SelfPost == "true")
 					<br />
 					<br />
 					<br />
-					<p class="form_headers">Alert populations history (Line Graph)</p>
+					<p class="form_headers">Alert populations history (Line Graph) [API DOWN]</p>
 				</div>
 			</div>
 			<div class="content stats_right" id="populations" style="display: none;">
@@ -267,7 +277,14 @@ if ($SelfPost == "true")
 			</script>
 			<?php include("includes/facility_bar.php") ?>
 		</div>
-		<?php include("includes/disqus.php") // Include Comment Section ?>
+		<?php 
+		if ($testing == 0) {		
+		include("includes/disqus.php"); // Include Comment Section 
+		}
+		else 
+		{ echo '<div class="content" id="comments" style="display:inline-block; margin-top: 0px; width: 1010px;"></div>';
+		}?>
 </div>
+<?php include("includes/footer.php") ?>
 </body>
 </html>
