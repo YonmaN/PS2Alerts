@@ -82,7 +82,7 @@
         	    valueSuffix: ''
             },
             series: [{
-                name: 'Continents',
+                name: 'Total Changes',
                 data: browserData,
                 size: '50%',
                 dataLabels: {
@@ -103,7 +103,7 @@
                         return this.y > 0 ? '<b>' + this.point.name +':</b> '+ this.y  : null;
                     },
 					distance: -35,
-					color: 'grey'
+					color: '#D70005'
                 }
             }]
         });
