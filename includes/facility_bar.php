@@ -5,7 +5,7 @@
 			
 			if ($AlertStats["ResultID"] < 157) {
 				echo '<td>';
-					echo '<img src="/images/DataNotFound2.png" />';
+					echo '<img src="/images/DataNotFound3.png" />';
 				echo '</td>';
 			echo '<tr>';
 		echo '</table>';
