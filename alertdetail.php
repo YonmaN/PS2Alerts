@@ -87,13 +87,22 @@ if ($SelfPost == "true")
 	<?php include('includes/header.php') ?>
 	<div id="float" style="margin-left: auto; margin-right: auto; width: 1050px;">
 		<div class="stats_left" id="content_left_container">
-			<div class="content stats_left" id="general_stats" style="height: 285px;>
+			<div class="content stats_left" id="general_stats" style="height: 285px;">
 				<p class="form_headers">Alert Details</p>
 				<p class="form_item_text">Alert Type: <span class="stats_highlight"><?php echo $AlertStats['ResultAlertType']?></span></p>
 				<p class="form_item_text">Server: <span class="stats_highlight"><?php echo $ResultServer ?></span></p>
 				<p class="form_item_text">Continent: <span class="stats_highlight"><?php echo $ResultContinent ?></span></p>
 				<p class="form_item_text">Victor: <span class="stats_highlight"><?php echo $ResultVictor ?></span></p>
 				<p class="form_item_text">Ended: <span class="stats_highlight"><?php echo $AlertStats['ResultDateTime']?></span></p>
+				<?php if ($AlertStats['ResultDomination'] == "1") {
+					echo '<p class="form_item_text">Domination? <span class="stats_highlight">Yes</span></p>';
+				} 
+				else
+				{
+					echo '<p class="form_item_text">Domination? <span class="stats_highlight">No</span></p>';
+				}
+				?>
+				
 			</div>
 			<?php 
 			
