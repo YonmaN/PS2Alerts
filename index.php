@@ -121,49 +121,49 @@ include('includes/header.php') ?>
 			</div>
 			<?php
 	
-	$wins_NC_query = mysql_query ("SELECT * FROM results2 WHERE ResultNC = 'WIN'");
+	$wins_NC_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultNC = 'WIN'");
 	$wins_NC = mysql_num_rows($wins_NC_query);
-	$wins_TR_query = mysql_query ("SELECT * FROM results2 WHERE ResultTR = 'WIN'");
+	$wins_TR_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultTR = 'WIN'");
 	$wins_TR = mysql_num_rows($wins_TR_query);
-	$wins_VS_query = mysql_query ("SELECT * FROM results2 WHERE ResultVS = 'WIN'");
+	$wins_VS_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultVS = 'WIN'");
 	$wins_VS = mysql_num_rows($wins_VS_query);
-	$wins_Draw_query = mysql_query ("SELECT * FROM results2 WHERE ResultDraw = 1");
+	$wins_Draw_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultDraw = 1");
 	$wins_Draw = mysql_num_rows($wins_Draw_query);
 	
-	$wins_NC_amps_query = mysql_query ("SELECT * FROM results2 WHERE ResultNC = 'WIN' AND ResultAlertType = 'Amp' ");
+	$wins_NC_amps_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultNC = 'WIN' AND ResultAlertType = 'Amp' ");
 	$wins_NC_amps = mysql_num_rows($wins_NC_amps_query);
-	$wins_NC_bios_query = mysql_query ("SELECT * FROM results2 WHERE ResultNC = 'WIN' AND ResultAlertType = 'Bio' ");
+	$wins_NC_bios_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultNC = 'WIN' AND ResultAlertType = 'Bio' ");
 	$wins_NC_bios = mysql_num_rows($wins_NC_bios_query);
-	$wins_NC_techs_query = mysql_query ("SELECT * FROM results2 WHERE ResultNC = 'WIN' AND ResultAlertType = 'Tech' ");
+	$wins_NC_techs_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultNC = 'WIN' AND ResultAlertType = 'Tech' ");
 	$wins_NC_techs = mysql_num_rows($wins_NC_techs_query);
-	$wins_NC_territory_query = mysql_query ("SELECT * FROM results2 WHERE ResultNC = 'WIN' AND ResultAlertType = 'Territory' ");
+	$wins_NC_territory_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultNC = 'WIN' AND ResultAlertType = 'Territory' ");
 	$wins_NC_territory = mysql_num_rows($wins_NC_territory_query);
 	
-	$wins_TR_amps_query = mysql_query ("SELECT * FROM results2 WHERE ResultTR = 'WIN' AND ResultAlertType = 'Amp' ");
+	$wins_TR_amps_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultTR = 'WIN' AND ResultAlertType = 'Amp' ");
 	$wins_TR_amps = mysql_num_rows($wins_TR_amps_query);
-	$wins_TR_bios_query = mysql_query ("SELECT * FROM results2 WHERE ResultTR = 'WIN' AND ResultAlertType = 'Bio' ");
+	$wins_TR_bios_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultTR = 'WIN' AND ResultAlertType = 'Bio' ");
 	$wins_TR_bios = mysql_num_rows($wins_TR_bios_query);
-	$wins_TR_techs_query = mysql_query ("SELECT * FROM results2 WHERE ResultTR = 'WIN' AND ResultAlertType = 'Tech' ");
+	$wins_TR_techs_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultTR = 'WIN' AND ResultAlertType = 'Tech' ");
 	$wins_TR_techs = mysql_num_rows($wins_TR_techs_query);
-	$wins_TR_territory_query = mysql_query ("SELECT * FROM results2 WHERE ResultTR = 'WIN' AND ResultAlertType = 'Territory' ");
+	$wins_TR_territory_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultTR = 'WIN' AND ResultAlertType = 'Territory' ");
 	$wins_TR_territory = mysql_num_rows($wins_TR_territory_query);
 	
-	$wins_VS_amps_query = mysql_query ("SELECT * FROM results2 WHERE ResultVS = 'WIN' AND ResultAlertType = 'Amp' ");
+	$wins_VS_amps_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultVS = 'WIN' AND ResultAlertType = 'Amp' ");
 	$wins_VS_amps = mysql_num_rows($wins_VS_amps_query);
-	$wins_VS_bios_query = mysql_query ("SELECT * FROM results2 WHERE ResultVS = 'WIN' AND ResultAlertType = 'Bio' ");
+	$wins_VS_bios_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultVS = 'WIN' AND ResultAlertType = 'Bio' ");
 	$wins_VS_bios = mysql_num_rows($wins_VS_bios_query);
-	$wins_VS_techs_query = mysql_query ("SELECT * FROM results2 WHERE ResultVS = 'WIN' AND ResultAlertType = 'Tech' ");
+	$wins_VS_techs_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultVS = 'WIN' AND ResultAlertType = 'Tech' ");
 	$wins_VS_techs = mysql_num_rows($wins_VS_techs_query);
-	$wins_VS_territory_query = mysql_query ("SELECT * FROM results2 WHERE ResultVS = 'WIN' AND ResultAlertType = 'Territory' ");
+	$wins_VS_territory_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultVS = 'WIN' AND ResultAlertType = 'Territory' ");
 	$wins_VS_territory = mysql_num_rows($wins_VS_territory_query);
 	
-	$wins_Draw_amps_query = mysql_query ("SELECT * FROM results2 WHERE ResultDraw = 1 AND ResultAlertType = 'Amp' ");
+	$wins_Draw_amps_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultDraw = 1 AND ResultAlertType = 'Amp' ");
 	$wins_Draw_amps = mysql_num_rows($wins_Draw_amps_query);
-	$wins_Draw_bios_query = mysql_query ("SELECT * FROM results2 WHERE ResultDraw = 1 AND ResultAlertType = 'Bio' ");
+	$wins_Draw_bios_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultDraw = 1 AND ResultAlertType = 'Bio' ");
 	$wins_Draw_bios = mysql_num_rows($wins_Draw_bios_query);
-	$wins_Draw_techs_query = mysql_query ("SELECT * FROM results2 WHERE ResultDraw = 1 AND ResultAlertType = 'Tech' ");
+	$wins_Draw_techs_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultDraw = 1 AND ResultAlertType = 'Tech' ");
 	$wins_Draw_techs = mysql_num_rows($wins_Draw_techs_query);
-	$wins_Draw_territory_query = mysql_query ("SELECT * FROM results2 WHERE ResultDraw = 1 AND ResultAlertType = 'Territory' ");
+	$wins_Draw_territory_query = mysql_query ("SELECT ResultID FROM results2 WHERE ResultDraw = 1 AND ResultAlertType = 'Territory' ");
 	$wins_Draw_territory = mysql_num_rows($wins_Draw_territory_query);
 	
 	?>
