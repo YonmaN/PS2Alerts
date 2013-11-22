@@ -125,7 +125,7 @@ $keys = array_keys($facility_history);
 if (($indar == 0) && ($amerish == 0) && ($esamir == 0)) // If there were no changes detected during the alert
 {
 	echo '<div id="no_change" style="width: 330px; height: 200px; margin-left: auto; margin-right: auto; padding-top: 115px;">';
-		echo '<p class="form_headers">No changes!</p>';
+		echo '<p class="form_item_text" style="text-align: center;">No facilities were contested!</p>';
 	echo '</div>';
 }
 else 
