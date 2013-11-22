@@ -33,7 +33,7 @@ include('includes/header.php') ?>
 	<p class="form_item_text">Updated: 24/10/13</p>
 	<span style="margin-left: 290px; cursor:pointer; text-decoration:underline;"><a onclick="animatedcollapse.hide('info')" class="form_headers">Got it!</a></span>
 </div>
-<div id="float" style="margin-left: auto; margin-right: auto; width: 1020px;">
+	<div id="float" style="margin-left: auto; margin-right: auto; width: 1020px; height: 820px">
 	<div id="content_left" style="width:380px; float: left;">
 		<div class="content" id="general_stats" style="width: 320px; height: 260px">
 			<p class="form_headers">General Statistics</p>
