@@ -5,9 +5,8 @@
 <link href="css/sitewide.css" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Planetside 2 Statistics Index</title>
-
 <script type="text/javascript">
-animatedcollapse.addDiv('info', 'fade=1,height=360px,persist=1')
+animatedcollapse.addDiv('siteinfo', 'fade=1,height=360px,persist=1')
 
 animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
 	//$: Access to jQuery
@@ -22,10 +21,10 @@ animatedcollapse.init()
 
 <body>
 <div id="wrapper">
-<?php 
+	<?php 
 $subheader = 1;
 include('includes/header.php') ?>
-<div id="info" class="content" id="content" style="margin-bottom: 10px":>
+	<div class="content" id="siteinfo" style="margin-bottom: 10px">
 	<p class="form_headers">Site is currently under construction!</p>
 	<p class="form_item_text">The aim of this project is collect statistical and analyitical data for Alerts within Planetside 2.</p>
 	<p class="form_item_text">The project is now in such a state were alerts can be submitted to <b>all</b> servers. I'm currently working on creating statistical data for every server. For now, Miller has the most submissions, and therefore the most accurate statistics.</p>
@@ -34,7 +33,6 @@ include('includes/header.php') ?>
 	<p class="form_item_text">Updated: 24/10/13</p>
 	<span style="margin-left: 290px; cursor:pointer; text-decoration:underline;"><a onclick="animatedcollapse.hide('info')" class="form_headers">Got it!</a></span>
 </div>
-
 <div id="float" style="margin-left: auto; margin-right: auto; width: 1020px;">
 	<div id="content_left" style="width:380px; float: left;">
 		<div class="content" id="general_stats" style="width: 320px; height: 260px">
@@ -76,7 +74,6 @@ include('includes/header.php') ?>
 			$count_domination = mysql_fetch_row($count_domination_query);
 				
 			?>
-			
 			<table width="320" border="0" style="margin-top:25px;">
 				<tr>
 					<td style="text-align: center;"><img src="images/AlertIconWaves3.png" alt="Alerts Submitted Icon" /></td>
@@ -106,7 +103,7 @@ include('includes/header.php') ?>
 						<option value="9">Woodman</option>
 					</select>
 				</form>
-				<p class="form_item_text" style="display: inline; color:#F00;">(Dis) </p>
+				<p class="form_item_text" style="display: inline; color:#F00;">(WIP) </p>
 				<p class="form_item_text" style="display: inline; margin-right: 4px; margin-left: 5px;"> Time Filtering: </p>
 				<form action="alertlist.php" method="POST" style="display:inline; width: 135px;">
 					<select name="server" disabled="disabled" style="display: inline;">
@@ -115,7 +112,7 @@ include('includes/header.php') ?>
 						<option value="Nights">Off-peak</option>
 					</select>
 				</form>
-				<p class="form_item_text" style="display: inline; color:#F00;">(Dis) </p>
+				<p class="form_item_text" style="display: inline; color:#F00;">(WIP) </p>
 			</div>
 		</div>
 		<div class="content" id="chart_container" style="margin-top: 10px; width: 320px;">
@@ -170,7 +167,7 @@ include('includes/header.php') ?>
 	$wins_Draw_territory = mysql_num_rows($wins_Draw_territory_query);
 	
 	?>
-			<script>
+	<script>
 				
 		$(function () {
     
@@ -813,6 +810,7 @@ include('includes/header.php') ?>
 		</div>
 		<div class="content" id="content_right" style="width:200px; float: right; margin-left: 10px; padding-bottom: 5px;">
 			<p class="form_headers" style="font-size: 24px;">Recent Alerts</p>
+			<a class="form_item_text" style="color: #F00; font-size: 14px; margin-left: 55px;" href="allalerts.php">View all Alerts</a>
 			
 			<!--<a href="all_alerts.php" class="form_item_text" style="margin-left:55px; color: #C00;">View all alerts</a>-->
 			<?php 
