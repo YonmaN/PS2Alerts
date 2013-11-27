@@ -58,13 +58,12 @@ if ($debug == "debug")
 	$ResultAlertCont = "Cross";
 	$ResultAlertType = "Tech";
 	$ResultDomination = "1";
+	$world_id = '10';
 	$ResultDominationDuration = "01:00:00";
 	//$ResultDominationDuration_formatted = strtotime($ResultDominationDuration);
 	
 	list($hours,$mins,$secs) = explode(':',$ResultDominationDuration);
 	$ResultDominationDuration_formatted = mktime($hours,$mins,$secs) - mktime(0,0,0);
-	
-	
 }
 
 	// Calculate time based on Alert Type and date given
@@ -165,11 +164,12 @@ else {
 
 $json = json_decode($content, true);
 
-if ($mode == "debugging")
-{
-	echo '<pre>';
+if ($mode == "debugging") {
+
+	echo '<pre style="color: white;">';
 	var_dump($json);
 	echo '</pre>';
+	
 }
 
 $territory = $json["control-list"][0]["control-percentage"];
@@ -287,7 +287,7 @@ if (($mode == "") || ($mode == "debugging")) // Live Data Scripts
 }// End of Data Loops
 	
 	if ((!$submit_stats) && ($key != 25)) { // a hack for the MySQL error for empty key. Need to find a permiant solution
-		echo '<br />';
+		echo '<br />';		
 		echo '<br />Error Key: '.$key;
 		echo '<br />';
 		die('API POLL ERROR!: ' . mysql_error() );
