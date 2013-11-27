@@ -158,8 +158,8 @@ if ($success != 1) { // If an error has occured within API script
 
 	echo 'DEBUGGING </br>';
 	echo '<pre style="color: white">';
-	//var_dump($_POST);
-	print_r(get_defined_vars());
+	var_dump($_POST);
+	//print_r(get_defined_vars());
 	echo "</pre>";
 	
 }
