@@ -286,10 +286,12 @@ if (($mode == "") || ($mode == "debugging")) // Live Data Scripts
 	
 }// End of Data Loops
 	
-	if (!$submit_stats) {
+	if ((!$submit_stats) && ($key != 25)) { // a hack for the MySQL error for empty key. Need to find a permiant solution
 		echo '<br />';
+		echo '<br />Error Key: '.$key;
 		echo '<br />';
 		die('API POLL ERROR!: ' . mysql_error() );
+
 	} else 
 	{
 		$success = 1;

@@ -36,10 +36,9 @@ function load() {
 }
 </script>
 </head>
-<?php $SelfPost = $_POST["SelfPost"]; 
+<?php
 
 // Clean all variables at beginning of form and set defaults to blank, if the form is fresh
-if ($SelfPost == '') {
 	$ResultServer = $_REQUEST["ResultServer"];
 	$ResultServerSelect = $_REQUEST["ResultServerSelect"];
 	$ResultDateTime = ''; 
@@ -59,35 +58,15 @@ if ($SelfPost == '') {
 	$ResultTerritoryVS = '';
 	$SubmitterIP = $_SERVER['REMOTE_ADDR'];
 
-} elseif ($SelfPost == 'true') 
-{
-	$ResultServer = $_POST["ResultServer"];
-	$ResultDateTimePre = $_POST["ResultDateTime"];
-	$ResultNCWin = $winNC;
-	$ResultTRWin = $winTR;
-	$ResultVSWin = $winVS;
-	$ResultDomination =  $_POST["ResultDomination"];
-	$ResultDominationDurationPre = $_POST["ResultDominationDuration"];
-	$ResultAlertCont = $_POST["ResultAlertCont"];
-	$ResultAlertType = $_POST["ResultAlertType"];
-	$ResultFacilitiesWon = $_POST["ResultFacilitiesWon"];
-	$ResultPopsNC = $_POST["ResultPopsNC"];
-	$ResultPopsTR = $_POST["ResultPopsTR"];
-	$ResultPopsVS = $_POST["ResultPopsVS"];
-	$ResultTerritoryNC = $_POST["ResultTerritoryNC"];
-	$ResultTerritoryTR = $_POST["ResultTerritoryTR"];
-	$ResultTerritoryVS = $_POST["ResultTerritoryVS"];
-	
-	$ResultAlertMasterType = $ResultAlertType.$ResultAlertCont;
-}
 // Check to see if IP is banned from submitting	
 
 $bans_query = mysql_query ("SELECT IPBanned FROM bans WHERE IPBanned = '$SubmitterIP'");
 $bans = mysql_fetch_array($bans_query);
 
-if (($bans["IPBanned"] == $SubmitterIP) && ($SelfPost == ""))
+if ($bans["IPBanned"] == $SubmitterIP)
 {
 	header("Location: thanks.php?Message=2");
+	exit;
 }
 
 // Check recent alert timer
@@ -154,7 +133,7 @@ else if ($SelfPost_error == "")
         } 
 		
         ?>
-		<form action="submitresult.php" id="form" method="post" onSubmit="return (checkterritories() && checkpops() && checkempires() )" name="AlertStats">
+		<form action="submitresult_process.php" id="form" method="post" onSubmit="return (checkterritories() && checkpops() && checkempires() )" name="AlertStats">
 			<p class="form_headers">Alert Statistics Submission</p>
 			<p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
 				<br/>
@@ -342,55 +321,7 @@ else if ($SelfPost_error == "")
 		
 		</script>
 			<?php               
-                if(isset($_POST['AlertStats']))
-                { 
-				echo 'FIRST IF SUCCESSFUL';       
-                    if(isset($_POST['rNC'])) {
-                       $winNC="2";
-                    } else {
-                        $winNC="0";
-                    }
-                    if (isset($_POST['rTR'])) {
-                       $winTR="2";
-                    } else {
-                        $winTR="0";
-                    }
-                    if (isset($_POST['rVS'])) {
-                       $winVS="2";
-                    } else {
-                        $winVS="0";
-                    }
-                    
-                     if (($winNC==$winVS) && ($winVS == $winTR) && ($winNC == $winTR)){
-                        echo 'VS/TR/NC';
-                        $winNC="1";
-                        $winTR="1"; 
-                        $winVS="1";
-                    }
-                    
-                    if (($winNC == $winTR)&& ($winNC=="2")){
-                        echo 'NC/TR';
-                        $winNC="1";
-                        $winTR="1";
-                        $winVS="0";
-                    }
-                    if (($winVS==$winTR)&& ($winVS=="2")){
-                        echo 'VS/TR';
-                        $winVS="1";
-                        $winTR="1";                                                
-                    }
-                    if (($winNC==$winVS)&& ($winNC=="2")){
-                        echo 'VS/NC';
-                        $winNC="1";
-                        $winVS="1";                                                
-                    }
-				echo $winNC;
-				echo '<br />';
-				echo $winTR;
-				echo '<br />';
-				echo $winVS;
-				echo '<br />';
-                }
+                
               ?>
 			  
 			  <script type="text/javascript">
@@ -765,26 +696,7 @@ else if ($SelfPost_error == "")
 		}
 		
 		</script>
-			<!--<div id="territory" class="subquestion">
-				<p class="form_item_title">How much territory % did each empire control?</p>
-				<table width="150" border="0" style="text-align: center;">
-					<tr>
-						<td class="form_item_text" width="50">VS</td>
-						<td class="form_item_text" width="50">TR</td>
-						<td class="form_item_text" width="50">NC</td>
-					</tr>
-					<tr>
-						<td><input class="two" type="text" name="ResultTerritoryVS" id="TerritoryVS" required /></td>
-						<td><input class="two" type="text" name="ResultTerritoryTR" id="TerritoryTR" required /></td>
-						<td><input class="two" type="text" name="ResultTerritoryNC" id="TerritoryNC" required /></td>
-					</tr>
-				</table>
-				<div id="TerritoryError" class="error-side" style="margin-top: -28px;">
-					<label for="ResultTerritory" class="error"></label>
-				</div>
-			</div>-->
 			<br />
-			<input type="hidden" name="SelfPost" value="true" />
 			<input type="submit" id="submit_part1" name="AlertStats" value="Continue..." />
 		</form>
 		<script type="text/javascript">
@@ -800,131 +712,6 @@ else if ($SelfPost_error == "")
 	</script>
 	</div>
 	<!-- Part 1 Div End -->
-	
-	<?php if ($SelfPost == "true") {
-            echo '<div id="parttwo" style="display:block">';
-        } else {
-            echo '<div id="parttwo" style="display:none">';
-        }
-   	
-	// PART 2 POST PROCESSING
-	// New database structure processing
-	
-	if ($winNC == 2)
-	{
-		$winNC = "WIN";
-	} else if ($winTR == 2)
-	{
-		$winTR = "WIN";
-	} else if ($winVS == 2)
-	{
-		$winVS = "WIN";
-	}
-	
-	if ($winNC == 1)
-	{
-		$winNC = "DRAW";
-	} 
-	if ($winTR == 1)
-	{
-		$winTR = "DRAW";
-	}
-	if ($winVS == 1)
-	{
-		$winVS = "DRAW";
-	}
-	
-	$ResultDraw = 0;
-	
-	if (($winNC == "DRAW") or ($winTR == "DRAW") or ($winVS == "DRAW"))
-   	{
-		$ResultDraw = "1";
-	} else {
-		$ResultDraw = "0";
-	}
-	
-	// Append seconds to Domination timer and Alert Timer
-	
-	if ($ResultDominationDurationPre == "") { // If no domination timer was chosen, leave NULL
-		$ResultDominationDuration = "00:00:00";
-	} else {
-		$ResultDominationDuration = $ResultDominationDurationPre.':00';
-	}
-	$ResultDateTime = $ResultDateTimePre.':00';
-	?>
-	<form action="submitresult_process.php" method="post" name="AlertStats2">
-		<?php 
-		if ($SelfPost == "12345") {
-		echo '<div class="form_item_text" id="debug">';
-			echo 'DEBUGGING </br>';
-			echo "<pre>";
-			var_dump($_POST);
-			echo "</pre>";
-			
-			echo '<p class="form_item_text">Domination Before: '.$ResultDominationDurationPre.'</p>';
-			
-			echo '</br> Master Alert Type: ';
-			echo $ResultAlertMasterType;
-			
-			echo '<br /> NC Win:';
-			echo $winNC;
-			echo '<br /> TR Win:';
-			echo $winTR;
-			echo '<br /> VS Win:';
-			echo $winVS;
-			echo '<br /> Draw:';
-			echo $ResultDraw;
-		
-		echo '</div>';
-	}	
-	
-	?>
-		<p class="form_headers">Facility Statistics</p>
-		<p class="form_item_title">Which facility was the most contested?</p>
-		<?php
-	
-	//Change Query based on Alert Type
-	
-	if ($ResultAlertType == "Territory") {
-		$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityType");
-	
-	} else if($ResultAlertCont == "Amerish" or $ResultAlertCont == "Esamir" or $ResultAlertCont == "Indar") {			
-	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' AND FacilityContID ='".$ResultAlertCont."' ORDER BY FacilityContID ");
-	
-	} else if ($ResultAlertCont == "Cross") {
-	$SelectQuery = mysql_query("SELECT * FROM facilities WHERE FacilityType ='".$ResultAlertType."' ORDER BY FacilityContID");
-	
-	} 
-    echo '<select name="ResultContestedFacility">';
-		while($facility_result = mysql_fetch_array($SelectQuery)) {
-			echo '<option value="'.$facility_result['FacilityID'].'">'.$facility_result['FacilityContID'].' - '.$facility_result['FacilityName'].'</option>';
-		}
-    echo '</select>';
-	?>
-		<?php 
-	
-	//Refresh Data to submit to processing script//
-	echo '<input type="hidden" name="ResultServer" value="'.$ResultServer.'">';
-	echo '<input type="hidden" name="ResultDateTime" value="'.$ResultDateTime.'">';
-	echo '<input type="hidden" name="ResultNCWin" value="'.$winNC.'">';
-	echo '<input type="hidden" name="ResultTRWin" value="'.$winTR.'">';
-	echo '<input type="hidden" name="ResultVSWin" value="'.$winVS.'">';
-	echo '<input type="hidden" name="ResultDraw" value="'.$ResultDraw.'">';
-	echo '<input type="hidden" name="ResultDomination" value="'.$ResultDomination.'">';
-	echo '<input type="hidden" name="ResultDominationDuration" value="'.$ResultDominationDuration.'">';
-	echo '<input type="hidden" name="ResultAlertCont" value="'.$ResultAlertCont.'">';
-	echo '<input type="hidden" name="ResultAlertType" value="'.$ResultAlertType.'">';
-	echo '<input type="hidden" name="ResultPopsNC" value="'.$ResultPopsNC.'">';
-	echo '<input type="hidden" name="ResultPopsTR" value="'.$ResultPopsTR.'">';
-	echo '<input type="hidden" name="ResultPopsVS" value="'.$ResultPopsVS.'">';
-	echo '<input type="hidden" name="ResultTerritoryNC" value="'.$ResultTerritoryNC.'">';
-	echo '<input type="hidden" name="ResultTerritoryTR" value="'.$ResultTerritoryTR.'">';
-	echo '<input type="hidden" name="ResultTerritoryVS" value="'.$ResultTerritoryVS.'">';
-	?>
-		<br />
-		<input type="Submit" name="AlertStats2" value="Submit The Data!" />
-	</form>
-	</div> <!-- End of Part 2 DIV -->
 </div>
 </body>
 </html>
