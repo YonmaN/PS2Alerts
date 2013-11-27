@@ -209,11 +209,14 @@ body {
 
 .footer 
 {
-	width: 470px;
+	width: 480px;
 	margin-top:7px;
 	background-image: url(../images/content_background.png);
 	border-radius: 10px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 	padding:5px;
+	text-align: center;
 }
 	
 
