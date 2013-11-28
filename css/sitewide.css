@@ -73,6 +73,13 @@ body {
 	border-radius:10px;
 }
 
+.warning_headers {
+	font-family: 'Electrolize', sans-serif;
+	font-size: 40px;
+	color: #F00;
+	text-align: center;
+}
+
 .content {
 	width: 680px;
 	height: auto;

@@ -1,11 +1,18 @@
 <?php // Logic for Facility Bar
+
+$facility_last_query = mysql_query ("SELECT * FROM results_".$type." WHERE resultID = ".$AlertStats["ResultID"]." ORDER BY dataTimestamp DESC LIMIT 1");
+$facility_last_result = mysql_fetch_array($facility_last_query);
+echo '<div id="facility_bar" style="min-width: 480px; margin-left: auto; margin-right: auto">';
+
 echo '<table id="facility_bar" width="630" border="0">';
 	echo '<tr>';
 	
-	if ($AlertStats["ResultID"] < 157) 
+	if (($AlertStats["ResultID"] < 157) || (!$facility_last_result) ) // If before #157 or if no data was found due to API failure
 	{
 		echo '<td>';
-			echo '<img src="/images/DataNotFound3.png" />';
+			echo '<div id="error" style="margin-left: auto; margin-right: auto;">';
+				echo '<p class="warning_headers" style="font-size: 30px;">Facility History Data Not Available!</p>';
+			echo '</div>';
 		echo '</td>';
 	echo '<tr>';
 echo '</table>';
@@ -577,4 +584,6 @@ echo '</table>';
 	echo '</tr>';		
 echo '</table>';
 	} // End of IF check for facility alerts
+
+echo '</div>';	
 ?>

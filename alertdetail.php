@@ -128,32 +128,33 @@ if ($SelfPost == "true")
 				<p class="form_headers">Alert populations history (Line Graph) [SOE'S API CURRENLTY DOWN!]</p>
 			</div>
 		</div>
-	<?php 
-	if ($AlertStats['ResultAlertType'] == "Territory")
-		{
-			echo '<div class="content stats_right" id="territory">';
-			include("includes/territory_logic.php");
-		}
+		
+		<?php 
+		if ($AlertStats['ResultAlertType'] == "Territory")
+			{
+				include("includes/territory_logic.php");
+			}
 		else 
-		{
-			echo '<div style="display:none" id="territory"></div>';
-		}			
-	?>
-	<?php if ($AlertStats["ResultAlertType"] != "Territory") // Hide facilities DIV if not relevent
+			{
+				//echo '<div style="display:none" id="territory"></div>';
+			}		
+				
+		 if ($AlertStats["ResultAlertType"] != "Territory") // Hide facilities DIV if not relevent
 			{
 				echo '<div class="content stats_right" id="facility_history_graph">';
+				
+				echo '<p class="form_headers">Facility History</p>';
+				
+				include("includes/facility_graph_logic.php") ;
+				include("includes/facility_graph.php") ;
+				include("includes/facility_bar.php") ;
 			}
-			else
+		else
 			{
-				echo '<div class="content stats_right" style="display: none;">';
+				//echo '<div class="content stats_right" style="display: none;">';
 			}
-			?>
-	<p class="form_headers">Facility History</p>
-	<div id="facility_history" style="width: 640px; height: 300px;">
-	</div>
-	<?php include("includes/facility_graph_logic.php") ?>
-	<?php include("includes/facility_graph.php") ?>
-	<?php include("includes/facility_bar.php") ?>
+		?>
+	
 	</div> <!-- End of Right Content DIV -->
 </div>
 <?php 
