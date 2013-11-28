@@ -53,15 +53,22 @@ body {
 	background-image: url(../images/content_background.png);
 	border-radius: 10px;
 	padding:5px;
-}
-
-.header_links {
 	font-family: 'Orbitron', sans-serif;
 	font-size: 22px;
 	color: #FFF;
+	text-align: center;
 	margin-right: 10px;
 	margin-left: 10px;
+	margin-top: 10px;
 	border-radius:10px;
+}
+
+.header_links_text {
+	font-family: 'Orbitron', sans-serif;
+	font-size: 22px;
+	color: #FFF;
+	margin: 0px;
+	text-align: center;
 }
 
 .subheader_links {
@@ -78,6 +85,11 @@ body {
 	font-size: 40px;
 	color: #F00;
 	text-align: center;
+}
+
+#reports td {
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 .content {
