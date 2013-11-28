@@ -153,7 +153,7 @@ include('includes/header.php') ?>
 				echo '<a class="form_item_title" href="alertdetail.php?AlertID='.$AlertStats['ResultID'].'">';
 				
 				}
-					echo '<p class="table_item_text" style="color: #F00;">';
+					echo '<p class="table_item_text" style="color: #F00; font-size: 18px">';
 					echo date('d', $row_formatted) . "-";
 					echo date('m', $row_formatted) . "-";
 					echo date('y', $row_formatted) . " ";
@@ -191,7 +191,7 @@ include('includes/header.php') ?>
 					{
 						$AlertStatsTerritory_query = mysql_query ("SELECT ResultID, TerritoryVS, TerritoryNC, TerritoryTR FROM results_territory 
 						WHERE ResultID = ".$AlertStats['ResultID']." ORDER BY dataTimestamp DESC LIMIT 1");
-						$AlertStatsTerritory = mysql_fetch_array($AlertStatsTerritory_query);
+						$AlertStatsTerritory = mysql_fetch_array($AlertStatsTerritory_query);						
 					}	
 					
 					if (mysql_num_rows($AlertStatsTerritory_query) == 0) //If no data is found (new style) 
