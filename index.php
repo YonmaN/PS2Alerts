@@ -23,7 +23,11 @@ animatedcollapse.init()
 <div id="wrapper">
 	<?php 
 	$subheader = 1;
-	include('includes/header.php') ?>
+	
+	$testing = $_REQUEST["testing"];
+	
+	include('includes/header.php'); ?>
+	
 	<div class="content" id="siteinfo" style="margin-bottom: 10px">
 		<p class="form_headers">Site is currently under construction!</p>
 		<p class="form_item_text">The aim of this project is collect statistical and analyitical data for Alerts within Planetside 2.</p>
@@ -352,6 +356,10 @@ animatedcollapse.init()
 				
 				$DaysSeven = new DateTime('NOW');
 				$DaysSeven->sub(new DateInterval('P7D'));
+				$DaysSeven_Formatted = $DaysSeven->format('Y-m-d H:i:s');
+				
+				$DaysSeven = new DateTime('NOW');
+				$DaysSeven->sub(new DateInterval('P30D'));
 				$DaysSeven_Formatted = $DaysSeven->format('Y-m-d H:i:s');
 				
 				
