@@ -3,6 +3,15 @@
 <head>
 <?php include("includes/includes.php")?>
 <?php include("includes/alerttitle.php")?>
+
+<style>
+
+#comments {
+	width: 1010px;
+	margin-left: 0px;
+}
+
+</style>
 </head>
 
 <body>
