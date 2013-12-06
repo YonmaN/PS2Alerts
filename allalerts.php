@@ -187,21 +187,25 @@ include('includes/header.php') ?>
 				if ($AlertStats["ResultAlertType"] == "Territory") 
 				{
 					
-					if (($AlertStats["ResultTerritoryNC"] == "0") || ($AlertStats["ResultTerritoryNC"] == 'NULL')) // If new style
+					if (($AlertStats["ResultTerritoryNC"] == "0") || ($AlertStats["ResultTerritoryNC"] == NULL)) // If new style
 					{
 						$AlertStatsTerritory_query = mysql_query ("SELECT ResultID, TerritoryVS, TerritoryNC, TerritoryTR FROM results_territory 
 						WHERE ResultID = ".$AlertStats['ResultID']." ORDER BY dataTimestamp DESC LIMIT 1");
-						$AlertStatsTerritory = mysql_fetch_array($AlertStatsTerritory_query);						
+						$AlertStatsTerritory = mysql_fetch_array($AlertStatsTerritory_query);	
+						$Result = mysql_num_rows($AlertStatsTerritory_query);	
 					}	
 					
-					if (mysql_num_rows($AlertStatsTerritory_query) == 0) //If no data is found (new style) 
+					if ($Result == 0) //If no data is found (new style) 
 					{
 						echo '<p class="warning_headers" style="font-size: 32px;">Territory Data Not Available!</p>';
 					}
-					else if (mysql_num_rows($AlertStatsTerritory_query) >= 1) 
+					else if ($Result >= 1) 
 					{
 						echo '<div id="territory_bar_new_'.$AlertStats["ResultID"].'" style="width: 490px; height: 75px">';
+						
 						include("includes/territory_bar_new.php");
+						
+
 					}
 					
 					else // Must be old style!
