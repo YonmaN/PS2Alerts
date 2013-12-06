@@ -15,7 +15,6 @@ animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is
 }
 
 animatedcollapse.init()
-
 </script>
 </head>
 
@@ -35,7 +34,7 @@ animatedcollapse.init()
 		<p class="form_item_text">More information can be found at our <a class="stats_highlight" href="http://redd.it/1mex3g" style="font-size:16px">Reddit post</a> on the <a class="stats_highlight" href="http://www.reddit.com/r/MillerPlanetside/" style="font-size:16px">Miller Subreddit</a>. If you have any feedback, please contact the developer (Maelstrome26 on Miller). Send me a message via <a class="stats_highlight" href="mailto:maelstrome26@gmail.com" style="font-size:16px">Email</a> or <a class="stats_highlight" href="http://twitter.com/Maelstrome26" style="font-size:16px">Twitter</a> if you like, feedback is appricated!</p>
 		<p class="form_item_text">Disclaimer: There may be bugs present in this site, as this is <b>NOT</b> a final build! If you have issues with the site, please contact me by using the above details!</p>
 		<p class="form_item_text">Updated: 24/10/13</p>
-		<span style="margin-left: 290px; cursor:pointer; text-decoration:underline;"><a onclick="animatedcollapse.hide('info')" class="form_headers">Got it!</a></span>
+		<span style="margin-left: 290px; cursor:pointer; text-decoration:underline;"><a onclick="animatedcollapse.hide('siteinfo')" class="form_headers">Got it!</a></span>
 	</div>
 	<div id="float" style="margin-left: auto; margin-right: auto; width: 1020px;">
 		<div id="content_left" style="width:380px; float: left;">
