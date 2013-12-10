@@ -16,8 +16,6 @@ animatedcollapse.addDiv('pops_world', 'fade=1,height=110px')
 animatedcollapse.addDiv('pops_cont', 'fade=1,height=110px')
 animatedcollapse.addDiv('domination', 'fade=1,height=95px')
 animatedcollapse.addDiv('duration', 'fade=1,height=80px')
-animatedcollapse.addDiv('partone', 'fade=1')
-animatedcollapse.addDiv('parttwo', 'fade=1')
 
 animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
 	//$: Access to jQuery
@@ -31,6 +29,7 @@ animatedcollapse.init()
 <script>
 function load() {
 	document.getElementById("submit_part1").disabled=true // Disable Submit button until user has chosen empire and server
+	<!--window.alert("There is currently an issue with the Alert Data API (as of 28/11/13). Don't worry, you can still submit alerts! You will just get an error on the next page, as the data cannot be collected. Please ignore this error! - Maelstrome") -->
 	
 	<!--alert("There is currently an issue with the submission script, where it displays a wall of text. Your alert will be submitted, please ignore this!"); -->
 }
@@ -126,13 +125,6 @@ else if ($SelfPost_error == "")
 	});
   });
 </script>
-		<?php if ($SelfPost == "true") {
-            echo '<div id="partone" style="display:none">';
-        } else {
-            echo '<div id="partone">';
-        } 
-		
-        ?>
 		<form action="submitresult_process.php" id="form" method="post" onSubmit="return (checkterritories() && checkpops() && checkempires() )" name="AlertStats">
 			<p class="form_headers">Alert Statistics Submission</p>
 			<p class="form_subtitle_text">Thank you for taking the time to submit alert data for us! Every alert you can tell us about will further help our understanding of the performances of each empire during alerts on your server! <br />
