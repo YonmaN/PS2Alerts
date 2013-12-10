@@ -39,35 +39,19 @@
 					
 				switch ($selected_server) {
 					case 1:
-						$ResultServer_SQL = "WHERE ResultServer = '1'";
-						break;
 					case 9:
-						$ResultServer_SQL = "WHERE ResultServer = '9'";
-						break;
 					case 10:
-						$ResultServer_SQL = "WHERE ResultServer = '10'";
-						break;
 					case 11:
-						$ResultServer_SQL = "WHERE ResultServer = '11'";
-						break;
 					case 13:
-						$ResultServer_SQL = "WHERE ResultServer = '13'";
-						break;
 					case 17:
-						$ResultServer_SQL = "WHERE ResultServer = '17'";
-						break;
 					case 18:
-						$ResultServer_SQL = "WHERE ResultServer = '18'";
-						break;
 					case 25:
-						$ResultServer_SQL = "WHERE ResultServer = '25'";
+						$ResultServer_SQL = "WHERE ResultServer = '{$selected_server}'";
 						break;
 					case "all":
-						$ResultServer_SQL = "WHERE ResultServer BETWEEN '1' AND '20'";
-						break;
 					case 0:
+					default:
 						$ResultServer_SQL = "WHERE ResultServer BETWEEN '1' AND '20'";
-						break;
 				} 
 											
 				if ($time_filter == "peak")
