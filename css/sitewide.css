@@ -5,6 +5,10 @@ html {margin: 0px;}
 
 /* For Disqus */
 
+img {
+	border: none;
+}
+
 a {
 	font-size: 14px;
 	color:#C03;
@@ -116,10 +120,15 @@ body {
 
 #comments {
 	width: 960px;
+	height: auto;
 	display: inline-block;
 	margin-top: -10px;
 	margin-bottom: 5px;
 	margin-left: 10px;
+}
+
+#discovery {
+	height: auto;
 }
 
 #time2 {
