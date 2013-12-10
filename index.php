@@ -40,42 +40,14 @@
 				
 				//include("includes/server_rules_index.php"); // Server Rules	
 				
-				if ($ResultServer == "1")
-				{
-					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'"; // Add SQL rule in when required
-				} 
-				else if ($ResultServer == "25")
-				{
-					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'";
-				}
-				else if ($ResultServer == "9")
-				{
-					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'";
-				}
-				else if ($ResultServer == "10")
-				{
-					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'";
-				}
-				else if ($ResultServer == "11")
-				{
-					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'";
-				}
-				else if ($ResultServer == "13")
-				{
-					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'";
-				} 
-				else if ($ResultServer == "17")
-				{
-					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'";
-				}
-				else if ($ResultServer == "18")
-				{
-					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'";
-				}
-				else if (($ResultServer == "all") || ($ResultServer == ""))
+				if (($ResultServer == "all") || ($ResultServer == ""))
 				{
 					$ResultServer_SQL = "WHERE ResultServer BETWEEN '1' AND '20'"; // Complete SQL rule if theres no results. Make it simple :P
 				}
+				else if (($ResultServer != "all") || ($ResultServer != ""))
+				{
+					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'"; // Add SQL rule in when required
+				} 
 											
 				if ($time_filter == "peak")
 				{
