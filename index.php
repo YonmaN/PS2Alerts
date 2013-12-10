@@ -21,12 +21,9 @@
 		include("includes/siteinfo.php");
 	}
 	
-	$selected_server = $_REQUEST["server"]; 
-	
 	$time_filter = $_REQUEST["time_filter"];
 	$today_date = date("Y-m-d");
-				
-	$ResultServer = $_POST["server"]; // For server selections 
+	
 	date_default_timezone_set('UTC');
 	?>
 	
@@ -35,18 +32,42 @@
 			<div class="content" id="general_stats" style="width: 320px; height: 260px">
 				<p class="form_headers">General Statistics</p>
 				<?php
-				
-				$ResultServer = $_REQUEST["server"];
+				$selected_server = "0"; // Reset if not set
+				$selected_server = $_REQUEST["server"];
 				
 				//include("includes/server_rules_index.php"); // Server Rules	
-				
-				if (($ResultServer == "all") || ($ResultServer == ""))
-				{
-					$ResultServer_SQL = "WHERE ResultServer BETWEEN '1' AND '20'"; // Complete SQL rule if theres no results. Make it simple :P
-				}
-				else if (($ResultServer != "all") || ($ResultServer != ""))
-				{
-					$ResultServer_SQL = "WHERE ResultServer = '$ResultServer'"; // Add SQL rule in when required
+					
+				switch ($selected_server) {
+					case 1:
+						$ResultServer_SQL = "WHERE ResultServer = '1'";
+						break;
+					case 9:
+						$ResultServer_SQL = "WHERE ResultServer = '9'";
+						break;
+					case 10:
+						$ResultServer_SQL = "WHERE ResultServer = '10'";
+						break;
+					case 11:
+						$ResultServer_SQL = "WHERE ResultServer = '11'";
+						break;
+					case 13:
+						$ResultServer_SQL = "WHERE ResultServer = '13'";
+						break;
+					case 17:
+						$ResultServer_SQL = "WHERE ResultServer = '17'";
+						break;
+					case 18:
+						$ResultServer_SQL = "WHERE ResultServer = '18'";
+						break;
+					case 25:
+						$ResultServer_SQL = "WHERE ResultServer = '25'";
+						break;
+					case "all":
+						$ResultServer_SQL = "WHERE ResultServer BETWEEN '1' AND '20'";
+						break;
+					case 0:
+						$ResultServer_SQL = "WHERE ResultServer BETWEEN '1' AND '20'";
+						break;
 				} 
 											
 				if ($time_filter == "peak")
